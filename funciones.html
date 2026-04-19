@@ -172,6 +172,25 @@
   padding: 8px 0;
   width: 100%;
 }
+/* Estilos para pantallas pequeñas (menos de 768px - celulares) */
+@media only screen and (max-width: 768px) {
+    body {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    /* Asegurar que las imágenes y videos no se salgan de la pantalla */
+    img, video {
+        max-width: 100%;
+        height: auto;
+    }
+
+    /* Si tienes columnas (flexbox o grid), apílalas una sobre otra */
+    .contenedor, .columna {
+        flex-direction: column;
+        width: 100% !important;
+    }
+}
 </style>
 </head>
 <body>
