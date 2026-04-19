@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Robotic System | Live Demo</title>
+    <link rel="icon" type="image/png" href="favicon.PNG">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --bg-dark: #030810;
+            --text-gray: #a0aec0;
+            --whatsapp-bg: #0b141a;
+            --bot-msg: #202c33;
+            --user-msg: #005c4b;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-dark);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            flex-direction: column; /* Ajuste para el nuevo botón */
+        }
+
+        /* Fondo Animado sutil */
+        .hero-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 10% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 40%),
+                        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 40%),
+                        linear-gradient(180deg, #050a14 0%, #030810 100%);
+        }
+
+        .container {
+            display: flex;
+            width: 90%;
+            max-width: 1200px;
+            justify-content: space-between;
+            align-items: center;
+            gap: 50px;
+            padding: 40px 0;
+            z-index: 10;
+        }
+
+        /* LADO IZQUIERDO: TEXTO */
+        .content-left { flex: 1; max-width: 550px; }
+        
+        .badge {
+            display: inline-block; padding: 8px 16px; border-radius: 50px;
+            background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.2);
+            color: var(--primary); font-size: 0.75rem; font-weight: 800;
+            text-transform: uppercase; margin-bottom: 25px;
+        }
+
+        .content-left h1 { font-size: 3.8rem; font-weight: 800; line-height: 1; margin: 0 0 25px; letter-spacing: -3px; }
+        .content-left p { font-size: 1.2rem; color: var(--text-gray); line-height: 1.6; margin-bottom: 35px; }
+
+        .hire-button {
+            display: inline-flex; align-items: center; gap: 12px;
+            background: linear-gradient(135deg, var(--primary), #1d4ed8);
+            color: white; padding: 18px 35px; border-radius: 18px;
+            text-decoration: none; font-weight: 700; font-size: 1.1rem;
+            transition: 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+        .hire-button:hover { transform: translateY(-5px); box-shadow: 0 15px 45px rgba(59, 130, 246, 0.6); }
+
+        /* BOTÓN DE REINICIO EN LA PÁGINA - DISEÑO PROFESIONAL */
+        .page-restart-btn {
+            margin-top: 30px;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-gray);
+            padding: 12px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            z-index: 20;
+        }
+        .page-restart-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: white;
+            border-color: var(--primary);
+        }
+
+        /* LADO DERECHO: TELÉFONO */
+        .phone-column { display: flex; flex-direction: column; align-items: center; gap: 25px; }
+
+        .phone-frame {
+            width: 315px; height: 640px; background: #000; border-radius: 55px;
+            padding: 12px; position: relative;
+            box-shadow: 0 0 0 4px #1a1a1a, 0 40px 100px rgba(0,0,0,0.8);
+            animation: floatEffect 6s ease-in-out infinite;
+        }
+
+        @keyframes floatEffect {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        .phone-frame::after {
+            content: ""; width: 100px; height: 26px; background: #000;
+            position: absolute; top: 12px; left: 50%; transform: translateX(-50%);
+            border-radius: 0 0 18px 18px; z-index: 20;
+        }
+
+        .phone-screen {
+            width: 100%; height: 100%; background: var(--whatsapp-bg);
+            border-radius: 44px; overflow: hidden; display: flex; flex-direction: column;
+            position: relative; border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .chat-header {
+            background: rgba(17, 27, 33, 0.98); padding: 45px 15px 15px;
+            display: flex; align-items: center; justify-content: space-between;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .header-info { display: flex; align-items: center; gap: 10px; }
+        .avatar-circle { width: 38px; height: 38px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem; }
+        .chat-status h3 { font-size: 0.9rem; margin: 0; color: white; }
+        .chat-status span { font-size: 0.7rem; color: #25d366; font-weight: 600; }
+
+        .chat-area {
+            flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px;
+            background-image: url('https://user-images.githubusercontent.com/15075759/28719144-86dc0f70-73b1-11e7-911d-60d70fcded21.png');
+            background-size: 450px;
+        }
+
+        .bubble {
+            padding: 10px 14px; border-radius: 16px; font-size: 0.85rem; max-width: 85%;
+            line-height: 1.4; animation: popIn 0.3s cubic-bezier(0.1, 0.9, 0.2, 1);
+            white-space: pre-wrap;
+        }
+        @keyframes popIn { from { opacity: 0; transform: scale(0.9) translateY(10px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+        .bubble.bot { background: var(--bot-msg); color: #e9edef; align-self: flex-start; border-top-left-radius: 4px; }
+        .bubble.user { background: var(--user-msg); color: white; align-self: flex-end; border-top-right-radius: 4px; }
+
+        .chat-input { padding: 15px; background: #111b21; display: flex; gap: 10px; align-items: center; }
+        .chat-input input {
+            flex: 1; background: #2a3942; border: none; padding: 12px 18px;
+            border-radius: 30px; color: white; outline: none; font-size: 0.9rem;
+        }
+        .send-icon {
+            width: 40px; height: 40px; background: var(--primary); border: none;
+            border-radius: 50%; color: white; cursor: pointer; display: flex;
+            align-items: center; justify-content: center; transition: 0.2s;
+        }
+        .send-icon:hover { transform: scale(1.1); }
+
+        .legal-box {
+            max-width: 310px; background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255,255,255,0.08); padding: 15px;
+            border-radius: 20px; text-align: center;
+            backdrop-filter: blur(10px);
+        }
+        .legal-box p { font-size: 0.65rem; color: #94a3b8; margin: 0; line-height: 1.5; }
+
+        @media (max-width: 900px) {
+            .container { flex-direction: column; text-align: center; margin-top: 50px; }
+            .content-left h1 { font-size: 2.8rem; }
+            .phone-frame { transform: scale(0.9); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hero-bg"></div>
+
+    <div class="container">
+        <div class="content-left">
+            <div class="badge">Robotic System v13.2</div>
+            <h1>Automatiza tu éxito sin límites</h1>
+            <p>Lleva tu negocio al siguiente nivel con bots inteligentes capaces de capturar datos, gestionar citas y vender por ti las 24 horas.</p>
+            <a href="https://wa.me/50586614506" class="hire-button" target="_blank">
+                <i class="fas fa-bolt"></i> Contratar mi Bot
+            </a>
+        </div>
+
+        <div class="phone-column">
+            <div class="phone-frame">
+                <div class="phone-screen">
+                    <div class="chat-header">
+                        <div class="header-info">
+                            <div class="avatar-circle"><i class="fas fa-robot"></i></div>
+                            <div class="chat-status">
+                                <h3>Samael Bot</h3>
+                                <span>• En línea</span>
+                            </div>
+                        </div>
+                        </div>
+
+                    <div id="chatBox" class="chat-area"></div>
+
+                    <div class="chat-input">
+                        <input type="text" id="userInput" placeholder="Escribe aquí..." onkeypress="if(event.key === 'Enter') handleSend()">
+                        <button class="send-icon" onclick="handleSend()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="legal-box">
+                <p>⚠️ <b>AVISO LEGAL:</b> Esto es una simulación interactiva de comportamiento. Todos los derechos reservados bajo las políticas de <b>Robotic System © 2026</b>.</p>
+            </div>
+        </div>
+    </div>
+
+<a href="index.html" class="page-restart-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+    <i class="fas fa-redo"></i> Volver al Menú Principal
+</a>
+
+    <script>
+    const chatBox = document.getElementById("chatBox");
+    const userInput = document.getElementById("userInput");
+
+    let state = "MENU";
+    let data = { nombre: "", negocio: "", lugar: "", producto: "" };
+
+    // ESTRUCTURA DE CONFIGURACIÓN AMPLIADA
+    const config = {
+        intro: "🤖 ¡Hola! Soy Robotic, tu asesor digital.\n¿Qué deseas hacer hoy?\n\n✨ Automatizar un negocio\n🛠 Soporte técnico\n👨‍💻 Contactar al Ing. Jordan\n🍔 Ver demo de pedido",
+        confirm: "Valida tus datos para Robotic Cloud:\n\n👤: [N]\n🏢: [B]\n📍: [L]\n🤖: [P]\n\n¿Es correcto? (Responde SÍ o NO)"
+    };
+
+    function print(msg, sender) {
+        const div = document.createElement("div");
+        div.className = `bubble ${sender}`;
+        div.innerText = msg;
+        chatBox.appendChild(div);
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    // MOTOR DE INTENCIONES (Detecta lo que el cliente quiere decir)
+    function botResponse(text) {
+        const input = text.toLowerCase();
+
+        // 1. GESTIÓN DEL MENÚ (NLP Básico)
+        if (state === "MENU") {
+            if (input.includes("automatizar") || input.includes("1")) {
+                print("🚀 ¡Excelente elección! Para empezar, ¿cómo te llamas?", "bot");
+                state = "ASK_NAME";
+            } else if (input.includes("soporte") || input.includes("2")) {
+                print("🛠 Soporte Robotic: Gestión de Redes, CCTV y Software. Escríbeme al 86614506.", "bot");
+            } else if (input.includes("jordan") || input.includes("3")) {
+                print("👨‍💻 Ing. Jordan Hernández: jh8446382@gmail.com", "bot");
+            } else if (input.includes("demo") || input.includes("burger")) {
+                print("🍔 DEMO: Pedido de Hamburguesa recibido. [PROCESANDO...]\n🧾 Voucher: #ROB-001\n¿Deseas automatizar tu negocio ahora? (SÍ)", "bot");
+                state = "ASK_NAME";
+            } else {
+                print("No logré entender, pero puedo ayudarte con: Automatizar, Soporte técnico o Contactar a Jordan.", "bot");
+            }
+            return;
+        }
+
+        // 2. FLUJOS DINÁMICOS
+        switch(state) {
+            case "ASK_NAME":
+                data.nombre = text;
+                print(`👋 Un gusto, ${data.nombre}. ¿A qué se dedica tu negocio?`, "bot");
+                state = "ASK_BIZ";
+                break;
+            case "ASK_BIZ":
+                data.negocio = text;
+                print(`¡Entendido! Automatizar un ${data.negocio} es una gran idea. ¿En qué ciudad estás?`, "bot");
+                state = "ASK_LOC";
+                break;
+            case "ASK_LOC":
+                data.lugar = text;
+                print("🤖 ¿Qué bot prefieres? (Básico para atención / Avanzado para ventas)", "bot");
+                state = "ASK_PROD";
+                break;
+            case "ASK_PROD":
+                data.producto = text;
+                let c = config.confirm
+                    .replace("[N]", data.nombre).replace("[B]", data.negocio)
+                    .replace("[L]", data.lugar).replace("[P]", data.producto);
+                print(c, "bot");
+                state = "CONFIRM";
+                break;
+            case "CONFIRM":
+                if(input.includes("si")) {
+                    print("✅ ¡Registro exitoso! Robotic Cloud ha recibido tus datos. Te contactaremos pronto.", "bot");
+                    console.log("Datos enviados al servidor:", data);
+                    state = "MENU";
+                } else {
+                    print("🔄 Entendido, empecemos de nuevo. ¿Cuál es tu nombre?", "bot");
+                    state = "ASK_NAME";
+                }
+                break;
+        }
+    }
+
+    function handleSend() {
+        const text = userInput.value.trim();
+        if(!text) return;
+        print(text, "user");
+        userInput.value = "";
+        setTimeout(() => botResponse(text), 600);
+    }
+</script>
+</body>
+</html>

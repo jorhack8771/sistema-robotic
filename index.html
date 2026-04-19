@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link rel="icon" type="image/png" href="favicon.PNG">
+
+<link rel="apple-touch-icon" href="favicon.PNG">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic</title>
+   
+    
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        /* ============================================================
+           BLOQUE DE INTERACCIÓN: EFECTO DE PRESIÓN INTENSIFICADO
+           ============================================================ */
+        .btn-primary:active, 
+        .btn-login:active, 
+        .banner-btn:active,
+        .nav-links a:active,
+        .carousel-item:active {
+            transform: scale(0.92) translateY(2px); 
+            filter: brightness(0.8);
+            box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: transform 0.05s ease;
+        }
+
+        .btn-primary, .btn-login, .banner-btn, .nav-links a, .carousel-item {
+            transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+            display: inline-block;
+        }
+
+        body {
+    background-color: #030810; 
+    margin: 0;
+    overflow-x: hidden;
+    /* Fuente Inter con mejor suavizado de renderizado */
+    font-family: 'Inter', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+        .hero-soft-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+                        linear-gradient(180deg, #050a14 0%, #030810 100%);
+        }
+
+        .top-color-bar {
+            height: 4px;
+            background: linear-gradient(90deg, #3b82f6, #6366f1);
+            width: 100%;
+            position: fixed;
+            top: 0;
+            z-index: 1000;
+        }
+
+        /* ============================================================
+           ESTILOS DEL CARRUSEL DE EQUIPO (ADAPTADOS)
+           ============================================================ */
+    
+      .team-section {
+    padding: 80px 0;
+    text-align: center;
+    background: radial-gradient(circle at center, rgba(59, 130, 246, 0.10) 0%, transparent 70%);
+    position: relative;
+}
+
+/* Glow ambiental extra */
+.team-section::before {
+    content: "";
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(59,130,246,0.15), transparent 70%);
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    filter: blur(80px);
+    z-index: 0;
+}
+
+.team-section h2 {
+    position: relative;
+    z-index: 1;
+    color: white;
+    font-size: 2.7rem;
+    margin-bottom: 50px;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+    letter-spacing: 1px;
+}
+
+/* CONTENEDOR */
+.carousel-container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow: hidden;
+    position: relative;
+
+    mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+/* CARRUSEL */
+.carousel {
+    display: flex;
+    animation: slide-team 25s infinite linear;
+    gap: 10px;
+}
+
+/* TARJETA */
+.carousel-item {
+    min-width: 280px;
+    margin: 0 15px;
+    background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.02));
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 20px;
+    text-align: center;
+    overflow: hidden;
+    backdrop-filter: blur(14px);
+
+    box-shadow: 
+        0 20px 50px rgba(0, 0, 0, 0.5),
+        inset 0 0 25px rgba(59, 130, 246, 0.06);
+
+    transition: all 0.5s cubic-bezier(.25,.8,.25,1);
+    position: relative;
+}
+
+/* EFECTO LUZ SUPERIOR */
+.carousel-item::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -50%;
+    width: 200%;
+    height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,0.08), transparent);
+    transform: rotate(25deg);
+    opacity: 0;
+    transition: 0.6s;
+}
+
+.carousel-item:hover::before {
+    opacity: 1;
+    left: 100%;
+}
+
+/* HOVER MÁS PRO */
+.carousel-item:hover {
+    transform: translateY(-12px) scale(1.03);
+    border-color: rgba(59, 130, 246, 0.6);
+
+    box-shadow: 
+        0 40px 80px rgba(59, 130, 246, 0.25),
+        0 0 30px rgba(59,130,246,0.15);
+    
+    animation-play-state: paused;
+}
+
+/* IMAGEN */
+.carousel-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    filter: grayscale(20%) brightness(0.9);
+    transition: 0.6s ease;
+
+    mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+}
+
+.carousel-item:hover img {
+    filter: grayscale(0%) brightness(1);
+    transform: scale(1.08);
+}
+
+/* TEXTO */
+.carousel-item h3 {
+    margin: 15px 0 5px;
+    color: #3b82f6;
+    font-size: 1.25rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+}
+
+.carousel-item p {
+    color: #a0aec0;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    padding: 0 15px;
+    line-height: 1.4;
+    opacity: 0.85;
+}
+
+/* ANIMACIÓN */
+@keyframes slide-team {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-100%); }
+}
+/* Busca la sección de .hero o añade esto */
+.hero h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 4.5rem;   /* Un poco más grande */
+    font-weight: 800;   /* Extra Bold */
+    line-height: 1.05;  /* Líneas bien pegaditas */
+    letter-spacing: -0.04em; /* Este es el secreto del estilo Apple/Facebook */
+    color: white;
+    margin-bottom: 24px;
+}
+.dynamic-text {
+    /* Esto elimina cualquier sombra residual */
+    text-shadow: none !important;
+    
+    /* Esto evita que el navegador intente "suavizar" los bordes con un halo */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
+    /* Fuerza a que el color sea sólido */
+    display: inline-block;
+    filter: none !important;
+}
+/* --- ADICIÓN DE MICRO-INTERACCIONES (NO BORRA NADA ANTERIOR) --- */
+
+/* 1. Botón con FADE suave (transición controlada) */
+.btn-primary {
+    transition: transform 0.2s ease, filter 0.2s ease, box-shadow 0.2s ease, opacity 0.3s ease !important;
+}
+.btn-primary:hover {
+    opacity: 0.85; /* Efecto fade */
+}
+
+/* 2. Tarjetas con sombras más sutiles y naturales */
+.carousel-item {
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+.carousel-item:hover {
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3) !important; /* Menos agresiva que la original */
+    transform: translateY(-8px) scale(1.02) !important;
+}
+
+/* 3. Texto dinámico (Manteniendo el tuyo pero forzando solidez) */
+.dynamic-text {
+    text-shadow: none !important;
+    filter: none !important;
+    font-weight: 800 !important; /* Asegura solidez */
+}
+.footer {
+  background: #ffffff;
+  color: #000000;
+  text-align: center;
+  font-size: 0.8rem;   /* 🔹 pequeño */
+  padding: 8px 0;
+  width: 100%;
+}
+    </style>
+</head>
+
+<body>
+    <div class="hero-soft-bg"></div>
+    <div class="top-color-bar"></div> 
+
+  <header>
+    <nav class="navbar">
+
+        <div class="logo">Robotic Bot®</div>
+
+        <ul class="nav-links">
+            <li><a href="Proyectoweb.html">Página Web</a></li>
+            <li><a href="funciones.html">Funciones</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+            <li><a href="Bot.html">Bot | Live Demo</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <button class="btn-primary" onclick="goToPage()">
+                Pruébalo Gratis
+            </button>
+        </div>
+
+    </nav>
+</header>
+
+    <main class="hero">
+        <div class="badge">AUTOMATIZACIÓN ESTRATÉGICA · ROBOTIC®</div>
+        <h1>Tu negocio en piloto automático con <span class="dynamic-text"></span></h1>
+        <p>Deja de perder horas en tareas repetitivas. Creamos soluciones inteligentes que responden, venden y gestionan por ti las 24 horas del día.</p>
+        
+        <button class="btn-primary" onclick="window.location.href='Proyectoweb.html'" style="margin-top: 20px;">
+            Ver Demo de Web IA
+        </button>
+
+        <div class="stats-text" style="margin-top: 30px; color: #718096;">
+            Más Ia. mas mensajes procesados
+        </div>
+    </main>
+
+    <section class="banner-section">
+        <div class="banner-container">
+            <div class="banner-text">
+                <span class="banner-badge">EFICIENCIA TOTAL</span>
+                <h2>Automatiza y vende más </h2>
+                <p>Convierte conversaciones en clientes potenciales con asistentes virtuales inteligentes que trabajan 24/7 por ti.</p>
+              
+                <div class="button-group">
+    <a href="Proyectoweb.html" class="page-restart-btn">
+        <i class="fas fa-calendar-alt"></i> Agendar cita
+    </a>
+
+    <a href="funciones.html" class="page-restart-btn btn-video">
+        <i class="fas fa-video"></i> Video conferencia
+    </a>
+</div>
+
+            </div>
+
+            <div class="banner-box">
+    <div class="banner-slide active">
+        <div class="mockup-container">
+            <img src="https://i.postimg.cc/TY85fxfz/IMG-2506-2.png" alt="WhatsApp Chat 1">
+        </div>
+    </div>
+
+    <div class="banner-slide">
+        <div class="mockup-container">
+            <img src="https://i.postimg.cc/7YvJw4qr/IMG-2507.png" alt="WhatsApp Chat 2">
+        </div>
+    </div>
+
+    <div class="banner-slide">
+        <div class="mockup-container">
+            <img src="https://i.postimg.cc/FstkNvhQ/IMG-2508.png" alt="WhatsApp Chat 3">
+        </div>
+    </div>
+
+    <div class="banner-slide">
+        <div class="mockup-container">
+            <img src="https://i.postimg.cc/X7MB4WnS/IMG-2509.png" alt="WhatsApp Chat 4">
+        </div>
+    </div>
+
+    <div class="banner-slide">
+        <div class="mockup-container">
+            <img src="https://i.postimg.cc/tC0npb9C/IMG-2514.png" alt="WhatsApp Chat 5">
+        </div>
+    </div>
+
+    <div class="banner-slide">
+        <div class="mockup-container">
+            <img src="https://i.postimg.cc/KvX3xbmY/IMG-2520.png" alt="WhatsApp Chat 6">
+        </div>
+
+    </div>
+        
+    </div>
+</div>
+
+                <div class="banner-dots"></div> 
+            </div>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <div class="badge">TALENTO HUMANO</div>
+        <h2>Nuestro Equipo de Trabajo</h2>
+        <div class="carousel-container">
+            <div class="carousel">
+                <div class="carousel-item">
+                    <img src="https://i.postimg.cc/fWjf4n58/PHOTO-2026-04-15-21-40-11.jpg" alt="Líder">
+                    <h3>Ingeniero Francisco Peralta</h3>
+                    <p>
+                        Especializado en desarrollo Web
+                        Arquitecto de soluciones digitales</p>
+                </div>
+
+                <div class="carousel-item">
+                    <img src="https://i.postimg.cc/DyMx68hf/298494121-467438735391251-537357664760084630-n.jpg" alt="Proyectos">
+                    <h3>Producciones Joshua lara</h3>
+                    <p>Gestora de Proyectos Digitales</p>
+                </div>
+            
+                <div class="carousel-item">
+                    <img src="https://i.postimg.cc/FFgVt5G8/IMG-4046.jpg" alt="Líder">
+                    <h3>Ingeniero Jordan Hernández</h3>
+                    <p>Desarrollador. Ingeniería y Automatización</p>
+                </div>
+
+                <div class="carousel-item">
+                    <img src="https://i.postimg.cc/T3HvrR7s/646381023-2470962666656806-3027715559040951993-n.jpg">
+                    <h3></h3>
+                    <p>Radio stereo Music </p>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section class="integration-slider">
+        <div class="slider-track">
+            <div class="slide whatsapp"><i class="fab fa-whatsapp"></i> Ventas 24/7</div>
+            <div class="slide nicaragua"><i class="fas fa-map-marker-alt"></i> Managua, Nicaragua</div>
+            <div class="slide google"><i class="fab fa-google"></i> Agendas Sincronizadas</div>
+            <div class="slide n8n"><b>n8n</b> Flujos Inteligentes</div>
+            <div class="slide chatwoot"><i class="fas fa-comments"></i> Omnicanalidad</div>
+            <div class="slide zapier"><i class="fas fa-bolt"></i> Conexión Total</div>
+            <div class="slide whatsapp"><i class="fab fa-whatsapp"></i> Ventas 24/7</div>
+            <div class="slide nicaragua"><i class="fas fa-map-marker-alt"></i> Managua, Nicaragua</div>
+            <div class="slide google"><i class="fab fa-google"></i> Agendas Sincronizadas</div>
+            <div class="slide n8n"><b>n8n</b> Flujos Inteligentes</div>
+            <div class="slide chatwoot"><i class="fas fa-comments"></i> Omnicanalidad</div>
+            <div class="slide zapier"><i class="fas fa-bolt"></i> Conexión Total</div>
+        </div>
+           
+    </section>
+    <footer class="footer">
+  © 2026 ROBOTIC® · Todos los derechos reservados · Managua, Nicaragua
+</footer>
+    <script>
+    /* 1. CONTROL DE TEXTO DINÁMICO (HERO) */
+    const words = ["Telegram", "Facebook", "WhatsApp"];
+    let i = 0;
+    const dynamicSpan = document.querySelector(".dynamic-text");
+
+    function updateText() {
+        if(!dynamicSpan) return;
+        dynamicSpan.style.opacity = "0"; 
+        dynamicSpan.style.transform = "translateY(10px)";
+
+        setTimeout(() => {
+            dynamicSpan.textContent = words[i];
+
+            if (words[i] === "Telegram") dynamicSpan.style.color = "#4dabf7";
+            if (words[i] === "Facebook") dynamicSpan.style.color = "#1877f2";
+            if (words[i] === "WhatsApp") dynamicSpan.style.color = "#25d366";
+
+            dynamicSpan.style.opacity = "1"; 
+            dynamicSpan.style.transform = "translateY(0)";
+            i = (i + 1) % words.length;
+        }, 400);
+    }
+    setInterval(updateText, 2500);
+
+    /* 2. CONTROL DEL CARRUSEL (BANNER) */
+    const bannerSlides = document.querySelectorAll('.banner-slide');
+    const bannerDotsContainer = document.querySelector('.banner-dots');
+    let bannerIndex = 0;
+
+    if(bannerDotsContainer) {
+        bannerSlides.forEach((_, i) => {
+            const dot = document.createElement('div');
+            dot.classList.add('banner-dot');
+            if(i === 0) dot.classList.add('active');
+            dot.onclick = () => {
+                bannerIndex = i;
+                showBannerSlide(i);
+            };
+            bannerDotsContainer.appendChild(dot);
+        });
+    }
+
+    const bannerDots = document.querySelectorAll('.banner-dot');
+
+    function showBannerSlide(i) {
+        bannerSlides.forEach(s => s.classList.remove('active'));
+        bannerDots.forEach(d => d.classList.remove('active'));
+        if(bannerSlides[i]) bannerSlides[i].classList.add('active');
+        if(bannerDots[i]) bannerDots[i].classList.add('active');
+    }
+
+    setInterval(() => {
+        if(bannerSlides.length > 0) {
+            bannerIndex = (bannerIndex + 1) % bannerSlides.length;
+            showBannerSlide(bannerIndex);
+        }
+    }, 4000);
+    </script>
+
+</body>
+</html>

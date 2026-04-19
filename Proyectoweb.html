@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic Bot - Digitalización</title>
+    <link rel="icon" type="image/png" href="favicon.PNG">
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #050a14;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        /* ============================================================
+           BLOQUE: NAVEGACIÓN
+           ============================================================ */
+        nav {
+            position: absolute;
+            top: 0;
+            width: 100%;
+            padding: 30px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: #ffffff;
+            text-decoration: none;
+            letter-spacing: -1px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .logo:hover {
+            color: #3b82f6;
+        }
+
+        .nav-links { display: flex; align-items: center; gap: 25px; }
+        .nav-links a { color: #cbd5e0; text-decoration: none; font-size: 15px; font-weight: 500; transition: 0.3s; }
+        .nav-links a:hover { color: white; }
+
+        /* ============================================================
+           BLOQUE: HERO
+           ============================================================ */
+        .hero {
+            position: relative;
+            height: 100vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .hero-bg {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: url('https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?auto=format&fit=crop&q=80') no-repeat center center/cover;
+            filter: brightness(0.3); 
+            z-index: -1;
+        }
+
+        .content { max-width: 900px; padding: 20px; }
+        h1 { font-size: 4rem; margin-bottom: 20px; line-height: 1.1; font-weight: 800; }
+        h1 span { color: #3b82f6; }
+        p { font-size: 1.3rem; margin-bottom: 45px; color: #a0aec0; max-width: 700px; margin-left: auto; margin-right: auto; }
+
+        .btn-demo {
+            background-color: #3b82f6;
+            color: white;
+            padding: 20px 50px;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.3rem;
+            transition: all 0.3s ease;
+            animation: pulse 2.5s infinite;
+        }
+
+        /* ============================================================
+           BLOQUE: MODAL MULTI-PASO
+           ============================================================ */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .form-card {
+            background: #0a1120;
+            padding: 35px;
+            border-radius: 24px;
+            width: 90%;
+            max-width: 500px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            position: relative;
+            text-align: center;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .step { display: none; }
+        .step.active { display: block; }
+
+        .terms-box {
+            background: #152033;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #a0aec0;
+            height: 130px;
+            overflow-y: auto;
+            text-align: left;
+            margin-bottom: 20px;
+            border: 1px solid #2d3748;
+        }
+
+        .form-group { margin-bottom: 15px; text-align: left; }
+        .form-group label { display: block; color: #a0aec0; margin-bottom: 5px; font-size: 14px; }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            background: #152033;
+            border: 1px solid #2d3748;
+            border-radius: 8px;
+            color: white;
+            outline: none;
+            font-size: 15px;
+        }
+
+        textarea { height: 80px; resize: none; }
+
+        .phone-input-group {
+            display: flex;
+            gap: 10px;
+        }
+
+        .country-prefix {
+            background: #2d3748;
+            padding: 12px;
+            border-radius: 8px;
+            min-width: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            color: #3b82f6;
+            border: 1px solid #3b82f6;
+        }
+
+        .btn-next, .btn-submit {
+            width: 100%;
+            padding: 16px;
+            background: #3b82f6;
+            border: none;
+            color: white;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-next:disabled { background: #1d2d47; color: #4a5568; cursor: not-allowed; }
+
+        .close-btn { position: absolute; top: 20px; right: 20px; font-size: 24px; color: #4a5568; cursor: pointer; }
+        .success-icon { font-size: 60px; color: #10b981; margin-bottom: 15px; display: block; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.6); }
+            70% { box-shadow: 0 0 0 20px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+        }
+
+        .reviews { margin-top: 40px; color: white; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .stars { color: #f59e0b; }
+    </style>
+</head>
+<body>
+
+    <nav>
+        <a href="index.html" onclick="goHome(event)" class="logo">Robotic Bot®</a>
+        <div class="nav-links">
+            <a href="index.html">Menu</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-bg"></div>
+        <div class="content">
+            <h1>Digitalizamos tu <span>presencia web</span></h1>
+            <p>Automatización inteligente para escalar tu negocio al siguiente nivel.</p>
+            <button class="btn-demo" onclick="openModal()">Solicitar demo gratis</button>
+            <div class="reviews">
+                <span class="stars">★★★★★</span>
+                <span>4.5 Excelente | reseñas | <b>Robotic Digital</b></span>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="modalDemo">
+        <div class="form-card">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+
+            <div class="step active" id="step1">
+                <h2>Términos de Agendamiento</h2>
+                <p style="color: #a0aec0; font-size: 14px; margin: 10px 0 20px;">Acepta nuestras políticas para continuar.</p>
+                <div class="terms-box">
+                    <strong>1. Uso de Datos:</strong> Su WhatsApp se utilizará solo para coordinar la demo.<br><br>
+                    <strong>2. Confirmación:</strong> Un agente validará su disponibilidad en las próximas 24h.<br><br>
+                    <strong>3. Grabación:</strong> La sesión podrá ser grabada con fines de calidad.
+                </div>
+                <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 25px; text-align: left;">
+                    <input type="checkbox" id="checkTerms" style="width: 20px; height: 20px; cursor: pointer;" onchange="toggleBtn1()">
+                    <label for="checkTerms" style="font-size: 14px; cursor: pointer;">He leído y acepto los términos</label>
+                </div>
+                <button class="btn-next" id="btnGoForm" disabled onclick="showStep(2)">Continuar al Formulario</button>
+            </div>
+
+            <div class="step" id="step2">
+                <h2 style="margin-bottom: 20px;">Datos de la Cita</h2>
+                <form id="demoForm">
+                    <div class="form-group">
+                        <label>Nombre Completo</label>
+                        <input type="text" id="userName" placeholder="Tu nombre..." required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Selecciona tu País</label>
+                        <select id="paisSelect" onchange="updateCountryMask()" required>
+                            <option value="">Elegir país...</option>
+                            <option value="NI" data-prefix="+505">Nicaragua 🇳🇮</option>
+                            <option value="PA" data-prefix="+507">Panamá 🇵🇦</option>
+                            <option value="CR" data-prefix="+506">Costa Rica 🇨🇷</option>
+                            <option value="MX" data-prefix="+52">México 🇲🇽</option>
+                            <option value="US" data-prefix="+1">Estados Unidos 🇺🇸</option>
+                            <option value="ES" data-prefix="+34">España 🇪🇸</option>
+                            <option value="CO" data-prefix="+57">Colombia 🇨🇴</option>
+                            <option value="AR" data-prefix="+54">Argentina 🇦🇷</option>
+                            <option value="CL" data-prefix="+56">Chile 🇨🇱</option>
+                            <option value="DO" data-prefix="+1-809">Rep. Dominicana 🇩🇴</option>
+                            <option value="PE" data-prefix="+51">Perú 🇵🇪</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>WhatsApp de Contacto</label>
+                        <div class="phone-input-group">
+                            <div class="country-prefix" id="prefixVal">--</div>
+                            <input type="tel" id="phoneNum" placeholder="Número local" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>¿Para qué tipo de negocio le gustaría la web?</label>
+                        <select id="tipoNegocio" required>
+                            <option value="">Seleccione tipo de negocio...</option>
+                            <option value="Restaurante/Comida">Restaurante / Comida</option>
+                            <option value="Tienda/E-commerce">Tienda / E-commerce</option>
+                            <option value="Servicios Profesionales">Servicios Profesionales</option>
+                            <option value="Inmobiliaria">Inmobiliaria</option>
+                            <option value="Salud/Bienestar">Salud / Bienestar</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Fecha sugerida para la demo</label>
+                        <input type="date" id="dateInput" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nota (Comentario adicional)</label>
+                        <textarea id="notaComentario" placeholder="Escribe algo opcional..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="btnSubmit">Agendar Mi Cita</button>
+                </form>
+            </div>
+
+            <div class="step" id="step3">
+                <span class="success-icon">✓</span>
+                <h2 style="color: #10b981;">¡Solicitud Exitosa!</h2>
+                <p style="color: #a0aec0; margin: 15px 0;">Tu cita ha sido pre-agendada. Esté atento a su WhatsApp, le escribiremos pronto para confirmar.</p>
+                <button class="btn-next" onclick="closeModal()">Finalizar</button>
+            </div>
+        </div>
+    </div>
+
+   <script>
+        /* ============================================================
+           CONFIGURACIÓN DE NÚCLEO (Google Sheets & Telegram)
+           ============================================================ */
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx_tFA4zc9-DjaomDEEKNiBUXTm8_cFmL0K4RMwq4lMjXmq6bhL5y9kUwsmkPpF9ci3/exec";
+        const TG_TOKEN = "8645980147:AAF3gnwpNAC8t8AuL7sXbSam2jm_nnJaAjg"; 
+        const TG_CHAT_ID = "8763247895";
+
+        function goHome(event) {
+            closeModal();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openModal() {
+            document.getElementById('modalDemo').style.display = 'flex';
+            resetFlow();
+        }
+
+        function closeModal() {
+            document.getElementById('modalDemo').style.display = 'none';
+        }
+
+        function showStep(n) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + n).classList.add('active');
+        }
+
+        function resetFlow() {
+            showStep(1);
+            document.getElementById('demoForm').reset();
+            document.getElementById('checkTerms').checked = false;
+            document.getElementById('btnGoForm').disabled = true;
+            document.getElementById('prefixVal').innerText = "--";
+            
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('dateInput').setAttribute('min', today);
+        }
+
+        function toggleBtn1() {
+            const check = document.getElementById('checkTerms').checked;
+            document.getElementById('btnGoForm').disabled = !check;
+        }
+
+        function updateCountryMask() {
+            const select = document.getElementById('paisSelect');
+            const prefix = select.options[select.selectedIndex].getAttribute('data-prefix');
+            const prefixDiv = document.getElementById('prefixVal');
+            
+            if (prefix) {
+                prefixDiv.innerText = prefix;
+                document.getElementById('phoneNum').placeholder = "Número de " + select.options[select.selectedIndex].text.split(' ')[0];
+            } else {
+                prefixDiv.innerText = "--";
+            }
+        }
+
+        async function sendTelegramAlert(data) {
+            const mensaje = `<b>🚀 NUEVA SOLICITUD - DIGITALIZACIÓN</b>\n\n` +
+                            `👤 <b>Nombre:</b> ${data.nombre}\n` +
+                            `🌍 <b>País:</b> ${data.pais}\n` +
+                            `📱 <b>WhatsApp:</b> ${data.whatsapp}\n` +
+                            `💼 <b>Negocio:</b> ${data.tipo_negocio}\n` +
+                            `📅 <b>Fecha Cita:</b> ${data.fecha_cita}\n` +
+                            `📝 <b>Nota:</b> ${data.nota}`;
+
+            try {
+                await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ chat_id: TG_CHAT_ID, text: mensaje, parse_mode: 'HTML' })
+                });
+            } catch (e) { console.error("Error Telegram:", e); }
+        }
+
+        /* ============================================================
+           ENVÍO A GOOGLE SHEETS Y TELEGRAM
+           ============================================================ */
+        document.getElementById('demoForm').onsubmit = async function(e) {
+            e.preventDefault();
+            
+            const btn = document.getElementById('btnSubmit');
+            btn.innerText = "Procesando...";
+            btn.disabled = true;
+
+            const datosCita = {
+                tipo_formulario: 'digitalizacion', 
+                nombre: document.getElementById('userName').value,
+                pais: document.getElementById('paisSelect').value,
+                whatsapp: document.getElementById('prefixVal').innerText + " " + document.getElementById('phoneNum').value,
+                tipo_negocio: document.getElementById('tipoNegocio').value,
+                fecha_cita: document.getElementById('dateInput').value,
+                nota: document.getElementById('notaComentario').value
+            };
+
+            try {
+                // 1. Envío a Google Sheets
+                await fetch(SCRIPT_URL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(datosCita)
+                });
+
+                // 2. Envío a Telegram
+                await sendTelegramAlert(datosCita);
+
+                // Éxito: Mostrar paso de confirmación (Paso 3)
+                showStep(3);
+                
+            } catch (err) {
+                console.error("Error en el envío:", err);
+                alert("Hubo un error al procesar tu cita. Por favor, intenta de nuevo.");
+                btn.innerText = "Agendar Mi Cita";
+                btn.disabled = false;
+            }
+        };
+
+        // Cerrar modal al hacer clic fuera de él
+        window.onclick = function(e) {
+            const modal = document.getElementById('modalDemo');
+            if (e.target == modal) closeModal();
+        }
+
+        // Inicializar el formulario al cargar
+        window.onload = function() {
+            // Asegura que el prefijo se limpie al iniciar
+            if(document.getElementById('prefixVal')) {
+                document.getElementById('prefixVal').innerText = "--";
+            }
+        };
+    </script>
+</body>
+</html>
