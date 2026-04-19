@@ -242,18 +242,17 @@
     <i class="fas fa-redo"></i> Volver al Menú Principal
 </a>
 
-    <script>
+   <script>
     const chatBox = document.getElementById("chatBox");
     const userInput = document.getElementById("userInput");
 
     let state = "MENU";
     let data = { nombre: "", negocio: "", lugar: "", producto: "" };
 
-    // ESTRUCTURA DE CONFIGURACIÓN AMPLIADA
-    const config = {
-        intro: "🤖 ¡Hola! Soy Robotic, tu asesor digital.\n¿Qué deseas hacer hoy?\n\n✨ Automatizar un negocio\n🛠 Soporte técnico\n👨‍💻 Contactar al Ing. Jordan\n🍔 Ver demo de pedido",
-        confirm: "Valida tus datos para Robotic Cloud:\n\n👤: [N]\n🏢: [B]\n📍: [L]\n🤖: [P]\n\n¿Es correcto? (Responde SÍ o NO)"
-    };
+    // Función para detectar intención de forma flexible
+    function contiene(texto, palabras) {
+        return palabras.some(p => texto.includes(p));
+    }
 
     function print(msg, sender) {
         const div = document.createElement("div");
@@ -263,60 +262,59 @@
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // MOTOR DE INTENCIONES (Detecta lo que el cliente quiere decir)
     function botResponse(text) {
         const input = text.toLowerCase();
 
-        // 1. GESTIÓN DEL MENÚ (NLP Básico)
+        // FLUJO DE MENÚ (Muy flexible)
         if (state === "MENU") {
-            if (input.includes("automatizar") || input.includes("1")) {
-                print("🚀 ¡Excelente elección! Para empezar, ¿cómo te llamas?", "bot");
+            if (contiene(input, ["automatizar", "bot", "servicio", "web"])) {
+                print("🚀 ¡Excelente! Me encantaría ayudarte a automatizar. ¿Cómo te llamas?", "bot");
                 state = "ASK_NAME";
-            } else if (input.includes("soporte") || input.includes("2")) {
-                print("🛠 Soporte Robotic: Gestión de Redes, CCTV y Software. Escríbeme al 86614506.", "bot");
-            } else if (input.includes("jordan") || input.includes("3")) {
-                print("👨‍💻 Ing. Jordan Hernández: jh8446382@gmail.com", "bot");
-            } else if (input.includes("demo") || input.includes("burger")) {
-                print("🍔 DEMO: Pedido de Hamburguesa recibido. [PROCESANDO...]\n🧾 Voucher: #ROB-001\n¿Deseas automatizar tu negocio ahora? (SÍ)", "bot");
-                state = "ASK_NAME";
+            } else if (contiene(input, ["soporte", "ayuda", "problema"])) {
+                print("🛠 Entiendo, cuéntame qué sucede para conectarte con alguien de nuestro equipo.", "bot");
+            } else if (contiene(input, ["hola", "buenos dias", "saludos"])) {
+                print("¡Hola! Soy el asistente de Robotic. ¿Buscas automatizar tu negocio, soporte o información?", "bot");
             } else {
-                print("No logré entender, pero puedo ayudarte con: Automatizar, Soporte técnico o Contactar a Jordan.", "bot");
+                print("Te escucho... ¿prefieres automatizar un negocio, soporte técnico o hablar con Jordan?", "bot");
             }
             return;
         }
 
-        // 2. FLUJOS DINÁMICOS
+        // FLUJOS DE CAPTURA CON VALIDACIÓN
         switch(state) {
             case "ASK_NAME":
+                if(input.length < 2) { print("Por favor, dime un nombre válido.", "bot"); return; }
                 data.nombre = text;
-                print(`👋 Un gusto, ${data.nombre}. ¿A qué se dedica tu negocio?`, "bot");
+                print(`Mucho gusto ${data.nombre}. ¿A qué se dedica tu negocio?`, "bot");
                 state = "ASK_BIZ";
                 break;
+
             case "ASK_BIZ":
                 data.negocio = text;
-                print(`¡Entendido! Automatizar un ${data.negocio} es una gran idea. ¿En qué ciudad estás?`, "bot");
+                print(`Entendido, un ${data.negocio}. ¿En qué ciudad se encuentra tu negocio?`, "bot");
                 state = "ASK_LOC";
                 break;
+
             case "ASK_LOC":
                 data.lugar = text;
-                print("🤖 ¿Qué bot prefieres? (Básico para atención / Avanzado para ventas)", "bot");
+                print("¿Buscas algo Básico (información) o Avanzado (ventas automáticas)?", "bot");
                 state = "ASK_PROD";
                 break;
+
             case "ASK_PROD":
                 data.producto = text;
-                let c = config.confirm
-                    .replace("[N]", data.nombre).replace("[B]", data.negocio)
-                    .replace("[L]", data.lugar).replace("[P]", data.producto);
-                print(c, "bot");
+                print(`Perfecto. Resumiendo: ${data.nombre}, negocio de ${data.negocio} en ${data.lugar}. ¿Es correcto? (Sí/No)`, "bot");
                 state = "CONFIRM";
                 break;
+
             case "CONFIRM":
-                if(input.includes("si")) {
-                    print("✅ ¡Registro exitoso! Robotic Cloud ha recibido tus datos. Te contactaremos pronto.", "bot");
-                    console.log("Datos enviados al servidor:", data);
+                if(contiene(input, ["si", "claro", "correcto", "esta bien"])) {
+                    print("✅ ¡Gracias! Estamos procesando tu solicitud para contactarte.", "bot");
+                    // Aquí disparas el mensaje a tu WhatsApp
+                    window.open(`https://wa.me/50586614506?text=Nuevo+Cliente:+${data.nombre},+${data.negocio},+${data.lugar},+${data.producto}`);
                     state = "MENU";
                 } else {
-                    print("🔄 Entendido, empecemos de nuevo. ¿Cuál es tu nombre?", "bot");
+                    print("No te preocupes, empecemos de nuevo. ¿Cómo te llamas?", "bot");
                     state = "ASK_NAME";
                 }
                 break;
@@ -328,7 +326,7 @@
         if(!text) return;
         print(text, "user");
         userInput.value = "";
-        setTimeout(() => botResponse(text), 600);
+        setTimeout(() => botResponse(text), 500);
     }
 </script>
 </body>
