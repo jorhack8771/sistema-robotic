@@ -267,26 +267,25 @@
   padding: 8px 0;
   width: 100%;
 }
-/* Estilos para pantallas pequeñas (menos de 768px - celulares) */
-@media only screen and (max-width: 768px) {
-    body {
-        padding: 10px;
-        font-size: 14px;
+/* Solo afecta si el dispositivo es un teléfono */
+@media screen and (max-width: 600px) {
+    body, html {
+        overflow-x: hidden; /* Evita que la página se mueva de lado a lado */
+        width: 100vw;       /* Fuerza el ancho al de la pantalla */
     }
 
-    /* Asegurar que las imágenes y videos no se salgan de la pantalla */
-    img, video {
-        max-width: 100%;
-        height: auto;
+    /* Ajusta automáticamente las imágenes y videos */
+    img, video, iframe {
+        max-width: 100% !important;
+        height: auto !important;
     }
 
-    /* Si tienes columnas (flexbox o grid), apílalas una sobre otra */
-    .contenedor, .columna {
-        flex-direction: column;
-        width: 100% !important;
+    /* Reduce márgenes excesivos que puedan estar causando el desborde */
+    .contenedor, div {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
     }
-}
-    </style>
+}    </style>
 </head>
 
 <body>
