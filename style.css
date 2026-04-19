@@ -750,31 +750,3 @@ p {
         width: 100% !important;
     }
 }
-/* --- CONFIGURACIÓN RESPONSIVA (Mobile First) --- */
-
-/* Ajuste para pantallas pequeñas (celulares) */
-@media screen and (max-width: 768px) {
-    body {
-        padding: 10px;
-        font-size: 14px;
-    }
-
-    /* Hace que todos los contenedores principales se apilen verticalmente */
-    .container, .dashboard, .main-content {
-        flex-direction: column !important;
-        width: 100% !important;
-    }
-
-    /* Ajuste para botones tipo "píldora" en celular */
-    button, .btn {
-        width: 100%;
-        padding: 12px;
-        margin-bottom: 10px;
-    }
-
-    /* Asegura que las imágenes no se desborden */
-    img {
-        max-width: 100%;
-        height: auto;
-    }
-}
