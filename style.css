@@ -198,10 +198,7 @@ p {
     animation-play-state: paused;
 }
 
-@keyframes scroll-infinito {
-    0% { transform: translateX(0); }
-    100% { transform: translateX(-50%); }
-}
+
 /* Botones de Navegación (Header) */
 .btn-login {
     background: transparent;
@@ -224,33 +221,7 @@ p {
     transition: background 0.3s;
 }
 
-/* Botones Principales (Hero) */
-.btn-primary-large {
-    background-color: #2563eb;
-    color: white;
-    border: none;
-    padding: 14px 28px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
-    transition: transform 0.2s;
-}
 
-.btn-secondary-large {
-    background: rgba(255, 255, 255, 0.05);
-    color: white;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 14px 28px;
-    border-radius: 50px;
-    font-weight: 600;
-    font-size: 1rem;
-    font-family: 'Outfit', sans-serif;
-    cursor: pointer;
-    backdrop-filter: blur(5px);
-}
 .top-color-bar {
     position: fixed;
     top: 0;
@@ -399,12 +370,7 @@ p {
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
 }
 
-.banner-slide {
-    position: absolute;
-    inset: 0;
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out;
-}
+
 
 .banner-slide.active {
     opacity: 1;
@@ -421,22 +387,7 @@ p {
     transform: scale(1.1);
 }
 
-/* Overlay dentro del Carrusel */
-.banner-overlay {
-    position: absolute;
-    bottom: 25px;
-    left: 25px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(5px);
-    padding: 10px 20px;
-    border-radius: 15px;
-    font-weight: 700;
-    color: #1a1a1a;
-    font-size: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
+
 
 .banner-overlay span {
     color: #ff4d6d;
@@ -478,35 +429,8 @@ p {
     .banner-text h2 { font-size: 36px; }
     .banner-box { width: 100%; }
 }
-/* Contenedor principal */
-.banner-box {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    perspective: 1000px; /* Da un efecto de profundidad 3D */
-}
 
-/* El "Cuerpo" del teléfono */
-.mockup-container {
-    position: relative;
-    z-index: 2;
-    transition: transform 0.3s ease;
-}
 
-.mockup-container img {
-    height: 520px; /* Ajusta según necesites */
-    width: auto;
-    border-radius: 40px;
-    border: 12px solid #121212; /* Marco de teléfono más definido */
-    background: #000;
-    /* Sombra multicapa para realismo */
-    box-shadow: 
-        0 10px 20px rgba(0,0,0,0.2), 
-        0 30px 60px rgba(0,0,0,0.1), 
-        inset 0 0 15px rgba(255,255,255,0.05);
-}
 
 /* Elemento decorativo detrás (Opcional pero recomendado) */
 /* Un círculo de luz muy tenue para que el teléfono no flote en la nada */
@@ -520,34 +444,7 @@ p {
     border-radius: 50%;
 }
 
-/* Etiqueta flotante con estilo Glassmorphism */
-.banner-overlay {
-    position: absolute;
-    bottom: 50px;
-    right: -20px;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    padding: 12px 24px;
-    border-radius: 16px;
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
-    font-weight: 600;
-    color: #1a1a1a;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    z-index: 3;
-}
-/* Quitamos el fondo al contenedor principal */
-.banner-box {
-    flex: 1;
-    height: 550px;
-    position: relative;
-    background: transparent; /* Fondo totalmente transparente */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+
 
 .banner-slide {
     position: absolute;
@@ -578,20 +475,12 @@ p {
     object-fit: contain; /* Evita que el chat se estire */
 }
 
-/* Estilo de la etiqueta de texto flotante */
+
 .banner-overlay {
-    position: absolute;
-    bottom: 40px;
-    right: 10px;
-    background: rgba(255, 255, 255, 0.9);
-    backdrop-filter: blur(10px); /* Efecto cristal moderno */
-    padding: 10px 20px;
-    border-radius: 15px;
-    font-weight: 700;
-    color: #1a1a1a;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    z-index: 10;
+    bottom: 25px;
+    left: 25px;
 }
+
 .page-restart-btn {
     margin-top: 30px;
     background: linear-gradient(135deg, #3b82f6, #1d4ed8);
@@ -657,23 +546,7 @@ p {
     margin-top: 30px;
 }
 
-.page-restart-btn {
-    background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-    color: white !important;
-    padding: 14px 28px;
-    border-radius: 14px;
-    text-decoration: none;
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 1rem;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 10px 20px rgba(59, 130, 246, 0.3);
-    border: none;
-    position: relative;
-    overflow: hidden;
-}
+
 
 /* Variante para el botón de Videoconferencia (opcional un color distinto) */
 .btn-video {
@@ -748,5 +621,37 @@ p {
     .contenedor, .columna {
         flex-direction: column;
         width: 100% !important;
+    }
+}
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    .hero {
+        padding: 80px 20px;
+        text-align: center;
+    }
+
+    .hero-btns {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .btn-primary-large,
+    .btn-secondary-large {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .banner-box {
+        height: 250px;
+    }
+
+    .banner-overlay {
+        left: 15px;
+        bottom: 15px;
+        font-size: 12px;
     }
 }
