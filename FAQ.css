@@ -1,0 +1,394 @@
+/* General Style for FAQ Cards */
+.faq-card {
+    background-color: #ffffff; /* Fondo blanco para las tarjetas */
+    border-radius: 1rem;
+    overflow: hidden;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    margin-bottom: 1.2rem;
+    width: 100%;
+    max-width: 800px;
+    margin-left: 0;
+    margin-right: auto;
+    padding: 0.8rem; /* Añadido padding para dar espacio interno */
+}
+
+/* Hover Effect for FAQ Cards (sin color pero con desplazamiento) */
+.faq-card:hover {
+    transform: translateY(-2px); /* Efecto de desplazamiento */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08); /* Sombra para el hover */
+    border-color: #e5e7eb; /* Mantener borde gris claro sin cambio de color */
+}
+
+/* FAQ Question Style */
+.faq-question {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: #ffffff; /* Fondo blanco */
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    outline: none;
+    position: relative;
+    min-height: 90px;
+    justify-content: space-between; /* Asegura que los elementos se distribuyan */
+}
+
+/* Eliminar el color de fondo azul al pasar el mouse */
+.faq-question:hover {
+    background: #ffffff; /* Fondo blanco sin cambio al pasar el mouse */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Sombra suave para el hover */
+}
+
+/* Eliminar el bloque degradado */
+.faq-question::before {
+    content: "";
+    width: 0; /* Elimina el bloque degradado */
+    height: 0; /* Elimina el bloque degradado */
+    background: none; /* Elimina el color degradado */
+    margin-left: 0;
+    border-radius: 0;
+    flex-shrink: 0;
+}
+
+/* Contenedor del texto de la pregunta alineado sobre el bloque */
+.faq-question-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%; /* Ajustamos al 100% */
+    padding: 0 1rem; /* Añadido padding interno para que el texto no se pegue */
+}
+
+/* FAQ Question Text Style */
+.faq-question span {
+    font-size: 1rem; /* Aumenté ligeramente el tamaño de la fuente */
+    font-weight: 600;
+    color: #111827; /* Color oscuro para el texto */
+    white-space: normal;
+    text-align: left;
+    line-height: 1.5; /* Ajuste en el espaciado de las líneas */
+    padding-right: 1rem; /* Añadido padding derecho para separar el texto de la flecha */
+}
+
+/* Arrow Icon Style */
+.faq-question i {
+    font-size: 1rem; /* Aumento de tamaño de la flecha */
+    color: #111827; /* Color oscuro para la flecha */
+    transition: transform 0.3s ease;
+    margin-left: 10px;
+}
+
+/* FAQ Answer Style */
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    background-color: #ffffff; /* Fondo blanco para la respuesta */
+    color: #4b5563; /* Color oscuro para el texto de la respuesta */
+    font-size: 0.95rem;
+    line-height: 1.6;
+    transition: max-height 0.4s ease-out, padding 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+}
+
+.faq-answer p {
+    padding: 1.5rem 2rem;
+    border-top: 1px solid #f3f4f6;
+}
+
+/* Active FAQ Card */
+.faq-card.active {
+    border-color: #e5e7eb; /* Borde gris claro */
+}
+
+.faq-card.active .faq-answer {
+    max-height: 400px;
+    opacity: 1;
+}
+
+.faq-card.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+/* FAQ Container Setup */
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+    width: 100%;
+    margin: 2rem 0;
+    background-color: #ffffff; /* Fondo blanco para el contenedor */
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    background-color: #ffffff; /* Fondo blanco para la barra de navegación */
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.nav-links a {
+    color: #333; /* Color oscuro para los enlaces */
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    padding: 1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #2d5bff;
+}
+
+/* Footer Section */
+.footer-section {
+    background-color: #ffffff; /* Fondo blanco para el pie de página */
+    padding: 3rem 1.5rem;
+    border-top: 1px solid #e5e7eb;
+}
+
+.footer-container {
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr;
+    }
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.footer-logo-img {
+    width: 38px;
+}
+
+.footer-brand-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #111827;
+}
+
+.footer-title {
+    color: #2d5bff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+}
+
+.footer-links-list {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links-list li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links-list a {
+    color: #4b5563;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.footer-links-list a:hover {
+    color: #1d4ed8;
+}
+
+.footer-bottom {
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1.5rem;
+    margin-top: 2rem;
+}
+
+.footer-bottom p {
+    color: #94a3b8;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+}
+
+/* Modal Animation */
+.modal-content {
+    animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+    from { transform: translateY(-10%); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+/* Estilo para el botón de Videoconferencia en el Navbar */
+.btn-videoconferencia {
+    background-color: #22b8d1; /* Tu Cyan de Robotic Nic */
+    color: white !important;   /* Texto blanco */
+    padding: 10px 24px;        /* Espaciado para que se vea como botón */
+    border-radius: 50px;       /* Bordes redondeados */
+    border: none;              /* Quita el borde gris por defecto de los botones */
+    font-weight: 700;          /* Letra negrita */
+    font-size: 0.9rem;
+    cursor: pointer;           /* Cambia el cursor a la mano */
+    transition: all 0.3s ease;
+    display: inline-block;
+    outline: none;
+}
+
+.btn-videoconferencia:hover {
+    background-color: #0891b2; /* Color más intenso al pasar el mouse */
+    box-shadow: 0 4px 15px rgba(34, 184, 209, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-videoconferencia:active {
+    transform: translateY(0);
+}
+/* Estilos Base del Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 24px;
+    padding: 25px;
+    box-sizing: border-box;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Control de Pasos */
+.step { display: none; width: 100%; }
+.step.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tipografía y Títulos */
+.step-header-center { text-align: center; margin-bottom: 20px; }
+.protocol-shield { font-size: 3rem; margin-bottom: 10px; }
+.step-title { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0; }
+.step-badge { background: #e0f7fa; color: #00acc1; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
+
+/* Tarjetas de Protocolo */
+.protocol-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.protocol-card { display: flex; align-items: center; background: #f8fafc; padding: 12px; border-radius: 14px; border: 1px solid #e2e8f0; }
+.protocol-icon { font-size: 1.4rem; margin-right: 12px; }
+.protocol-info { display: flex; flex-direction: column; text-align: left; }
+.protocol-info strong { font-size: 0.9rem; color: #0f172a; }
+.protocol-info span { font-size: 0.8rem; color: #64748b; }
+
+/* Botones Principales (Cyan) */
+.btn-main, .btn-submit {
+    width: 100%;
+    background: #22b8d1;
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(34, 184, 209, 0.2);
+}
+
+.btn-main:hover, .btn-submit:hover { background: #0891b2; transform: translateY(-2px); }
+
+/* Botones de Navegación */
+.btn-link, .btn-back {
+    background: none; border: none; color: #94a3b8; font-size: 0.9rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 5px;
+}
+.btn-back { text-align: left; margin-bottom: 10px; }
+
+/* Formulario */
+.modern-form { display: flex; flex-direction: column; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 4px; text-align: left; }
+.field label { font-size: 0.8rem; font-weight: 700; color: #64748b; margin-left: 5px; }
+.field input, .field textarea {
+    width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 16px; box-sizing: border-box;
+}
+
+/* Captcha y Espera */
+.captcha-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+.captcha-check { display: flex; align-items: center; gap: 10px; font-weight: 600; color: #475569; }
+.captcha-logo { width: 30px; }
+.loader-ring { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid #22b8d1; border-radius: 50%; animation: spin 1s infinite linear; margin: 0 auto 15px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* Pantalla de espera más elegante */
+#stepWaiting {
+    padding: 40px 10px;
+    text-align: center;
+}
+
+.loader-ring {
+    width: 65px;
+    height: 65px;
+    border: 5px solid #f1f5f9;
+    border-top: 5px solid #22b8d1; /* Tu Cyan */
+    border-radius: 50%;
+    animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite; /* Animación más fluida */
+    margin: 0 auto 25px;
+}
+
+.waiting-text h3 {
+    font-size: 1.3rem;
+    color: #0f172a;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.waiting-text p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.waiting-text strong {
+    color: #22b8d1; /* Resalta Google Meet en Cyan */
+}
+.loader-ring {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #22b8d1; /* Tu color de marca */
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}

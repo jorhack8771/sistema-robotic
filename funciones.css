@@ -1,0 +1,1052 @@
+/* =========================
+   BASE
+========================= */
+body{
+    margin:0;
+    font-family:'Inter',sans-serif;
+    background:#ffffff;
+    color:#0f172a;
+    -webkit-font-smoothing:antialiased;
+}
+
+/* =========================
+   NAVBAR (RESPONSIVE REAL)
+========================= */
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px 25px;
+    position:sticky;
+    top:0;
+    background:rgba(255,255,255,0.9);
+    backdrop-filter:blur(12px);
+    z-index:100;
+    border-bottom:1px solid #e5e7eb;
+    flex-wrap:wrap;
+    gap:12px;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    font-weight:700;
+    color:#0f172a;
+}
+
+.logo img{
+    height:40px;
+}
+
+.nav-links{
+    display:flex;
+    gap:18px;
+    flex-wrap:wrap;
+}
+
+.nav-links a{
+    text-decoration:none;
+    color:#334155;
+    font-weight:500;
+    transition:0.2s;
+}
+
+
+.nav-links .active{
+    color:#2563eb;
+}
+
+.btn-primary{
+    background:#2563eb;
+    color:#fff;
+    border:none;
+    padding:9px 16px;
+    border-radius:999px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.2s;
+}
+
+.btn-primary:hover{
+    background:#1d4ed8;
+}
+
+/* =========================
+   HERO VIDEO
+========================= */
+.hero {
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px; /* Un poco más de aire arriba y abajo */
+}
+
+/* VIDEO COMPACTO Y ESTILIZADO */
+.video-card {
+    width: 100%;
+    max-width: 900px; /* antes 680 */
+    aspect-ratio: 16 / 8.5; /* un poco más ancho visualmente */
+    border-radius: 20px;
+}
+
+
+/* iframe */
+.video-card iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    display: block;
+    pointer-events: auto; /* Cambiado a 'auto' por si necesitas que el usuario le de play */
+}
+
+/* overlay suave */
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.02);
+    pointer-events: none; /* Importante para que no bloquee los clics al video */
+}
+/* =========================
+   HERO TEXT
+========================= */
+.hero-title-wrapper{
+    text-align:center;
+    margin-top:40px;
+    padding:0 15px;
+}
+
+.hero-title{
+    font-size:48px;
+    font-weight:800;
+    line-height:1.1;
+    color:#0f172a;
+}
+
+/* SUBTITLE MÁS LEGIBLE */
+.subtitle{
+    text-align:center;
+    color:#475569;
+    max-width:620px;
+    margin:15px auto 40px;
+    font-size:18px;
+    line-height:1.5;
+}
+
+/* =========================
+   TYPEWRITER EFFECT
+========================= */
+#typewriter{
+    background:linear-gradient(90deg,#111827,#2563eb,#7c3aed);
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+    font-weight:800;
+    text-shadow:0 0 18px rgba(37,99,235,0.15);
+}
+
+.cursor{
+    color:#2563eb;
+    animation:blink 0.7s infinite;
+    font-weight:500;
+}
+
+@keyframes blink{
+    0%,100%{opacity:1;}
+    50%{opacity:0;}
+}
+
+/* =========================
+   STATS
+========================= */
+.stats{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    text-align:center;
+    margin-top:50px;
+    border-top:1px solid #e5e7eb;
+    border-bottom:1px solid #e5e7eb;
+    padding:35px 0;
+}
+
+.stats h2{
+    font-size:42px;
+    color:#0f172a;
+    margin:0;
+}
+
+.stats p{
+    color:#64748b;
+    font-size:13px;
+}
+
+/* =========================
+   MOBILE FIX TOTAL
+========================= */
+@media(max-width:768px){
+
+    .navbar{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .nav-links{
+        flex-direction:column;
+        width:100%;
+        gap:10px;
+    }
+
+    .hero-title{
+        font-size:30px;
+    }
+
+    .subtitle{
+        font-size:16px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+        gap:18px;
+    }
+
+    .video-card{
+        max-width:100%;
+        border-radius:12px;
+    }
+}
+/* =========================
+   MOBILE MENU BUTTON
+========================= */
+.menu-toggle{
+    display:none;
+    font-size:28px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    color:#0f172a;
+}
+
+/* =========================
+   MOBILE NAV
+========================= */
+@media(max-width:768px){
+
+    .menu-toggle{
+        display:block;
+    }
+
+    .nav-links{
+        display:none;
+        flex-direction:column;
+        width:100%;
+        background:white;
+        padding:15px;
+        border-top:1px solid #eee;
+    }
+
+    .nav-links.active{
+        display:flex;
+    }
+
+    .navbar{
+        align-items:flex-start;
+    }
+
+    .desktop-btn{
+        display:none;
+    }
+}
+/* =========================
+   Tarjeta inicio
+========================= */
+
+/* =========================
+   CARD ANIMATION
+========================= */
+.service-card {
+    transition: all 0.35s ease;
+    border: 1px solid #f1f5f9;
+    background: white;
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    border-color: #3b82f6;
+    box-shadow: 0 18px 30px rgba(59,130,246,0.12);
+}
+
+.icon-tag {
+    transition: all 0.3s ease;
+    background: linear-gradient(135deg, #eef2ff, #f5f3ff);
+    color: #334155;
+    border: 1px solid #e5e7eb;
+    letter-spacing: 0.5px;
+}
+
+/* hover del tag más moderno */
+.service-card:hover .icon-tag {
+    background: linear-gradient(135deg, #2563eb, #7c3aed);
+    color: #ffffff;
+    transform: scale(1.05);
+    border-color: transparent;
+}
+/* =========================
+   RESPONSIVE FIX
+========================= */
+@media (max-width: 768px) {
+
+    section {
+        padding: 60px 16px;
+    }
+
+    h2 {
+        font-size: 28px !important;
+        line-height: 1.2;
+    }
+
+    .grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .service-card {
+        padding: 18px;
+        border-radius: 18px;
+    }
+}
+/* =========================
+   Tarjeta final
+========================= */
+/* ==========================================
+   CONFIGURACIÓN FOOTEE FINAL
+   ========================================== */
+
+:root {
+    --primary-blue: #2563eb;
+    --dark-blue: #1a2b6d;
+    --text-slate: #64748b;
+    --border-color: #f1f5f9;
+}
+
+.footer-section {
+    background-color: #ffffff;
+    padding: 3rem 1.5rem 2rem;
+    border-top: 1px solid var(--border-color);
+    font-family: 'Inter', sans-serif;
+}
+
+.footer-container {
+    max-width: 1100px; /* Un poco más estrecho para que no se vea vacío */
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+/* Distribución para Desktop */
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr;
+        align-items: start;
+    }
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.footer-logo-img {
+    width: 38px;
+}
+
+.footer-brand-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--dark-blue);
+}
+
+.footer-title {
+    color: var(--primary-blue);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: var(--text-slate);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: var(--dark-blue);
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+}
+
+.footer-bottom p {
+    color: #94a3b8;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+@media (max-width: 767px) {
+    .footer-grid { text-align: center; }
+    .footer-brand { justify-content: center; margin-bottom: 1rem; }
+    .footer-bottom { text-align: center; }
+}
+
+
+.footer-section {
+    background-color: #ffffff;
+    padding: 3rem 1.5rem 2rem;
+    border-top: 1px solid var(--border-color);
+    font-family: 'Inter', sans-serif;
+}
+
+.footer-container {
+    max-width: 1100px; /* Un poco más estrecho para que no se vea vacío */
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+/* Distribución para Desktop */
+@media (min-width: 768px) {
+    .footer-grid {
+        grid-template-columns: 1.5fr 1fr 1fr;
+        align-items: start;
+    }
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.footer-logo-img {
+    width: 38px;
+}
+
+.footer-brand-name {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--dark-blue);
+}
+
+.footer-title {
+    color: var(--primary-blue);
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.footer-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+    color: var(--text-slate);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.footer-links a:hover {
+    color: var(--dark-blue);
+}
+
+.footer-bottom {
+    border-top: 1px solid var(--border-color);
+    padding-top: 1.5rem;
+}
+
+.footer-bottom p {
+    color: #94a3b8;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+@media (max-width: 767px) {
+    .footer-grid { text-align: center; }
+    .footer-brand { justify-content: center; margin-bottom: 1rem; }
+    .footer-bottom { text-align: center; }
+}
+/* ==========================================
+   CONFIGURACIÓN FOOTER FINAL
+   ========================================== */
+   /* ==========================================
+   POLÍTICA PRIVACIDAD
+   ========================================== */
+
+footer ul li a:hover {
+    color: #1d4ed8; /* El azul de tu marca */
+    text-decoration: underline;
+}
+
+/* =========================
+   TEXTO LEGAL (MEJORADO)
+========================= */
+
+.legal-section{
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    margin: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.legal-section p{
+    margin: 0;
+    color: #0f172a;
+    font-weight: 600;
+    font-size: 14px;
+    letter-spacing: 0.2px;
+}
+
+.legal-section a{
+    font-size: 14px;
+    transition: 0.2s ease;
+}
+
+.legal-section a:hover{
+    color: #1e40af;
+    text-decoration: underline;
+}
+
+/* =========================
+   MODAL BACKDROP (MEJORADO)
+========================= */
+
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.65);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    justify-content: center;
+    align-items: center;
+    padding: 24px;
+    z-index: 9999;
+}
+
+/* =========================
+   CONTENIDO MODAL (GLASS PRO)
+========================= */
+
+.modal-content {
+    background: rgba(255, 255, 255, 0.92);
+    border: 1px solid rgba(15, 23, 42, 0.08);
+    box-shadow:
+        0 30px 80px rgba(0,0,0,0.25),
+        0 1px 0 rgba(255,255,255,0.4) inset;
+
+    max-width: 920px;
+    width: 100%;
+    max-height: 88vh;
+    overflow-y: auto;
+
+    border-radius: 20px;
+    padding: 48px;
+
+    position: relative;
+
+    transform: translateY(0);
+    transition: all 0.25s ease;
+}
+.close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 22px;
+    cursor: pointer;
+    color: #64748b;
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    transition: 0.2s;
+}
+
+.close:hover {
+    background: #f1f5f9;
+    color: #0f172a;
+}
+/* =========================
+   FAQ SECTION inicio preguntas
+========================= */
+.faq-section {
+    padding: 90px 20px;
+    background: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+.container{
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* =========================
+   HEADER
+========================= */
+.section-header {
+    text-align: center;
+}
+
+.gradient-text {
+    background: linear-gradient(90deg, #0f172a, #2563eb);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.section-header p {
+    color: #64748b;
+    font-size: 17px;
+    margin-bottom: 45px;
+}
+
+/* =========================
+   ACCORDION
+========================= */
+.faq-accordion details {
+    background: #ffffff;
+    border: 1px solid #eef2f7;
+    border-radius: 18px;
+    padding: 20px 22px;
+    margin-bottom: 14px;
+    transition: all 0.25s ease;
+}
+
+/* HOVER SOLO EN PC */
+@media (hover:hover) {
+    .faq-accordion details:hover {
+        border-color: #2563eb;
+        box-shadow: 0 10px 25px rgba(37,99,235,0.08);
+        transform: translateY(-2px);
+    }
+}
+
+/* =========================
+   PREGUNTA
+========================= */
+.faq-accordion summary {
+    font-weight: 700;
+    color: #0f172a;
+    font-size: 16px;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* quitar flecha default */
+summary::-webkit-details-marker {
+    display: none;
+}
+
+/* ICONO */
+summary::after {
+    content: "+";
+    font-size: 22px;
+    color: #2563eb;
+    transition: 0.3s ease;
+}
+
+/* cuando está abierto */
+details[open] summary::after {
+    content: "–";
+    color: #2563eb;
+}
+
+details[open] summary {
+    color: #2563eb;
+}
+
+/* =========================
+   RESPUESTA
+========================= */
+.faq-content {
+    margin-top: 12px;
+    color: #475569;
+    font-size: 15px;
+    line-height: 1.7;
+    animation: fadeIn 0.25s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =========================
+   MOBILE
+========================= */
+@media (max-width: 768px) {
+
+    .faq-section {
+        padding: 70px 16px;
+    }
+
+    .gradient-text {
+        font-size: 30px;
+    }
+
+    .section-header p {
+        font-size: 15px;
+    }
+
+    .faq-accordion details {
+        padding: 18px;
+    }
+
+    .faq-accordion summary {
+        font-size: 15px;
+    }
+}
+/* =========================
+   FAQ SECTION final 
+========================= */
+
+    /* =======================
+        CARRUSEL LOGOS (SIN HUECOS)
+    ======================== -->
+/* Contenedor principal con bordes y desvanecimiento lateral */
+.integration-slider-container {
+    border-top: 1px solid #f1f5f9;
+    border-bottom: 1px solid #f1f5f9;
+    padding: 2.5rem 0;
+    margin-bottom: 4rem;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Track que contiene los grupos */
+.flex-track {
+    display: flex;
+    gap: 2rem;
+    width: max-content;
+}
+
+/* Grupo de cápsulas */
+.slide-group {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+/* Estilo base de la cápsula */
+.capsule {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border-radius: 9999px;
+    font-weight: 600;
+    white-space: nowrap;
+    border: 1px solid transparent;
+}
+
+/* Colores específicos por servicio */
+.whatsapp { background-color: #f0fdf4; color: #15803d; border-color: #dcfce7; }
+.nicaragua { background-color: #eff6ff; color: #1d4ed8; border-color: #dbeafe; }
+.google { background-color: #fef2f2; color: #b91c1c; border-color: #fee2e2; }
+.n8n { background-color: #fff7ed; color: #c2410c; border-color: #ffedd5; }
+.chatwoot { background-color: #f5f3ff; color: #6d28d9; border-color: #ede9fe; }
+
+.bold { font-weight: 800; }
+
+/* Animación de desplazamiento infinito */
+.animate-scroll {
+    animation: scroll-infinite 30s linear infinite;
+}
+
+@keyframes scroll-infinite {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+/* Pausar al pasar el mouse */
+.integration-slider-container:hover .animate-scroll {
+    animation-play-state: paused;
+}
+ /* =======================
+        CARRUSEL LOGOS final 
+    ======================== -->
+   /* --- SECCIÓN AUDIENCIA REDUCIDA --- */
+.audience-section-small {
+    padding: 50px 20px; /* Reducido de 80px */
+    background-color: #ffffff;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+.section-title-small {
+    font-size: 28px; /* Reducido de 36px */
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 8px;
+}
+
+.section-subtitle-small {
+    font-size: 15px; /* Reducido de 18px */
+    color: #64748b;
+    margin-bottom: 35px;
+}
+
+/* GRID COMPACTO */
+.audience-grid-small {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 15px; /* Espacio entre tarjetas reducido */
+}
+
+.audience-card-small {
+    background: #ffffff;
+    border: 1px solid #f1f5f9;
+    border-radius: 18px; /* Bordes un poco menos pronunciados */
+    padding: 25px; /* Reducido de 40px */
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.audience-card-small:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+    border-color: #2563eb;
+}
+
+/* TEXTOS INTERNOS REDUCIDOS */
+.audience-tag-small {
+    font-size: 10px; /* Más pequeño */
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #94a3b8;
+    letter-spacing: 0.8px;
+    margin-bottom: 12px;
+}
+
+.audience-card-small h3 {
+    font-size: 18px; /* Reducido de 22px */
+    font-weight: 700;
+    color: #0f172a;
+    margin-bottom: 10px;
+    line-height: 1.2;
+}
+
+.audience-card-small p {
+    font-size: 13.5px; /* Reducido de 15px */
+    color: #64748b;
+    line-height: 1.5;
+    margin-bottom: 20px;
+}
+
+.audience-link-small {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2563eb;
+    text-decoration: none;
+} 
+/* Estilos Base del Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 24px;
+    padding: 25px;
+    box-sizing: border-box;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Control de Pasos */
+.step { display: none; width: 100%; }
+.step.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tipografía y Títulos */
+.step-header-center { text-align: center; margin-bottom: 20px; }
+.protocol-shield { font-size: 3rem; margin-bottom: 10px; }
+.step-title { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0; }
+.step-badge { background: #e0f7fa; color: #00acc1; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
+
+/* Tarjetas de Protocolo */
+.protocol-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.protocol-card { display: flex; align-items: center; background: #f8fafc; padding: 12px; border-radius: 14px; border: 1px solid #e2e8f0; }
+.protocol-icon { font-size: 1.4rem; margin-right: 12px; }
+.protocol-info { display: flex; flex-direction: column; text-align: left; }
+.protocol-info strong { font-size: 0.9rem; color: #0f172a; }
+.protocol-info span { font-size: 0.8rem; color: #64748b; }
+
+/* Botones Principales (Cyan) */
+.btn-main, .btn-submit {
+    width: 100%;
+    background: #22b8d1;
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(34, 184, 209, 0.2);
+}
+
+.btn-main:hover, .btn-submit:hover { background: #0891b2; transform: translateY(-2px); }
+
+/* Botones de Navegación */
+.btn-link, .btn-back {
+    background: none; border: none; color: #94a3b8; font-size: 0.9rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 5px;
+}
+.btn-back { text-align: left; margin-bottom: 10px; }
+
+/* Formulario */
+.modern-form { display: flex; flex-direction: column; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 4px; text-align: left; }
+.field label { font-size: 0.8rem; font-weight: 700; color: #64748b; margin-left: 5px; }
+.field input, .field textarea {
+    width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 16px; box-sizing: border-box;
+}
+
+/* Captcha y Espera */
+.captcha-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+.captcha-check { display: flex; align-items: center; gap: 10px; font-weight: 600; color: #475569; }
+.captcha-logo { width: 30px; }
+.loader-ring { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid #22b8d1; border-radius: 50%; animation: spin 1s infinite linear; margin: 0 auto 15px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* Pantalla de espera más elegante */
+#stepWaiting {
+    padding: 40px 10px;
+    text-align: center;
+}
+
+.loader-ring {
+    width: 65px;
+    height: 65px;
+    border: 5px solid #f1f5f9;
+    border-top: 5px solid #22b8d1; /* Tu Cyan */
+    border-radius: 50%;
+    animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite; /* Animación más fluida */
+    margin: 0 auto 25px;
+}
+
+.waiting-text h3 {
+    font-size: 1.3rem;
+    color: #0f172a;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.waiting-text p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.waiting-text strong {
+    color: #22b8d1; /* Resalta Google Meet en Cyan */
+}
+.loader-ring {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #22b8d1; /* Tu color de marca */
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+/* Estilo para el botón de Videoconferencia en el Navbar */
+.btn-videoconferencia {
+    background-color: #22b8d1; /* Tu Cyan de Robotic Nic */
+    color: white !important;   /* Texto blanco */
+    padding: 10px 24px;        /* Espaciado para que se vea como botón */
+    border-radius: 50px;       /* Bordes redondeados */
+    border: none;              /* Quita el borde gris por defecto de los botones */
+    font-weight: 700;          /* Letra negrita */
+    font-size: 0.9rem;
+    cursor: pointer;           /* Cambia el cursor a la mano */
+    transition: all 0.3s ease;
+    display: inline-block;
+    outline: none;
+}
+
+.btn-videoconferencia:hover {
+    background-color: #0891b2; /* Color más intenso al pasar el mouse */
+    box-shadow: 0 4px 15px rgba(34, 184, 209, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-videoconferencia:active {
+    transform: translateY(0);
+}

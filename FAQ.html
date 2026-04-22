@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robotic - FAQ</title>
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/rmY7f8pQ/Historia-para-Instagram-Robo-tica-Neo-n-Azul.png">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="contacto.css">
+    <link rel="stylesheet" href="FAQ.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Robotic Nic",
+            "description": "Soluciones de automatización inteligente, chatbots con IA y soporte técnico en Nicaragua.",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web, iOS, Android, WhatsApp",
+            "inLanguage": "es",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "ratingCount": "120"
+            },
+            "offers": [
+                {
+                    "@type": "Offer",
+                    "name": "Demo Gratuita",
+                    "price": "0",
+                    "priceCurrency": "USD",
+                    "description": "7 días de prueba, 1 agente virtual activo."
+                }
+            ],
+            "featureList": ["Chatbots con IA", "Integración API WhatsApp", "Sistemas a Medida", "Soporte Hardware"]
+        }
+    </script>
+</head>
+
+<body class="bg-white">
+    <header class="navbar">
+        <div class="logo">
+            <a href="index.html" style="display: flex; align-items: center; gap: 10px; text-decoration: none; color: inherit;">
+                <img src="https://i.postimg.cc/rmY7f8pQ/Historia-para-Instagram-Robo-tica-Neo-n-Azul.png" alt="Logo">
+                <span>Robotic Nic</span>
+            </a>
+        </div>
+        <button class="menu-toggle md:hidden" id="menuToggle" aria-label="Toggle navigation">☰</button>
+
+        <nav class="nav-links md:flex" id="navLinks">
+            <a href="FAQ.html" class="active">FAQ</a>
+            <a href="funcionalidades.html">Funciones</a>
+            <a href="contacto.html">Contacto</a>
+            <a href="Bot.html">Bot | Live Demo</a>
+        </nav>
+       <button class="btn-videoconferencia" onclick="toggleModal(true)">
+        Videoconferencia
+    </button>
+    </header>
+
+    <main>
+        <div class="faq-section px-8 py-16">
+            <h1 class="text-4xl font-bold mb-6">Preguntas Frecuentes</h1>
+
+            <div class="faq-card">
+                <button class="faq-question" aria-expanded="false">
+                    <span>¿Puedo personalizar el flujo de interacción del bot?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Sí, todos nuestros bots son altamente personalizables. Podemos ajustar los flujos de conversación, los mensajes y las respuestas según tus necesidades específicas.</p>
+                </div>
+            </div>
+
+            <div class="faq-card">
+                <button class="faq-question" aria-expanded="false">
+                    <span>¿El bot puede manejar múltiples idiomas?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>¡Claro! Los bots pueden ser configurados para interactuar en varios idiomas, lo que permite atender a clientes de diferentes regiones del mundo.</p>
+                </div>
+            </div>
+
+            <div class="faq-card">
+                <button class="faq-question" aria-expanded="false">
+                    <span>¿Ofrecen algún tipo de prueba gratuita?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Sí, ofrecemos una demo gratuita de 7 días para que puedas probar cómo funciona el sistema con 1 bot activo. No necesitas comprometerte con un plan hasta que estés listo.</p>
+                </div>
+            </div>
+
+            <div class="faq-card">
+                <button class="faq-question" aria-expanded="false">
+                    <span>¿Qué pasa si quiero cambiar de plan en el futuro?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Es muy fácil cambiar de plan. Si necesitas más bots o funcionalidades, simplemente contáctanos y haremos el ajuste sin inconvenientes.</p>
+                </div>
+            </div>
+
+            <div class="faq-card">
+                <button class="faq-question" aria-expanded="false">
+                    <span>¿Puedo integrar el bot con otras plataformas como Facebook o Telegram?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Sí, podemos integrar los bots con diversas plataformas como Facebook Messenger, Telegram, y otras mediante APIs para que puedas expandir tu alcance fácilmente.</p>
+                </div>
+            </div>
+
+            <div class="faq-card">
+                <button class="faq-question" aria-expanded="false">
+                    <span>¿Cómo aseguran la privacidad de los datos?</span>
+                    <i class="fas fa-chevron-down"></i>
+                </button>
+                <div class="faq-answer">
+                    <p>Nos tomamos muy en serio la seguridad. Todos los datos están cifrados y seguimos las mejores prácticas en cuanto a privacidad y protección de datos para cumplir con las normativas legales.</p>
+                </div>
+            </div>
+        </div>
+
+
+
+<div class="modal-overlay" id="modalAtencion">
+    <div class="modal-card">
+        
+        <div class="step active" id="stepProtocolo">
+            <div class="step-header-center">
+                <div class="protocol-shield">🛡️</div>
+                <h2 class="step-title">Protocolo de Sesión</h2>
+            </div>
+            
+            <div class="protocol-container">
+                <div class="protocol-card">
+                    <div class="protocol-icon">💡</div>
+                    <div class="protocol-info">
+                        <strong>Entorno</strong>
+                        <span>Use buena iluminación para la sesión.</span>
+                    </div>
+                </div>
+                <div class="protocol-card">
+                    <div class="protocol-icon">🎙️</div>
+                    <div class="protocol-info">
+                        <strong>Hardware</strong>
+                        <span>Cámara y micrófono son obligatorios.</span>
+                    </div>
+                </div>
+                <div class="protocol-card">
+                    <div class="protocol-icon">🔒</div>
+                    <div class="protocol-info">
+                        <strong>Privacidad</strong>
+                        <span>La sesión será grabada para auditoría.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="protocol-actions">
+                <button type="button" class="btn-main" onclick="goToStep('stepForm')">Aceptar y Continuar</button>
+                <button type="button" class="btn-link" onclick="toggleModal(false)">Cerrar</button>
+            </div>
+        </div>
+
+        <div class="step" id="stepForm">
+            <button type="button" class="btn-back" onclick="goToStep('stepProtocolo')">← Volver</button>
+            
+            <div class="step-header">
+                <span class="step-badge">Paso 2 de 3</span>
+                <h2 class="step-title">Datos del Ticket</h2>
+            </div>
+
+            <form id="contactForm" class="modern-form">
+                <div class="field">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="inp_nombre" placeholder="Ej: Jordan Hernández" required>
+                </div>
+                <div class="field">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="inp_email" placeholder="usuario@correo.com" required>
+                </div>
+                <div class="field">
+                    <label>¿En qué podemos ayudarte?</label>
+                    <textarea id="inp_asunto" rows="3" placeholder="Describe tu consulta..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Enviar y Validar →</button>
+            </form>
+        </div>
+
+        <div class="step" id="stepCaptcha">
+            <button type="button" class="btn-back" onclick="goToStep('stepForm')">← Corregir datos</button>
+            <div class="step-header">
+                <span class="step-badge">Paso 3 de 3</span>
+                <h2 class="step-title">Seguridad</h2>
+            </div>
+            <div class="captcha-box">
+                <div class="captcha-check">
+                    <input type="checkbox" id="robotCheck" onclick="validateCaptcha()">
+                    <label for="robotCheck">No soy un robot</label>
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/RecaptchaLogo.svg" class="captcha-logo" alt="reCAPTCHA">
+            </div>
+        </div>
+
+        <div class="step" id="stepWaiting">
+            <div class="waiting-container">
+                <div class="loader-ring"></div>
+                <div class="waiting-text">
+                    <h3>Conectando...</h3>
+                    <p>Redirigiendo a <strong>Google Meet</strong></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+        <!-- Modal de Política de Privacidad -->
+        <div id="privacyModal" class="modal hidden">
+            <div class="modal-content">
+                <span class="close-btn" onclick="closeModal()">×</span>
+                <h2>Política de Privacidad</h2>
+                <p>Contenido de la política de privacidad...</p>
+            </div>
+        </div>
+    </main>
+
+
+    <footer class="footer-section">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col branding">
+                    <div class="footer-brand">
+                        <img src="https://i.postimg.cc/rmY7f8pQ/Historia-para-Instagram-Robo-tica-Neo-n-Azul.png" alt="Robotic Nic" class="footer-logo-img">
+                        <span class="footer-brand-name">Robotic Nic</span>
+                    </div>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">ASISTENCIA</h4>
+                    <ul class="footer-links-list list-none p-0">
+                        <li><a href="#" class="text-gray-600 hover:text-blue-600">Soporte Técnico</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-blue-600">Agendar Demo</a></li>
+                        <li><a href="https://wa.me/89106157" class="text-gray-600 hover:text-blue-600">WhatsApp</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-col">
+                    <h4 class="footer-title">LEGAL</h4>
+                    <ul class="footer-links-list list-none p-0">
+                        <li>
+                            <a href="https://drive.google.com/file/d/1m_tVboH9VbW5UxWs8cd7LY5EAF03UbuT/view?usp=sharing" download="Terminos_y_Condiciones_Robotic_Nic.pdf" class="text-gray-600 hover:text-blue-600">
+                               Términos y Condiciones
+                            </a>
+                        </li>
+                    </ul>
+                    <p><a href="#" onclick="openModal(event)" class="privacy-link text-gray-600 hover:text-blue-600">Política de Privacidad</a></p>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>© 2026 ROBOTIC NIC. TODOS LOS DERECHOS RESERVADOS.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Lógica de Preguntas Frecuentes
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqCard = button.parentElement;
+                faqCard.classList.toggle('active');
+                const expanded = faqCard.classList.contains('active');
+                button.setAttribute('aria-expanded', expanded);
+            });
+        });
+
+        // Menú Hamburguesa
+        const menuToggle = document.getElementById('menuToggle');
+        const navLinks = document.getElementById('navLinks');
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+        });
+
+        function openModal(e) { e.preventDefault(); document.getElementById('privacyModal').style.display = 'block'; }
+        function closeModal() { document.getElementById('privacyModal').style.display = 'none'; }
+
+        // Configuración de Telegram
+const TELEGRAM_BOT_TOKEN = '8645980147:AAF3gnwpNAC8t8AuL7sXbSam2jm_nnJaAjg';
+const TELEGRAM_CHAT_ID = '8763247895';
+const URL_MEET = "https://meet.google.com/egd-dabj-qpj"; // Definida globalmente para evitar errores
+
+// 1. Función para cambiar entre pasos
+function goToStep(stepId) {
+    const steps = document.querySelectorAll('.step');
+    steps.forEach(s => s.classList.remove('active'));
+    
+    const nextStep = document.getElementById(stepId);
+    if (nextStep) {
+        nextStep.classList.add('active');
+    }
+}
+
+// 2. Manejo del Formulario
+document.getElementById('contactForm').onsubmit = async (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById('inp_nombre').value;
+    const email = document.getElementById('inp_email').value;
+    const asunto = document.getElementById('inp_asunto').value;
+
+    // Mensaje corregido con la variable URL_MEET
+    const mensaje = `🚨 *NUEVO TICKET DE SOPORTE*\n\n` +
+                    `👤 *Nombre:* ${nombre}\n` +
+                    `📧 *Email:* ${email}\n` +
+                    `📝 *Asunto:* ${asunto}\n\n` +
+                    `🔗 *Enlace a la sala:* ${URL_MEET}`;
+
+    try {
+        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: mensaje,
+                parse_mode: 'Markdown'
+            })
+        });
+
+        if (response.ok) {
+            goToStep('stepCaptcha');
+        } else {
+            throw new Error('Error en la respuesta de Telegram');
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("No se pudo enviar el ticket. Revisa tu conexión.");
+    }
+};
+
+// 3. Validación de Captcha y Redirección suave
+function validateCaptcha() {
+    const isHuman = document.getElementById('robotCheck').checked;
+
+    if (isHuman) {
+        goToStep('stepWaiting');
+
+        // Redirección con retraso para mejorar la experiencia
+        setTimeout(() => {
+            window.location.href = URL_MEET;
+        }, 2500);
+    }
+}
+
+function toggleModal(show) {
+    const modal = document.getElementById('modalAtencion');
+    if (modal) {
+        modal.style.display = show ? 'flex' : 'none';
+    }
+}
+    </script>
+</body>
+</html>

@@ -173,25 +173,21 @@
             .content-left h1 { font-size: 2.8rem; }
             .phone-frame { transform: scale(0.9); }
         }
-        /* Solo afecta si el dispositivo es un teléfono */
-@media screen and (max-width: 600px) {
-    body, html {
-        overflow-x: hidden; /* Evita que la página se mueva de lado a lado */
-        width: 100vw;       /* Fuerza el ancho al de la pantalla */
-    }
-
-    /* Ajusta automáticamente las imágenes y videos */
-    img, video, iframe {
-        max-width: 100% !important;
-        height: auto !important;
-    }
-
-    /* Reduce márgenes excesivos que puedan estar causando el desborde */
-    .contenedor, div {
-        padding-left: 5px !important;
-        padding-right: 5px !important;
-    }
-}
+        
+        @media screen and (max-width: 600px) {
+            body, html {
+                overflow-x: hidden;
+                width: 100vw;
+            }
+            img, video, iframe {
+                max-width: 100% !important;
+                height: auto !important;
+            }
+            .contenedor, div {
+                padding-left: 5px !important;
+                padding-right: 5px !important;
+            }
+        }
     </style>
 </head>
 <body>
@@ -219,13 +215,13 @@
                                 <span>• En línea</span>
                             </div>
                         </div>
-                        </div>
+                    </div>
 
                     <div id="chatBox" class="chat-area"></div>
 
                     <div class="chat-input">
                         <input type="text" id="userInput" placeholder="Escribe aquí..." onkeypress="if(event.key === 'Enter') handleSend()">
-                        <button class="send-icon" onclick="handleSend()">
+                        <button class="send-icon" id="submitBtn" onclick="handleSend()">
                             <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
@@ -238,96 +234,117 @@
         </div>
     </div>
 
-<a href="index.html" class="page-restart-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
-    <i class="fas fa-redo"></i> Volver al Menú Principal
-</a>
+    <a href="index.html" class="page-restart-btn" style="text-decoration: none; display: inline-flex; align-items: center; gap: 8px;">
+        <i class="fas fa-redo"></i> Volver al Menú Principal
+    </a>
 
-   <script>
-    const chatBox = document.getElementById("chatBox");
-    const userInput = document.getElementById("userInput");
+    <script>
+        const chatBox = document.getElementById("chatBox");
+        const userInput = document.getElementById("userInput");
+        const submitBtn = document.getElementById("submitBtn");
 
-    let state = "MENU";
-    let data = { nombre: "", negocio: "", lugar: "", producto: "" };
+        let fase = 1;
+        let nombre = '';
+        let contacto = '';
+        let respuestaAnterior = '';
 
-    // Función para detectar intención de forma flexible
-    function contiene(texto, palabras) {
-        return palabras.some(p => texto.includes(p));
-    }
-
-    function print(msg, sender) {
-        const div = document.createElement("div");
-        div.className = `bubble ${sender}`;
-        div.innerText = msg;
-        chatBox.appendChild(div);
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
-
-    function botResponse(text) {
-        const input = text.toLowerCase();
-
-        // FLUJO DE MENÚ (Muy flexible)
-        if (state === "MENU") {
-            if (contiene(input, ["automatizar", "bot", "servicio", "web"])) {
-                print("🚀 ¡Excelente! Me encantaría ayudarte a automatizar. ¿Cómo te llamas?", "bot");
-                state = "ASK_NAME";
-            } else if (contiene(input, ["soporte", "ayuda", "problema"])) {
-                print("🛠 Entiendo, cuéntame qué sucede para conectarte con alguien de nuestro equipo.", "bot");
-            } else if (contiene(input, ["hola", "buenos dias", "saludos"])) {
-                print("¡Hola! Soy el asistente de Robotic. ¿Buscas automatizar tu negocio, soporte o información?", "bot");
-            } else {
-                print("Te escucho... ¿prefieres automatizar un negocio, soporte técnico o hablar con Jordan?", "bot");
-            }
-            return;
+        // Función de envío principal
+        function handleSend() {
+            procesarRespuesta();
         }
 
-        // FLUJOS DE CAPTURA CON VALIDACIÓN
-        switch(state) {
-            case "ASK_NAME":
-                if(input.length < 2) { print("Por favor, dime un nombre válido.", "bot"); return; }
-                data.nombre = text;
-                print(`Mucho gusto ${data.nombre}. ¿A qué se dedica tu negocio?`, "bot");
-                state = "ASK_BIZ";
-                break;
+        // Mostrar mensaje en el chat
+        function mostrarMensaje(mensaje, tipo) {
+            const div = document.createElement('div');
+            div.className = `bubble ${tipo}`;
+            div.innerText = mensaje;
+            chatBox.appendChild(div);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
 
-            case "ASK_BIZ":
-                data.negocio = text;
-                print(`Entendido, un ${data.negocio}. ¿En qué ciudad se encuentra tu negocio?`, "bot");
-                state = "ASK_LOC";
-                break;
+        // Procesar la entrada del usuario
+        function procesarRespuesta() {
+            const respuestaUsuario = userInput.value.trim();
+            if (respuestaUsuario === '') return;
 
-            case "ASK_LOC":
-                data.lugar = text;
-                print("¿Buscas algo Básico (información) o Avanzado (ventas automáticas)?", "bot");
-                state = "ASK_PROD";
-                break;
+            mostrarMensaje(respuestaUsuario, 'user');
+            userInput.value = '';
 
-            case "ASK_PROD":
-                data.producto = text;
-                print(`Perfecto. Resumiendo: ${data.nombre}, negocio de ${data.negocio} en ${data.lugar}. ¿Es correcto? (Sí/No)`, "bot");
-                state = "CONFIRM";
-                break;
-
-            case "CONFIRM":
-                if(contiene(input, ["si", "claro", "correcto", "esta bien"])) {
-                    print("✅ ¡Gracias! Estamos procesando tu solicitud para contactarte.", "bot");
-                    // Aquí disparas el mensaje a tu WhatsApp
-                    window.open(`https://wa.me/50586614506?text=Nuevo+Cliente:+${data.nombre},+${data.negocio},+${data.lugar},+${data.producto}`);
-                    state = "MENU";
-                } else {
-                    print("No te preocupes, empecemos de nuevo. ¿Cómo te llamas?", "bot");
-                    state = "ASK_NAME";
+            setTimeout(() => {
+                switch (fase) {
+                    case 1:
+                        fase1(respuestaUsuario);
+                        break;
+                    case 2:
+                        fase2(respuestaUsuario);
+                        break;
+                    case 3:
+                        fase3(respuestaUsuario);
+                        break;
+                    case 4:
+                        fase4(respuestaUsuario);
+                        break;
+                    case 5:
+                        finProceso(respuestaUsuario);
+                        break;
                 }
-                break;
+            }, 600);
         }
-    }
 
-    function handleSend() {
-        const text = userInput.value.trim();
-        if(!text) return;
-        print(text, "user");
-        userInput.value = "";
-        setTimeout(() => botResponse(text), 500);
-    }
-</script>
+        // Mensaje inicial al cargar
+        window.onload = () => {
+            mostrarMensaje("¡Hola! Bienvenido a Robotic System. 🚀 Soy tu asistente virtual.\n\n¿En qué área te gustaría que trabajemos hoy?\n\n[A] Automatizar ventas/mensajes\n[B] Crear o mejorar sitio web\n[C] Soporte técnico o mantenimiento", "bot");
+        };
+
+        // Fase 1: Gancho (Bienvenida)
+        function fase1(respuesta) {
+            let r = respuesta.toUpperCase();
+            if (r.includes('A')) {
+                respuestaAnterior = 'A';
+                mostrarMensaje('¡Excelente elección! Vamos a automatizar tus ventas. ¿Actualmente atiendes a tus clientes por WhatsApp, Instagram o Facebook?', 'bot');
+                fase = 2;
+            } else if (r.includes('B')) {
+                respuestaAnterior = 'B';
+                mostrarMensaje('Un sitio web es tu oficina 24/7. ¿Buscas una landing page o una plataforma completa?', 'bot');
+                fase = 2;
+            } else if (r.includes('C')) {
+                respuestaAnterior = 'C';
+                mostrarMensaje('Contamos con experiencia avanzada en optimización. ¿Necesitas soporte para Hardware o Software?', 'bot');
+                fase = 2;
+            } else {
+                mostrarMensaje('Por favor, elige una opción: [A], [B] o [C].', 'bot');
+            }
+        }
+
+        // Fase 2: Diagnóstico
+        function fase2(respuesta) {
+            mostrarMensaje('Entendido. En Robotic System diseñamos soluciones a medida que escalan tu negocio. Para darte una propuesta personalizada, ¿me podrías decir tu nombre?', 'bot');
+            fase = 4;
+        }
+
+        // Fase 4: Captura de Datos (Nombre)
+        function fase4(respuesta) {
+            if (respuesta.length > 2) {
+                nombre = respuesta;
+                mostrarMensaje(`Gracias, ${nombre}. ¿Podrías compartir tu correo electrónico o número de contacto para agendar una consulta técnica?`, 'bot');
+                fase = 5;
+            } else {
+                mostrarMensaje('Por favor, dime tu nombre para continuar.', 'bot');
+            }
+        }
+
+        // Función para finalizar el proceso
+        function finProceso(respuesta) {
+            contacto = respuesta.trim();
+            if (contacto !== '') {
+                mostrarMensaje(`¡Perfecto, ${nombre}! Nos pondremos en contacto contigo a través de ${contacto} muy pronto. ¡Gracias por confiar en Robotic System!`, 'bot');
+                userInput.disabled = true;
+                submitBtn.disabled = true;
+                mostrarMensaje('Sesión de demostración finalizada.', 'bot');
+            } else {
+                mostrarMensaje('Por favor, proporciona un medio de contacto.', 'bot');
+            }
+        }
+    </script>
 </body>
 </html>

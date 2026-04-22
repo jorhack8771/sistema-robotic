@@ -1,0 +1,651 @@
+/* ============================
+   ESTILOS GENERALES
+   ============================ */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+  color: #2d2d2d;
+  margin: 0;
+  padding: 0;
+  font-size: 16px; /* Tamaño base */
+  line-height: 1.5; /* Mejorar legibilidad */
+}
+
+/* ============================
+   ENCABEZADO Y NAVEGACIÓN
+   ============================ */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navbar .logo img {
+  width: 35px;
+  height: auto;
+  display: block;
+}
+
+.nav-links {
+  display: flex;
+  gap: 10px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #1a2b6d;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.nav-links a:hover {
+  color: #2d5bff;
+}
+
+/* Menú Toggle (hamburguesa) */
+.menu-toggle {
+  display: none;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* Botones en el Navbar */
+.navbar .desktop-btn,
+.navbar .btn-primary {
+  display: inline-block !important;
+  width: auto !important;
+  padding: 10px 18px;
+  font-size: 0.95rem;
+  border-radius: 8px;
+  background-color: #2d5bff;
+  color: white;
+  font-weight: bold;
+  text-decoration: none;
+  transition: background-color 0.3s;
+}
+
+/* ============================
+   RESPONSIVIDAD PARA MÓVILES
+   ============================ */
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    background-color: #fff;
+    padding: 10px 0;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .desktop-btn {
+    display: none;
+  }
+
+  .navbar {
+    padding: 10px 15px;
+  }
+
+  .navbar .logo img {
+    width: 30px;
+  }
+
+  .nav-links a {
+    font-size: 0.75rem; /* Reducido el tamaño en móviles */
+    padding: 8px;
+  }
+
+  /* Ajustes en el footer para móviles */
+  .footer-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .footer-brand {
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+
+  .footer-title {
+    font-size: 0.75rem;
+  }
+
+  .footer-links a {
+    font-size: 0.75rem;
+  }
+
+  .footer-bottom p {
+    font-size: 0.65rem;
+  }
+
+  /* Ajustes para los botones */
+  .navbar .desktop-btn {
+    font-size: 0.75rem;
+    padding: 8px 12px;
+  }
+}
+
+/* ============================
+   FORMULARIO DE CONTACTO
+   ============================ */
+form {
+  display: flex;
+  flex-direction: column;
+}
+
+input, textarea {
+  padding: 12px;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 16px;
+  margin-bottom: 15px;
+}
+
+input:focus, textarea:focus {
+  outline: none;
+  border-color: #2d5bff;
+}
+
+button {
+  background-color: #2d5bff;
+  color: white;
+  padding: 12px 25px;
+  font-weight: bold;
+  border-radius: 8px;
+  cursor: pointer;
+  border: none;
+  transition: background-color 0.3s;
+  width: 100%;
+  max-width: 350px;
+  margin: 0 auto;
+}
+
+button:hover {
+  background-color: #1d47cc;
+}
+
+textarea {
+  resize: none;
+  min-height: 150px;
+}
+
+/* ============================
+   CARRUSEL
+   ============================ */
+.carousel-wrapper {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-content {
+  display: flex;
+  animation: marquee 20s linear infinite;
+  width: 100%;
+}
+
+.carousel-item {
+  width: 230px;
+  margin-right: 15px;
+  flex-shrink: 0;
+  border-radius: 10px;
+  padding: 15px;
+  background-color: #f9fafb;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: #333;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.carousel-item:hover {
+  background-color: #a7c7e7;
+  color: white;
+  transform: scale(1.05);
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-100%); }
+}
+
+/* ============================
+   VENTANA EMERGENTE / MODAL
+   ============================ */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background-color: #ffffff;
+  padding: 30px;
+  border-radius: 15px;
+  width: 350px;
+  text-align: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  animation: fadeIn 0.5s ease;
+}
+
+.modal-button {
+  background-color: #ff6347;
+  color: white;
+  padding: 15px 30px;
+  border-radius: 25px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: background-color 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* ============================
+   TIPO DE LETRA (Typewriter)
+   ============================ */
+.typewriter {
+  font-size: 2.5rem; /* En móvil te recomiendo usar 1.8rem o 2rem */
+  font-weight: 700;
+  display: inline; /* Cambiado de inline-block a inline para que respete el salto de línea */
+  white-space: normal; /* Permite que el texto baje al siguiente renglón */
+  border-right: 3px solid #333;
+  color: #2d5bff;
+  
+  /* Eliminamos la animación 'typing' de CSS porque ya la hace tu JavaScript */
+  animation: blink 0.75s step-end infinite;
+}
+
+@keyframes blink {
+  from, to { border-color: transparent }
+  50% { border-color: #333; }
+}
+
+/* Ajuste vital para móviles */
+@media (max-width: 640px) {
+  .typewriter {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+}
+/* ============================
+   FOOTER
+/* ============================ 
+   FOOTER REPARADO
+   ============================ */
+
+.footer-section {
+  background-color: #ffffff;
+  padding: 3rem 1.5rem 2rem;
+  /* Cambiamos la variable por un color sólido gris claro */
+  border-top: 1px solid #e5e7eb; 
+  font-family: 'Inter', sans-serif;
+}
+
+.footer-container {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+  margin-bottom: 2.5rem;
+}
+
+@media (min-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1.5fr 1fr 1fr;
+    align-items: start;
+  }
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.footer-logo-img {
+  width: 38px;
+}
+
+.footer-brand-name {
+  font-size: 1.5rem;
+  font-weight: 800;
+  /* Si la variable --dark-blue no funciona, usa #1d4ed8 */
+  color: #111827; 
+}
+
+.footer-title {
+  color: #2d5bff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 1.2rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-links a {
+  color: #4b5563;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.2s;
+}
+
+.footer-links a:hover {
+  color: #1d4ed8;
+}
+
+.footer-bottom {
+  /* Línea inferior sobre el copyright */
+  border-top: 1px solid #e5e7eb; 
+  padding-top: 1.5rem;
+  margin-top: 2rem;
+}
+
+.footer-bottom p {
+  color: #94a3b8;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@media (max-width: 767px) {
+  .footer-grid {
+    text-align: center;
+  }
+  .footer-brand {
+    justify-content: center;
+    margin-bottom: 1rem;
+  }
+  .footer-bottom {
+    text-align: center;
+  }
+}
+
+/* ============================
+   POLÍTICA DE PRIVACIDAD
+   ============================ */
+footer .privacy-policy a:hover {
+  color: #1d4ed8; /* El azul de tu marca */
+  text-decoration: underline;
+}
+
+/* ============================
+   TEXTO LEGAL (MEJORADO)
+   ============================ */
+.legal-section {
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  margin: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.legal-section p {
+  margin: 0;
+  color: #0f172a;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+}
+
+.legal-section a {
+  font-size: 14px;
+  transition: 0.2s ease;
+}
+
+.legal-section a:hover {
+  color: #1e40af;
+  text-decoration: underline;
+}
+
+/* ============================
+   MODAL BACKDROP (MEJORADO)
+   ============================ */
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+  z-index: 9999;
+}
+
+/* ============================
+   CONTENIDO MODAL (GLASS PRO)
+   ============================ */
+.modal-content {
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 30px 80px rgba(0,0,0,0.25), 0 1px 0 rgba(255,255,255,0.4) inset;
+  max-width: 920px;
+  width: 100%;
+  max-height: 88vh;
+  overflow-y: auto;
+  border-radius: 20px;
+  padding: 48px;
+  position: relative;
+  transform: translateY(0);
+  transition: all 0.25s ease;
+}
+
+.close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 22px;
+  cursor: pointer;
+  color: #64748b;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: 0.2s;
+}
+
+.close:hover {
+  background: #f1f5f9;
+  color: #0f172a;
+}
+/* Estilos Base del Modal */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.9);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    padding: 15px;
+    backdrop-filter: blur(5px);
+}
+
+.modal-card {
+    background: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 24px;
+    padding: 25px;
+    box-sizing: border-box;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+/* Control de Pasos */
+.step { display: none; width: 100%; }
+.step.active { display: block; animation: fadeIn 0.3s ease; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Tipografía y Títulos */
+.step-header-center { text-align: center; margin-bottom: 20px; }
+.protocol-shield { font-size: 3rem; margin-bottom: 10px; }
+.step-title { font-size: 1.4rem; font-weight: 800; color: #0f172a; margin: 0; }
+.step-badge { background: #e0f7fa; color: #00acc1; padding: 4px 10px; border-radius: 8px; font-size: 0.75rem; font-weight: 700; }
+
+/* Tarjetas de Protocolo */
+.protocol-container { display: flex; flex-direction: column; gap: 10px; margin-bottom: 20px; }
+.protocol-card { display: flex; align-items: center; background: #f8fafc; padding: 12px; border-radius: 14px; border: 1px solid #e2e8f0; }
+.protocol-icon { font-size: 1.4rem; margin-right: 12px; }
+.protocol-info { display: flex; flex-direction: column; text-align: left; }
+.protocol-info strong { font-size: 0.9rem; color: #0f172a; }
+.protocol-info span { font-size: 0.8rem; color: #64748b; }
+
+/* Botones Principales (Cyan) */
+.btn-main, .btn-submit {
+    width: 100%;
+    background: #22b8d1;
+    color: white;
+    padding: 15px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 700;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+    box-shadow: 0 4px 12px rgba(34, 184, 209, 0.2);
+}
+
+.btn-main:hover, .btn-submit:hover { background: #0891b2; transform: translateY(-2px); }
+
+/* Botones de Navegación */
+.btn-link, .btn-back {
+    background: none; border: none; color: #94a3b8; font-size: 0.9rem; font-weight: 600; cursor: pointer; width: 100%; margin-top: 5px;
+}
+.btn-back { text-align: left; margin-bottom: 10px; }
+
+/* Formulario */
+.modern-form { display: flex; flex-direction: column; gap: 12px; }
+.field { display: flex; flex-direction: column; gap: 4px; text-align: left; }
+.field label { font-size: 0.8rem; font-weight: 700; color: #64748b; margin-left: 5px; }
+.field input, .field textarea {
+    width: 100%; padding: 12px; border: 1px solid #e2e8f0; border-radius: 12px; font-size: 16px; box-sizing: border-box;
+}
+
+/* Captcha y Espera */
+.captcha-box { background: #f8fafc; border: 1px solid #e2e8f0; padding: 15px; border-radius: 12px; display: flex; justify-content: space-between; align-items: center; }
+.captcha-check { display: flex; align-items: center; gap: 10px; font-weight: 600; color: #475569; }
+.captcha-logo { width: 30px; }
+.loader-ring { width: 50px; height: 50px; border: 4px solid #f3f3f3; border-top: 4px solid #22b8d1; border-radius: 50%; animation: spin 1s infinite linear; margin: 0 auto 15px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+/* Pantalla de espera más elegante */
+#stepWaiting {
+    padding: 40px 10px;
+    text-align: center;
+}
+
+.loader-ring {
+    width: 65px;
+    height: 65px;
+    border: 5px solid #f1f5f9;
+    border-top: 5px solid #22b8d1; /* Tu Cyan */
+    border-radius: 50%;
+    animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite; /* Animación más fluida */
+    margin: 0 auto 25px;
+}
+
+.waiting-text h3 {
+    font-size: 1.3rem;
+    color: #0f172a;
+    margin-bottom: 10px;
+    letter-spacing: -0.5px;
+}
+
+.waiting-text p {
+    color: #64748b;
+    font-size: 0.95rem;
+    line-height: 1.5;
+}
+
+.waiting-text strong {
+    color: #22b8d1; /* Resalta Google Meet en Cyan */
+}
+.loader-ring {
+    width: 60px;
+    height: 60px;
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid #22b8d1; /* Tu color de marca */
+    border-radius: 50%;
+    animation: spin 1s infinite linear;
+    margin: 0 auto 20px;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+/* Estilo para el botón de Videoconferencia en el Navbar */
+.btn-videoconferencia {
+    background-color: #22b8d1; /* Tu Cyan de Robotic Nic */
+    color: white !important;   /* Texto blanco */
+    padding: 10px 24px;        /* Espaciado para que se vea como botón */
+    border-radius: 50px;       /* Bordes redondeados */
+    border: none;              /* Quita el borde gris por defecto de los botones */
+    font-weight: 700;          /* Letra negrita */
+    font-size: 0.9rem;
+    cursor: pointer;           /* Cambia el cursor a la mano */
+    transition: all 0.3s ease;
+    display: inline-block;
+    outline: none;
+}
+
+.btn-videoconferencia:hover {
+    background-color: #0891b2; /* Color más intenso al pasar el mouse */
+    box-shadow: 0 4px 15px rgba(34, 184, 209, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-videoconferencia:active {
+    transform: translateY(0);
+}

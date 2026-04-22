@@ -1,0 +1,836 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Robotic - Funciones</title>
+    <link rel="icon" type="image/png" href="favicon.PNG">
+<!-- Tailwind -->
+<script src="https://cdn.tailwindcss.com"></script>
+
+<!-- Font -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+<!-- CSS externo -->
+<link rel="stylesheet" href="funciones.css">
+
+ <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "SoftwareApplication",
+            "name": "Robotic Nic",
+            "description": "Soluciones de automatización inteligente, chatbots con IA y soporte técnico en Nicaragua.",
+            "applicationCategory": "BusinessApplication",
+            "operatingSystem": "Web, iOS, Android, WhatsApp",
+            "inLanguage": "es",
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "4.9",
+                "ratingCount": "120"
+            },
+            "offers": [
+                {
+                    "@type": "Offer",
+                    "name": "Demo Gratuita",
+                    "price": "0",
+                    "priceCurrency": "USD",
+                    "description": "7 días de prueba, 1 agente virtual activo."
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Starter",
+                    "price": "49.99",
+                    "priceCurrency": "USD",
+                    "description": "Ideal para pequeños negocios. Hasta 1 bot especializado."
+                },
+                {
+                    "@type": "Offer",
+                    "name": "Pro Business",
+                    "price": "119.99",
+                    "priceCurrency": "USD",
+                    "priceValidUntil": "2026-12-31",
+                    "description": "Automatización total. Hasta 2 bots trabajando 24/7."
+                }
+            ],
+            "featureList": [
+                "Chatbots con IA",
+                "Integración API Oficial WhatsApp",
+                "Sistemas a Medida",
+                "Flujos Automatizados n8n",
+                "Soporte Hardware y Redes"
+            ]
+        }
+    </script>
+
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebSite",
+            "url": "https://roboticnic.com",
+            "name": "Robotic Nic",
+            "hasPart": [
+                {
+                    "@type": "WebPage",
+                    "name": "Página Web",
+                    "url": "https://roboticnic.com/proyectoweb"
+                },
+                {
+                    "@type": "WebPage",
+                    "name": "Funciones",
+                    "url": "https://roboticnic.com/funcionalidades"
+                },
+                {
+                    "@type": "WebPage",
+                    "name": "Contacto",
+                    "url": "https://roboticnic.com/contacto"
+                }
+            ]
+        }
+    </script>
+
+</head>
+
+<body>
+
+<!-- =========================
+     HEADER
+========================= -->
+<!-- =========================
+     HEADER + MOBILE MENU
+========================= -->
+<header class="navbar">
+
+  <div class="logo">
+    <a href="index.html" style="text-decoration: none; display: flex; align-items: center; color: inherit;">
+        <img src="https://i.postimg.cc/rmY7f8pQ/Historia-para-Instagram-Robo-tica-Neo-n-Azul.png" alt="Logo">
+        <span>Robotic Nic</span>
+    </a>
+</div>
+
+    <!-- BOTÓN HAMBURGUESA (MÓVIL) -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <!-- NAV -->
+    <nav class="nav-links" id="navLinks">
+        <a href="FAQ.html">FAQ</a>
+        <a href="funcionalidades.html" class="active">Funciones</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="Bot.html">Bot | Live Demo</a>
+    </nav>
+
+    </div>
+
+ <button class="btn-videoconferencia" onclick="toggleModal(true)">
+        Videoconferencia
+    </button>
+</nav>
+</div>
+</header>
+
+<!-- =========================
+     VIDEO HERO
+========================= -->
+<section class="hero">
+
+    <div class="video-card">
+
+        <iframe
+            src="https://player.vimeo.com/video/1185032454?background=1&autoplay=1&muted=1&loop=1&title=0&byline=0&portrait=0"
+            allow="autoplay; fullscreen"
+            allowfullscreen>
+        </iframe>
+
+        <div class="overlay"></div>
+
+    </div>
+
+</section>
+
+
+<!-- =========================
+     CONTENIDO
+========================= -->
+<main class="container">
+
+<!-- TYPEWRITER HERO TEXT -->
+<div class="hero-title-wrapper">
+
+    <div class="hero-title">
+        <span id="typewriter"></span><span class="cursor">|</span>
+    </div>
+
+</div>
+
+<p class="subtitle">
+Sistema inteligente que automatiza tu negocio y responde clientes en segundos.
+</p>
+
+
+<!-- STATS -->
+ <section class="grid grid-cols-1 md:grid-cols-3 text-center gap-10 mb-20">
+
+        <div>
+            <h2 class="text-6xl font-bold">24/7</h2>
+            <p class="text-slate-500">Atención Ininterrumpida</p>
+        </div>
+
+        <div class="border-y md:border-y-0 md:border-x py-10 md:py-0 border-gray-200">
+            <h2 class="text-6xl font-bold">95%</h2>
+            <p class="text-slate-500">Respuestas Instantáneas</p>
+        </div>
+
+        <div>
+            <h2 class="text-6xl font-bold">+10k</h2>
+            <p class="text-slate-500">Chats Automatizados</p>
+        </div>
+
+    </section>
+
+       <!-- =======================
+         CARRUSEL LOGOS (SIN HUECOS)
+    ======================== -->
+ <div class="integration-slider-container">
+    <div class="animate-scroll flex-track">
+
+        <div class="slide-group">
+            <div class="capsule whatsapp">
+                <i class="fab fa-whatsapp"></i> Ventas 24/7
+            </div>
+            <div class="capsule nicaragua">
+                <i class="fas fa-map-marker-alt"></i> Managua, Nicaragua
+            </div>
+            <div class="capsule google">
+                <i class="fab fa-google"></i> Agendas Sincronizadas
+            </div>
+            <div class="capsule n8n">
+                <span class="bold">n8n</span> Flujos Inteligentes
+            </div>
+            <div class="capsule chatwoot">
+                <i class="fas fa-comments"></i> Omnicanalidad
+            </div>
+        </div>
+
+        <div class="slide-group">
+            <div class="capsule whatsapp">
+                <i class="fab fa-whatsapp"></i> Ventas 24/7
+            </div>
+            <div class="capsule nicaragua">
+                <i class="fas fa-map-marker-alt"></i> Managua, Nicaragua
+            </div>
+            <div class="capsule google">
+                <i class="fab fa-google"></i> Agendas Sincronizadas
+            </div>
+            <div class="capsule n8n">
+                <span class="bold">n8n</span> Flujos Inteligentes
+            </div>
+            <div class="capsule chatwoot">
+                <i class="fas fa-comments"></i> Omnicanalidad
+            </div>
+        </div>
+
+    </div>
+</div>
+
+    <!-- =========================
+     HEADER TEXT
+========================= -->
+<section class="py-20 px-6 max-w-6xl mx-auto">
+
+    <div class="mb-12">
+
+        <h2 class="text-4xl md:text-5xl font-bold mb-4 tracking-tight">
+            Impulsa tu éxito con <span class="text-blue-600">Robotic System</span>
+        </h2>
+
+        <p class="text-slate-500 text-lg">
+            Soluciones tecnológicas diseñadas para automatizar y escalar tu negocio.
+        </p>
+
+    </div>
+
+    <!-- =========================
+         GRID SERVICES
+    ========================= -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <div class="service-card p-6 rounded-2xl">
+            <span class="icon-tag text-[10px] font-bold py-1 px-3 rounded-full bg-slate-100 text-slate-500 uppercase">
+                Automatización
+            </span>
+            <h3 class="text-xl font-bold mt-4 mb-2">Bots Inteligentes</h3>
+            <p class="text-slate-500 text-sm">
+                Responde clientes 24/7, agenda citas y automatiza ventas.
+            </p>
+        </div>
+
+        <div class="service-card p-6 rounded-2xl">
+            <span class="icon-tag text-[10px] font-bold py-1 px-3 rounded-full bg-slate-100 text-slate-500 uppercase">
+                Web
+            </span>
+            <h3 class="text-xl font-bold mt-4 mb-2">Websites rápidos</h3>
+            <p class="text-slate-500 text-sm">
+                Sitios modernos optimizados para velocidad y conversión.
+            </p>
+        </div>
+
+        <div class="service-card p-6 rounded-2xl">
+            <span class="icon-tag text-[10px] font-bold py-1 px-3 rounded-full bg-slate-100 text-slate-500 uppercase">
+                Seguridad
+            </span>
+            <h3 class="text-xl font-bold mt-4 mb-2">Ciberseguridad</h3>
+            <p class="text-slate-500 text-sm">
+                Protección de datos y servidores profesionales.
+            </p>
+        </div>
+
+        <div class="service-card p-6 rounded-2xl">
+            <span class="icon-tag text-[10px] font-bold py-1 px-3 rounded-full bg-slate-100 text-slate-500 uppercase">
+                Crecimiento
+            </span>
+            <h3 class="text-xl font-bold mt-4 mb-2">Escalamiento digital</h3>
+            <p class="text-slate-500 text-sm">
+                Optimiza ventas y convierte más clientes.
+            </p>
+        </div>
+
+        <div class="service-card p-6 rounded-2xl">
+            <span class="icon-tag text-[10px] font-bold py-1 px-3 rounded-full bg-slate-100 text-slate-500 uppercase">
+                Soporte
+            </span>
+            <h3 class="text-xl font-bold mt-4 mb-2">Optimización sistemas</h3>
+            <p class="text-slate-500 text-sm">
+                Mantenimiento y rendimiento profesional.
+            </p>
+        </div>
+
+        <div class="service-card p-6 rounded-2xl">
+            <span class="icon-tag text-[10px] font-bold py-1 px-3 rounded-full bg-slate-100 text-slate-500 uppercase">
+                API
+            </span>
+            <h3 class="text-xl font-bold mt-4 mb-2">Integraciones</h3>
+            <p class="text-slate-500 text-sm">
+                Conecta sistemas, CRM y automatiza todo.
+            </p>
+        </div>
+
+    </div>
+
+</section>
+
+
+<div class="modal-overlay" id="modalAtencion">
+    <div class="modal-card">
+        
+        <div class="step active" id="stepProtocolo">
+            <div class="step-header-center">
+                <div class="protocol-shield">🛡️</div>
+                <h2 class="step-title">Protocolo de Sesión</h2>
+            </div>
+            
+            <div class="protocol-container">
+                <div class="protocol-card">
+                    <div class="protocol-icon">💡</div>
+                    <div class="protocol-info">
+                        <strong>Entorno</strong>
+                        <span>Use buena iluminación para la sesión.</span>
+                    </div>
+                </div>
+                <div class="protocol-card">
+                    <div class="protocol-icon">🎙️</div>
+                    <div class="protocol-info">
+                        <strong>Hardware</strong>
+                        <span>Cámara y micrófono son obligatorios.</span>
+                    </div>
+                </div>
+                <div class="protocol-card">
+                    <div class="protocol-icon">🔒</div>
+                    <div class="protocol-info">
+                        <strong>Privacidad</strong>
+                        <span>La sesión será grabada para auditoría.</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="protocol-actions">
+                <button type="button" class="btn-main" onclick="goToStep('stepForm')">Aceptar y Continuar</button>
+                <button type="button" class="btn-link" onclick="toggleModal(false)">Cerrar</button>
+            </div>
+        </div>
+
+        <div class="step" id="stepForm">
+            <button type="button" class="btn-back" onclick="goToStep('stepProtocolo')">← Volver</button>
+            
+            <div class="step-header">
+                <span class="step-badge">Paso 2 de 3</span>
+                <h2 class="step-title">Datos del Ticket</h2>
+            </div>
+
+            <form id="contactForm" class="modern-form">
+                <div class="field">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="inp_nombre" placeholder="Ej: Jordan Hernández" required>
+                </div>
+                <div class="field">
+                    <label>Correo Electrónico</label>
+                    <input type="email" id="inp_email" placeholder="usuario@correo.com" required>
+                </div>
+                <div class="field">
+                    <label>¿En qué podemos ayudarte?</label>
+                    <textarea id="inp_asunto" rows="3" placeholder="Describe tu consulta..." required></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Enviar y Validar →</button>
+            </form>
+        </div>
+
+        <div class="step" id="stepCaptcha">
+            <button type="button" class="btn-back" onclick="goToStep('stepForm')">← Corregir datos</button>
+            <div class="step-header">
+                <span class="step-badge">Paso 3 de 3</span>
+                <h2 class="step-title">Seguridad</h2>
+            </div>
+            <div class="captcha-box">
+                <div class="captcha-check">
+                    <input type="checkbox" id="robotCheck" onclick="validateCaptcha()">
+                    <label for="robotCheck">No soy un robot</label>
+                </div>
+                <img src="https://upload.wikimedia.org/wikipedia/commons/a/ad/RecaptchaLogo.svg" class="captcha-logo" alt="reCAPTCHA">
+            </div>
+        </div>
+
+        <div class="step" id="stepWaiting">
+            <div class="waiting-container">
+                <div class="loader-ring"></div>
+                <div class="waiting-text">
+                    <h3>Conectando...</h3>
+                    <p>Redirigiendo a <strong>Google Meet</strong></p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<section class="faq-section">
+    <div class="container">
+
+        <header class="section-header">
+            <h1 class="gradient-text">Preguntas Frecuentes</h1>
+            <p>Soluciones de ingeniería y automatización para el mundo moderno.</p>
+        </header>
+
+        <div class="faq-accordion">
+
+            <details>
+                <summary><span>¿Cómo operan sus sistemas de IA conversacional?</span></summary>
+                <div class="faq-content">
+                    <p>
+                        Nuestros sistemas entienden lenguaje natural, procesan archivos y mantienen contexto para respuestas humanas 24/7.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary><span>¿Por qué migrar a la API oficial de WhatsApp?</span></summary>
+                <div class="faq-content">
+                    <p>
+                        Ofrece seguridad, estabilidad, evita bloqueos y permite automatización profesional a gran escala.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary><span>¿Qué alcance tienen sus desarrollos a medida?</span></summary>
+                <div class="faq-content">
+                    <p>
+                        Creamos CRMs, dashboards, sistemas empresariales e integraciones completas con APIs modernas.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary><span>¿Cómo garantizan la ciberseguridad?</span></summary>
+                <div class="faq-content">
+                    <p>
+                        Usamos cifrado, monitoreo en tiempo real y hardening de servidores para máxima protección.
+                    </p>
+                </div>
+            </details>
+
+            <!-- NUEVAS PREGUNTAS -->
+
+            <details>
+                <summary><span>¿Cuánto tiempo toma implementar un sistema automatizado?</span></summary>
+                <div class="faq-content">
+                    <p>
+                        Depende del proyecto, pero la mayoría de sistemas básicos se entregan entre 3 y 10 días hábiles con configuración completa.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary><span>¿Puedo integrar el bot con mi página web o tienda online?</span></summary>
+                <div class="faq-content">
+                    <p>
+                        Sí, podemos integrar el sistema con cualquier sitio web, e-commerce o landing page sin afectar su rendimiento.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary><span>¿Necesito conocimientos técnicos para usar el sistema?</span></summary>
+                <div class="faq-content">
+                    <p>
+                        No. Todo el sistema está diseñado para ser administrado fácilmente sin necesidad de programación.
+                    </p>
+                </div>
+            </details>
+
+            <details>
+                <summary><span>¿Ofrecen soporte después de la implementación?</span></summary>
+                <div class="faq-content">
+                    <p>
+                        Sí, brindamos soporte técnico continuo, mantenimiento y mejoras para asegurar el correcto funcionamiento del sistema.
+                    </p>
+                </div>
+            </details>
+
+        </div>
+    </div>
+</section>
+
+
+<section class="audience-section-small">
+    <div class="container-small">
+        <h2 class="section-title-small">¿Para quién es Robotic System?</h2>
+        <p class="section-subtitle-small">Soluciones de automatización que se adaptan a tu escala.</p>
+        
+        <div class="audience-grid-small">
+            <div class="audience-card-small">
+                <span class="audience-tag-small">Emprendedores</span>
+                <h3>Atención 24/7 automática</h3>
+                <p>Responde preguntas, agenda citas y captura leads mientras descansas.</p>
+                <a href="#" class="audience-link-small">Empezar gratis →</a>
+            </div>
+
+            <div class="audience-card-small">
+                <span class="audience-tag-small">Agencias</span>
+                <h3>Chatbots como servicio</h3>
+                <p>Gestiona múltiples clientes desde una sola cuenta con marca blanca.</p>
+                <a href="#" class="audience-link-small">Ver plan Custom →</a>
+            </div>
+
+            <div class="audience-card-small">
+                <span class="audience-tag-small">Desarrolladores</span>
+                <h3>API & Integraciones</h3>
+                <p>Conecta con tu stack tecnológico mediante API REST y Webhooks.</p>
+                <a href="#" class="audience-link-small">Documentación →</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+ <footer class="footer-section">
+    <div class="footer-container">
+        
+        <div class="footer-grid">
+
+            <div class="footer-col branding">
+                <div class="footer-brand">
+                    <img src="https://i.postimg.cc/rmY7f8pQ/Historia-para-Instagram-Robo-tica-Neo-n-Azul.png" alt="Robotic Nic" class="footer-logo-img">
+                    <span class="footer-brand-name">Robotic Nic</span>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4 class="footer-title">ASISTENCIA</h4>
+                <ul class="footer-links">
+                    <li><a href="#">Soporte Técnico</a></li>
+                    <li><a href="#">Agendar Demo</a></li>
+                    <li><a href="https://wa.me/89106157">WhatsApp</a></li>
+                </ul>
+            </div>
+
+         <div class="footer-col">
+    <h4 class="footer-title">LEGAL</h4>
+    <ul class="footer-links">
+        <li>
+            <a href="https://drive.google.com/file/d/1m_tVboH9VbW5UxWs8cd7LY5EAF03UbuT/view?usp=sharing" 
+               download="Terminos_y_Condiciones_Robotic_Nic.pdf">
+               Términos y Condiciones
+            </a>
+     
+    <p>
+<a href="#" onclick="openModal(event)" class="privacy-link">
+    Política de Privacidad
+</a>
+</p>
+</div>
+
+<!-- MODAL -->
+<div class="modal" id="privacyModal">
+
+    <div class="modal-content">
+
+        <span class="close" onclick="closeModal()">&times;</span>
+
+        <h1>Política de Privacidad</h1>
+
+        <p><strong>Última actualización:</strong> 2026 · Robotic Nic</p>
+
+        <h2>1. Aceptación de los términos</h2>
+
+        <p>Al utilizar esta plataforma, el usuario acepta esta Política de Privacidad en su totalidad.</p>
+
+        <h2>2. Información que recopilamos</h2>
+
+        <p>
+            Podemos recopilar nombre, correo electrónico, número de teléfono, dirección IP,
+            ubicación aproximada, historial de uso, interacciones con chatbots y datos técnicos del dispositivo.
+        </p>
+
+        <h2>3. Uso de la información</h2>
+
+        <p>
+            Utilizamos los datos para operar la plataforma, mejorar la inteligencia artificial,
+            personalizar respuestas, brindar soporte y optimizar el rendimiento del sistema.
+        </p>
+
+        <h2>4. Seguridad de los datos</h2>
+
+        <p>
+            Aplicamos cifrado, firewalls, control de acceso y monitoreo continuo para proteger la información del usuario.
+            Ningún sistema es completamente invulnerable.
+        </p>
+
+        <h2>5. Compartición de información</h2>
+
+        <p>
+            No vendemos datos personales. Solo compartimos información con proveedores tecnológicos necesarios para el funcionamiento del sistema.
+        </p>
+
+        <h2>6. Cookies</h2>
+
+        <p>
+            Utilizamos cookies para mejorar la experiencia del usuario, análisis de tráfico y personalización del contenido.
+        </p>
+
+        <h2>7. Derechos del usuario</h2>
+
+        <p>
+            El usuario puede solicitar acceso, modificación o eliminación de sus datos personales en cualquier momento.
+        </p>
+
+        <h2>8. Retención de datos</h2>
+
+        <p>
+            Los datos se conservan solo el tiempo necesario para cumplir con fines del servicio o requerimientos legales.
+        </p>
+
+        <h2>9. Servicios de terceros</h2>
+
+        <p>
+            La plataforma puede integrar servicios externos como OpenAI, WhatsApp API y proveedores cloud.
+        </p>
+
+        <h2>10. Transferencia internacional</h2>
+
+        <p>
+            Los datos pueden procesarse en servidores fuera del país del usuario bajo estándares internacionales de protección.
+        </p>
+
+        <h2>11. Responsabilidad</h2>
+
+        <p>
+            El usuario es responsable del uso de la plataforma. No nos hacemos responsables por mal uso o configuraciones incorrectas.
+        </p>
+
+        <h2>12. Cambios en la política</h2>
+
+        <p>
+            Nos reservamos el derecho de actualizar esta política en cualquier momento sin previo aviso.
+        </p>
+
+        <h2>📱 WhatsApp: +505 8910 6157</h2>
+
+        <p>Soporte: roboticconsultores@gmail.com</p>
+
+        <!-- BOTÓN FINAL -->
+        <div style="text-align:center;margin-top:25px;">
+            <button onclick="closeModal()"
+                style="padding:10px 20px;border:none;border-radius:8px;background:#1d4ed8;color:white;cursor:pointer;">
+                Cerrar
+            </button>
+        </div>
+
+    </div>
+</div>
+
+
+</div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>© 2026 ROBOTIC NIC. TODOS LOS DERECHOS RESERVADOS.</p>
+        </div>
+
+    </div>
+</footer>
+
+</main>
+
+
+<!-- =========================
+     TYPEWRITER SCRIPT
+========================= -->
+<script>
+
+const textElement = document.getElementById("typewriter");
+
+const phrases = [
+    "Tu negocio no duerme, tu WhatsApp tampoco.",
+    "Convierte conversaciones en clientes mientras descansas."
+];
+
+let phraseIndex = 0;
+let charIndex = 0;
+let isDeleting = false;
+let speed = 90;
+
+function typeEffect() {
+
+    const current = phrases[phraseIndex];
+
+    if (!isDeleting) {
+        textElement.textContent = current.substring(0, charIndex + 1);
+        charIndex++;
+        speed = 90;
+    } else {
+        textElement.textContent = current.substring(0, charIndex - 1);
+        charIndex--;
+        speed = 50;
+    }
+
+    if (!isDeleting && charIndex === current.length) {
+        isDeleting = true;
+        speed = 2000;
+    }
+
+    if (isDeleting && charIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        speed = 500;
+    }
+
+    setTimeout(typeEffect, speed);
+}
+
+document.addEventListener("DOMContentLoaded", typeEffect);
+
+const menuToggle = document.getElementById("menuToggle");
+const navLinks = document.getElementById("navLinks");
+
+menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+});
+
+    // ==========================================
+    // 4. politica y privacida
+    // ==========================================
+ 
+function openModal(event) {
+    event.preventDefault();
+    document.getElementById("privacyModal").style.display = "flex";
+    document.body.style.overflow = "hidden";
+}
+
+function closeModal() {
+    document.getElementById("privacyModal").style.display = "none";
+    document.body.style.overflow = "auto";
+}
+
+/* opcional UX PRO: cerrar con ESC */
+document.addEventListener("keydown", function(e){
+    if (e.key === "Escape") {
+        closeModal();
+    }
+});
+
+// Configuración de Telegram
+const TELEGRAM_BOT_TOKEN = '8645980147:AAF3gnwpNAC8t8AuL7sXbSam2jm_nnJaAjg';
+const TELEGRAM_CHAT_ID = '8763247895';
+const URL_MEET = "https://meet.google.com/egd-dabj-qpj"; // Definida globalmente para evitar errores
+
+// 1. Función para cambiar entre pasos
+function goToStep(stepId) {
+    const steps = document.querySelectorAll('.step');
+    steps.forEach(s => s.classList.remove('active'));
+    
+    const nextStep = document.getElementById(stepId);
+    if (nextStep) {
+        nextStep.classList.add('active');
+    }
+}
+
+// 2. Manejo del Formulario
+document.getElementById('contactForm').onsubmit = async (e) => {
+    e.preventDefault();
+
+    const nombre = document.getElementById('inp_nombre').value;
+    const email = document.getElementById('inp_email').value;
+    const asunto = document.getElementById('inp_asunto').value;
+
+    // Mensaje corregido con la variable URL_MEET
+    const mensaje = `🚨 *NUEVO TICKET DE SOPORTE*\n\n` +
+                    `👤 *Nombre:* ${nombre}\n` +
+                    `📧 *Email:* ${email}\n` +
+                    `📝 *Asunto:* ${asunto}\n\n` +
+                    `🔗 *Enlace a la sala:* ${URL_MEET}`;
+
+    try {
+        const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                chat_id: TELEGRAM_CHAT_ID,
+                text: mensaje,
+                parse_mode: 'Markdown'
+            })
+        });
+
+        if (response.ok) {
+            goToStep('stepCaptcha');
+        } else {
+            throw new Error('Error en la respuesta de Telegram');
+        }
+
+    } catch (error) {
+        console.error("Error:", error);
+        alert("No se pudo enviar el ticket. Revisa tu conexión.");
+    }
+};
+
+// 3. Validación de Captcha y Redirección suave
+function validateCaptcha() {
+    const isHuman = document.getElementById('robotCheck').checked;
+
+    if (isHuman) {
+        goToStep('stepWaiting');
+
+        // Redirección con retraso para mejorar la experiencia
+        setTimeout(() => {
+            window.location.href = URL_MEET;
+        }, 2500);
+    }
+}
+
+function toggleModal(show) {
+    const modal = document.getElementById('modalAtencion');
+    if (modal) {
+        modal.style.display = show ? 'flex' : 'none';
+    }
+}
+
+</script>
+
+</body>
+</html>
