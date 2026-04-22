@@ -392,3 +392,36 @@
 @keyframes spin {
     to { transform: rotate(360deg); }
 }
+/* Control de visibilidad de botones */
+.mobile-only { display: none; }
+
+@media (max-width: 768px) {
+    .desktop-only { display: none; }
+    .mobile-only { 
+        display: block; 
+        width: 100%; 
+        margin-top: 15px; 
+        text-align: center;
+    }
+    
+    .nav-links {
+        display: none; /* Se oculta en móvil */
+        flex-direction: column;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: #fff;
+        padding: 20px;
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+    }
+
+    .nav-links.active {
+        display: flex; /* Se muestra al abrir la hamburguesa */
+    }
+}
+
+@media (min-width: 769px) {
+    .menu-toggle { display: none; }
+    .nav-links { display: flex !important; }
+}

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Robotic System | Expertos en Robotic Nic</title>
+   <title>Robotic System | Impulsa tu Negocio con Robotic Nicaragua</title>
 <meta name="description" content="Automatización inteligente en Nicaragua. Visita roboticnic.com para conocer nuestros bots.">
 
 <link rel="canonical" href="https://www.roboticnic.com/" />
@@ -16,40 +16,41 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="icon" type="image/png" href="favicon.PNG">
     <script type="application/ld+json">
-        {
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            "name": "Robotic Nic",
-            "description": "Soluciones de automatización inteligente, chatbots con IA y soporte técnico en Nicaragua.",
-            "applicationCategory": "BusinessApplication",
-            "operatingSystem": "Web, iOS, Android, WhatsApp",
-            "inLanguage": "es",
-            "aggregateRating": {
-                "@type": "AggregateRating",
-                "ratingValue": "4.9",
-                "ratingCount": "120"
-            },
-            {
+       
+       
+{
   "@context": "https://schema.org/",
   "@type": "SoftwareApplication",
   "name": "Robotic System",
   "alternateName": ["Robotic Nic", "Robotic Nicaragua", "Robotic Bot"],
+  "description": "Soluciones de automatización inteligente, chatbots con IA y soporte técnico en Nicaragua.",
   "applicationCategory": "BusinessApplication",
-  "operatingSystem": "Web",
-  "offers": [
-            "offers": [
-                {
-                    "@type": "Offer",
-                    "name": "Demo Gratuita",
-                    "price": "0",
-                    "priceCurrency": "USD",
-                    "description": "7 días de prueba, 1 agente virtual activo."
-                }
-            ],
-            "featureList": ["Chatbots con IA", "Integración API WhatsApp", "Sistemas a Medida", "Soporte Hardware"]
-        }
-        
-    </script>
+  "operatingSystem": "Web, iOS, Android, WhatsApp",
+  "inLanguage": "es",
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "120"
+  },
+  "offers": {
+    "@type": "Offer",
+    "name": "Demo Gratuita",
+    "price": "0",
+    "priceCurrency": "USD",
+    "description": "7 días de prueba, 1 agente virtual activo.",
+    "areaServed": {
+      "@type": "Country",
+      "name": "Nicaragua"
+    }
+  },
+  "featureList": [
+    "Chatbots con IA",
+    "Integración API WhatsApp",
+    "Sistemas a Medida",
+    "Soporte Hardware"
+  ]
+}
+</script>
 </head>
 
 <body class="bg-white">
@@ -60,17 +61,25 @@
                 <span>Robotic Nic</span>
             </a>
         </div>
-        <button class="menu-toggle md:hidden" id="menuToggle" aria-label="Toggle navigation">☰</button>
 
-        <nav class="nav-links md:flex" id="navLinks">
-            <a href="FAQ.html" class="active">FAQ</a>
-            <a href="funcionalidades.html">Funciones</a>
-            <a href="contacto.html">Contacto</a>
-            <a href="Bot.html">Bot | Live Demo</a>
-        </nav>
-       <button class="btn-videoconferencia" onclick="toggleModal(true)">
-        Videoconferencia
-    </button>
+        <div class="nav-container">
+            <nav class="nav-links" id="navLinks">
+                <a href="FAQ.html" class="active">FAQ</a>
+                <a href="funcionalidades.html">Funciones</a>
+                <a href="contacto.html">Contacto</a>
+                <a href="Bot.html">Bot | Live Demo</a>
+                
+                <button class="btn-videoconferencia mobile-only" onclick="toggleModal(true)">
+                    Videoconferencia
+                </button>
+            </nav>
+
+            <button class="btn-videoconferencia desktop-only" onclick="toggleModal(true)">
+                Videoconferencia
+            </button>
+
+            <button class="menu-toggle" id="menuToggle" aria-label="Toggle navigation">☰</button>
+        </div>
     </header>
 
     <main>

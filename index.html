@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Robotic System | Expertos en Robotic Nic</title>
+<title>Robotic System | Impulsa tu Negocio con Robotic Nicaragua</title>
 <meta name="description" content="Automatización inteligente en Nicaragua. Visita roboticnic.com para conocer nuestros bots.">
 
 <link rel="canonical" href="https://www.roboticnic.com/" />
@@ -93,34 +93,40 @@
     </script>
 
 <header class="flex items-center justify-between px-4 md:px-10 py-5 bg-white/80 backdrop-blur-md sticky top-0 z-50">
-
-  <div class="flex items-center gap-8"> <div class="flex items-center gap-4"> <img src="https://i.postimg.cc/rmY7f8pQ/Historia-para-Instagram-Robo-tica-Neo-n-Azul.png" 
+    <div class="flex items-center gap-4">
+        <img src="https://i.postimg.cc/rmY7f8pQ/Historia-para-Instagram-Robo-tica-Neo-n-Azul.png" 
              alt="Logo Robotic" 
-             class="h-14 md:h-16 w-auto object-contain">
-        
-     <div class="font-bold text-xl md:text-2xl text-[#1a2b6d] cursor-pointer" onclick="window.location.href='index.html'">
-    Robotic Nic 
-    </div>
-        
-    </div> </div> 
-     <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-600">
-    
-    <a href="FAQ.html" class="hover:text-blue-600 transition">FAQ</a>
-    
-    <a href="funcionalidades.html" class="hover:text-blue-600 transition">Funciones</a>
-    
-    <a href="contacto.html" class="hover:text-blue-600 transition">Contacto</a>
-    
-    <a href="Bot.html" class="hover:text-blue-600 font-bold transition">Bot | Live Demo</a>
-
-</nav>
+             class="h-12 md:h-16 w-auto object-contain">
+        <div class="font-bold text-xl md:text-2xl text-[#1a2b6d] cursor-pointer" onclick="window.location.href='index.html'">
+            Robotic Nic 
+        </div>
     </div>
 
- <button class="btn-videoconferencia" onclick="toggleModal(true)">
-        Videoconferencia
+    <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-slate-600">
+        <a href="FAQ.html" class="hover:text-blue-600 transition">FAQ</a>
+        <a href="funcionalidades.html" class="hover:text-blue-600 transition">Funciones</a>
+        <a href="contacto.html" class="hover:text-blue-600 transition">Contacto</a>
+        <a href="Bot.html" class="hover:text-blue-600 font-bold transition">Bot | Live Demo</a>
+        <button class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition" onclick="toggleModal(true)">
+            Videoconferencia
+        </button>
+    </nav>
+
+    <button id="menu-btn" class="md:hidden text-[#1a2b6d] focus:outline-none">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+        </svg>
     </button>
-</nav>
 
+    <div id="mobile-menu" class="hidden absolute top-full left-0 w-full bg-white border-t border-slate-100 p-5 flex-col gap-4 shadow-xl md:hidden flex">
+        <a href="FAQ.html" class="block py-2 text-slate-600 border-b">FAQ</a>
+        <a href="funcionalidades.html" class="block py-2 text-slate-600 border-b">Funciones</a>
+        <a href="contacto.html" class="block py-2 text-slate-600 border-b">Contacto</a>
+        <a href="Bot.html" class="block py-2 text-blue-600 font-bold border-b">Bot | Live Demo</a>
+        <button class="w-full bg-blue-600 text-white py-3 rounded-lg mt-2" onclick="toggleModal(true)">
+            Videoconferencia
+        </button>
+    </div>
 </header>
 
 <main class="max-w-6xl mx-auto px-4 md:px-6 pt-12 md:pt-20 pb-20">
@@ -1083,6 +1089,18 @@ function toggleModal(show) {
         modal.style.display = show ? 'flex' : 'none';
     }
 }
+
+const btn = document.getElementById('menu-btn');
+    const menu = document.getElementById('mobile-menu');
+
+    btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+    });
+
+    // Cerrar menú al hacer clic en un enlace (opcional)
+    document.querySelectorAll('#mobile-menu a').forEach(link => {
+        link.addEventListener('click', () => menu.classList.add('hidden'));
+    });
 </script>
 </body>
 </html>
