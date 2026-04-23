@@ -1369,47 +1369,68 @@ input, textarea {
 
 
 
+/* =========================
+   HEADER
+========================= */
+.ad-header{
+    text-align:center;
+    margin:25px 0 10px;
+    font-family:Arial;
+}
+
+.ad-header h2{
+    font-size:20px;
+    margin:0;
+    font-weight:700;
+    color:#111;
+}
+
+.ad-header a{
+    display:inline-block;
+    margin-top:10px;
+    padding:10px 16px;
+    background:#111;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    font-size:13px;
+    font-weight:600;
+}
 
 /* =========================
-   CONTENEDOR
+   CARRUSEL (1 ANUNCIO)
 ========================= */
 .ads-carousel{
     width:100%;
-    overflow:hidden;
     display:flex;
     justify-content:center;
     margin:20px 0;
 }
 
-/* =========================
-   TRACK
-========================= */
 .ads-track{
-    display:flex;
-    flex-wrap:nowrap;
-    will-change: transform;
-}
-
-/* =========================
-   BANNER
-========================= */
-.ad-card{
-    flex:0 0 auto;
-    width:1024px;
-    height:100px;
-
+    width:728px;
+    max-width:100%;
+    height:90px;
     position:relative;
     overflow:hidden;
-    border-radius:12px;
-
-    box-shadow:0 8px 20px rgba(0,0,0,0.25);
-    cursor:pointer;
-
-    /* 🔥 SEPARACIÓN REAL (IMPORTANTE) */
-    margin-right:16px;
 }
 
-/* MEDIA */
+/* SOLO 1 ACTIVO */
+.ad-card{
+    position:absolute;
+    inset:0;
+    opacity:0;
+    transition:opacity 0.5s ease;
+    cursor:pointer;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 8px 20px rgba(0,0,0,0.25);
+}
+
+.ad-card.active{
+    opacity:1;
+}
+
 .ad-media{
     position:absolute;
     inset:0;
@@ -1420,76 +1441,113 @@ input, textarea {
     width:100%;
     height:100%;
     object-fit:cover;
-}
-
-/* OVERLAY */
-.ad-overlay{
-    position:absolute;
-    inset:0;
-
-    display:flex;
-    align-items:center;
-    padding:14px 20px;
-
-    background:linear-gradient(
-        90deg,
-        rgba(0,0,0,0.85),
-        rgba(0,0,0,0.45),
-        rgba(0,0,0,0.05)
-    );
-}
-
-/* TEXT */
-.ad-text{
-    color:white;
-    max-width:70%;
-}
-
-.ad-label{
-    font-size:10px;
-    letter-spacing:2px;
-    opacity:0.7;
-}
-
-.ad-title{
-    font-size:18px;
-    font-weight:900;
-    margin-top:2px;
-}
-
-.ad-sub{
-    font-size:12px;
-    opacity:0.85;
-}
-
-/* BUTTON */
-.ad-btn{
-    margin-left:auto;
-    padding:8px 14px;
-    background:white;
-    color:black;
-    font-size:12px;
-    font-weight:700;
-    border-radius:20px;
+    object-position:center;
 }
 
 /* =========================
-   RESPONSIVE
+   MODAL
 ========================= */
-@media(max-width:1100px){
-    .ad-card{
-        width:95vw;
-        height:100px;
-    }
+.ad-modal{
+    position:fixed;
+    inset:0;
+    display:none;
+    background:rgba(0,0,0,0.75);
+    justify-content:center;
+    align-items:center;
+    z-index:9999;
+    padding:20px;
 }
 
-.ads-track{
+.ad-modal-content{
+    width:100%;
+    max-width:480px;
+    background:#fff;
+    border-radius:12px;
+    overflow:hidden;
+    position:relative;
+}
+
+.ad-close{
+    position:absolute;
+    top:10px;
+    right:10px;
+    width:34px;
+    height:34px;
     display:flex;
-    flex-wrap:nowrap;
-    will-change: transform;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,0.7);
+    color:#fff;
+    border-radius:50%;
+    cursor:pointer;
+    font-size:18px;
+    z-index:2;
 }
 
-.ad-card{
-    flex:0 0 auto;
-    margin-right:16px;
+/* MEDIA MODAL */
+.ad-modal img,
+.ad-modal video{
+    width:100%;
+    height:220px;
+    object-fit:cover;
+    object-position:center; /* 🔥 CENTRADO VIDEO */
+    display:block;
+}
+
+.ad-modal-body{
+    padding:15px;
+    font-family:Arial;
+}
+
+.ad-modal-body h3{
+    margin:0;
+    font-size:18px;
+}
+
+.ad-modal-body p{
+    margin:6px 0 12px;
+    font-size:13px;
+    opacity:0.75;
+}
+
+.ad-contact-btn{
+    display:inline-block;
+    padding:10px 14px;
+    background:#111;
+    color:#fff;
+    text-decoration:none;
+    border-radius:8px;
+    font-size:13px;
+}
+
+/* =========================
+   RESPONSIVE MOBILE FIX
+========================= */
+@media(max-width:768px){
+
+    .ads-track{
+        width:100%;
+        height:90px;
+    }
+
+    .ad-modal-content{
+        width:95%;
+        max-width:95%;
+    }
+
+    .ad-modal img,
+    .ad-modal video{
+        height:200px;
+        object-fit:cover;
+        object-position:center;
+    }
+
+    .ad-header h2{
+        font-size:18px;
+    }
+
+    .ad-header a{
+        font-size:12px;
+        padding:8px 12px;
+    }
 }
