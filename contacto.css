@@ -566,3 +566,79 @@ footer .privacy-policy a:hover {
 .mobile-only { display: none; }
 .nav-container { display: flex; align-items: center; gap: 15px; }
 
+/* ============================
+   RESPONSIVIDAD PARA MÓVILES
+   ============================ */
+@media (max-width: 768px) {
+    
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 70px;
+        padding: 0 15px;
+        position: relative;
+        z-index: 1000;
+        background: white;
+    }
+
+    /* Manejo de visibilidad de botones */
+    .desktop-only { 
+        display: none !important; 
+    }
+
+    .mobile-only {
+        display: block !important; /* Ahora sí se verá arriba */
+        background-color: #40bad0;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: bold;
+        white-space: nowrap;
+    }
+
+    /* El contenedor de los elementos de la derecha */
+    .nav-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    /* Menú Desplegable (Los enlaces) */
+    .nav-links {
+        display: none; /* Se activa con la clase .active */
+        flex-direction: column;
+        position: absolute;
+        top: 70px; /* Altura del navbar */
+        left: 0;
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+        padding: 10px 0;
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        display: flex !important;
+    }
+
+    .nav-links a {
+        padding: 15px;
+        text-align: center;
+        border-bottom: 1px solid #eee;
+        width: 100%;
+        color: #1a2b6d;
+    }
+.menu-toggle {
+    display: block !important;
+    background: transparent !important; /* Quita el color azul */
+    border: none !important;            /* Quita cualquier borde */
+    color: #333 !important;             /* Color de la X (pon el que gustes) */
+    font-size: 28px;
+    cursor: pointer;
+    padding: 0;                         /* Quita espacios internos que agrandan la caja */
+    line-height: 1;                     /* Centra la X verticalmente */
+    outline: none;                      /* Quita el borde de enfoque al hacer clic */
+}

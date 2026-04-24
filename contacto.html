@@ -430,28 +430,23 @@
             type();
         });
 
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
+      const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
 
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-        });
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
 
-        function openModal(event) {
-            event.preventDefault();
-            document.getElementById("privacyModal").style.display = "block";
-        }
+    const isOpen = navLinks.classList.contains('active');
+    menuToggle.textContent = isOpen ? '✕' : '☰';
+});
 
-        function closeModal() {
-            document.getElementById("privacyModal").style.display = "none";
-        }
-        
-        window.onclick = function(event) {
-            if (event.target == document.getElementById("privacyModal")) {
-                closeModal();
-            }
-        }
+// cerrar al hacer click en link (UX PRO)
+document.querySelectorAll('#navLinks a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuToggle.textContent = '☰';
+    });
+});
         // Configuración de Telegram
 const TELEGRAM_BOT_TOKEN = '8645980147:AAF3gnwpNAC8t8AuL7sXbSam2jm_nnJaAjg';
 const TELEGRAM_CHAT_ID = '8763247895';

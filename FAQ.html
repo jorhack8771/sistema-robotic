@@ -360,17 +360,52 @@
             });
         });
 
-        // Menú Hamburguesa
-        const menuToggle = document.getElementById('menuToggle');
-        const navLinks = document.getElementById('navLinks');
-        menuToggle.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-            menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
-        });
+   // Menú Hamburguesa
+const menuToggle = document.getElementById('menuToggle');
+const navLinks = document.getElementById('navLinks');
 
-        function openModal(e) { e.preventDefault(); document.getElementById('privacyModal').style.display = 'block'; }
-        function closeModal() { document.getElementById('privacyModal').style.display = 'none'; }
+menuToggle.addEventListener('click', () => {
+    navLinks.classList.toggle('active');
 
+    // Cambiar icono
+    menuToggle.textContent = navLinks.classList.contains('active') ? '✕' : '☰';
+});
+
+// 🔥 Cerrar menú al hacer click en cualquier link
+document.querySelectorAll('#navLinks a').forEach(link => {
+    link.addEventListener('click', () => {
+        navLinks.classList.remove('active');
+        menuToggle.textContent = '☰';
+    });
+});
+
+// 🔥 Cerrar menú si el usuario hace click fuera
+document.addEventListener('click', (e) => {
+    const isClickInside = navLinks.contains(e.target) || menuToggle.contains(e.target);
+
+    if (!isClickInside && navLinks.classList.contains('active')) {
+        navLinks.classList.remove('active');
+        menuToggle.textContent = '☰';
+    }
+});
+
+// 🔥 Reset automático si pasa a desktop
+window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+        navLinks.classList.remove('active');
+        menuToggle.textContent = '☰';
+    }
+});
+
+// Modal privacidad
+function openModal(e) {
+    e.preventDefault();
+    document.getElementById('privacyModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('privacyModal').style.display = 'none';
+}
         // Configuración de Telegram
 const TELEGRAM_BOT_TOKEN = '8645980147:AAF3gnwpNAC8t8AuL7sXbSam2jm_nnJaAjg';
 const TELEGRAM_CHAT_ID = '8763247895';
