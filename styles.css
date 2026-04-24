@@ -1683,3 +1683,13 @@ input, textarea {
         padding:8px 12px;
     }
 }
+.anuncio-card {
+    background: white;
+    border: 1px solid #e2e8f0; /* Color borde igual que las otras */
+    border-radius: 1rem;       /* Redondeo igual */
+    padding: 1.5rem;           /* Espaciado interno */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
