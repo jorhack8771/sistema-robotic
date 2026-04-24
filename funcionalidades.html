@@ -3,9 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Robotic Nicaragua | Especialistas en Chatbots, IA y Automatización</title>
-<meta name="description" content="Robotic Nicaragua: Líderes en desarrollo de Chatbots para WhatsApp, automatización con IA y soluciones robóticas a medida en Managua. ¡Digitaliza tu empresa hoy!">
-<link rel="canonical" href="https://www.roboticnic.com/" />
+<title>Robotic - Funciones</title>
     <link rel="icon" type="image/png" href="favicon.PNG">
 <!-- Tailwind -->
 <script src="https://cdn.tailwindcss.com"></script>
@@ -17,42 +15,6 @@
 <link rel="stylesheet" href="funciones.css">
 
  <script type="application/ld+json">
-
-    {
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "Robotic Nicaragua",
-  "url": "https://www.roboticnic.com/",
-  "logo": "https://www.roboticnic.com/favicon.PNG",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "contactType": "customer service",
-    "areaServed": "NI",
-    "availableLanguage": "Spanish"
-  },
-  "sameAs": [
-    "https://www.facebook.com/share/1Bku8eoxc6/?mibextid=wwXIfr"
-  ]
-}
-
-        {
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Robotic Nicaragua",
-  "url": "https://www.roboticnic.com/",
-  "description": "Especialistas en IA, Chatbots para WhatsApp y automatización de negocios en Managua.",
-  "areaServed": "Nicaragua",
-  "telephone": "+50589106157",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Managua",
-    "addressCountry": "NI"
-  },
-  "sameAs": [
-    "https://www.facebook.com/share/1Bku8eoxc6/?mibextid=wwXIfr"
-  ]
-}
-
         {
             "@context": "https://schema.org",
             "@type": "SoftwareApplication",
@@ -137,31 +99,32 @@
      HEADER + MOBILE MENU
 ========================= -->
 <header class="navbar">
-    <div class="logo">
-        <a href="index.html" style="text-decoration: none; display: flex; align-items: center; color: inherit;">
-            <img src="https://i.postimg.cc/rmY7f8pQ/Historia-para-Instagram-Robo-tica-Neo-n-Azul.png" alt="Logo">
-            <span>Robotic Nic</span>
-        </a>
+
+  <div class="logo">
+    <a href="index.html" style="text-decoration: none; display: flex; align-items: center; color: inherit;">
+        <img src="https://i.postimg.cc/rmY7f8pQ/Historia-para-Instagram-Robo-tica-Neo-n-Azul.png" alt="Logo">
+        <span>Robotic Nic</span>
+    </a>
+</div>
+
+    <!-- BOTÓN HAMBURGUESA (MÓVIL) -->
+    <button class="menu-toggle" id="menuToggle">☰</button>
+
+    <!-- NAV -->
+    <nav class="nav-links" id="navLinks">
+        <a href="FAQ.html">FAQ</a>
+        <a href="funcionalidades.html" class="active">Funciones</a>
+        <a href="contacto.html">Contacto</a>
+        <a href="Bot.html">Bot | Live Demo</a>
+    </nav>
+
     </div>
 
-    <div class="nav-container">
-        <nav class="nav-links" id="navLinks">
-            <a href="FAQ.html">FAQ</a>
-            <a href="funcionalidades.html" class="active">Funciones</a>
-            <a href="contacto.html">Contacto</a>
-            <a href="Bot.html">Bot | Live Demo</a>
-            
-            <button class="btn-videoconferencia mobile-only" onclick="toggleModal(true)">
-                Videoconferencia
-            </button>
-        </nav>
-
-        <button class="btn-videoconferencia desktop-only" onclick="toggleModal(true)">
-            Videoconferencia
-        </button>
-
-        <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
-    </div>
+ <button class="btn-videoconferencia" onclick="toggleModal(true)">
+        Videoconferencia
+    </button>
+</nav>
+</div>
 </header>
 
 <!-- =========================

@@ -1367,7 +1367,139 @@ input, textarea {
 }
 
 
+/* =========================
+   CONTENEDOR
+========================= */
+.ads-carousel{
+    width:100%;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    margin:20px 0;
+}
 
+/* =========================
+   TRACK (CARRUSEL)
+========================= */
+.ads-track{
+    display:flex;
+    flex-wrap:nowrap;
+    will-change: transform;
+    gap:0; /* 🔥 controlado manualmente */
+}
+
+/* =========================
+   BANNER BASE (PIXEL PERFECT)
+========================= */
+.ad-card{
+    flex:0 0 auto;
+
+    /* 🔥 tamaño estándar moderno (mejor que 1024 fijo) */
+    width:728px;
+    max-width:100%;
+    height:90px;
+
+    position:relative;
+    overflow:hidden;
+    border-radius:12px;
+
+    box-shadow:0 8px 20px rgba(0,0,0,0.25);
+    cursor:pointer;
+
+    /* separación controlada */
+    margin-right:16px;
+
+    box-sizing:border-box;
+}
+
+/* =========================
+   MEDIA (IMAGEN / VIDEO)
+========================= */
+.ad-media{
+    position:absolute;
+    inset:0;
+}
+
+.ad-media img,
+.ad-media video{
+    width:100%;
+    height:100%;
+
+    object-fit:cover;
+    object-position:center;
+}
+
+/* =========================
+   OVERLAY
+========================= */
+.ad-overlay{
+    position:absolute;
+    inset:0;
+
+    display:flex;
+    align-items:center;
+
+    padding:12px 16px;
+
+    background:linear-gradient(
+        90deg,
+        rgba(0,0,0,0.85),
+        rgba(0,0,0,0.45),
+        rgba(0,0,0,0.05)
+    );
+}
+
+/* =========================
+   TEXTOS
+========================= */
+.ad-text{
+    color:white;
+    max-width:70%;
+}
+
+.ad-label{
+    font-size:9px;
+    letter-spacing:2px;
+    opacity:0.75;
+}
+
+.ad-title{
+    font-size:16px;
+    font-weight:900;
+    margin-top:2px;
+}
+
+.ad-sub{
+    font-size:11px;
+    opacity:0.85;
+}
+
+/* =========================
+   BOTÓN
+========================= */
+.ad-btn{
+    margin-left:auto;
+
+    padding:6px 12px;
+    background:white;
+    color:black;
+
+    font-size:11px;
+    font-weight:700;
+
+    border-radius:20px;
+}
+
+/* =========================
+   RESPONSIVE (MÓVIL)
+========================= */
+@media(max-width:1100px){
+
+    .ad-card{
+        width:95vw;
+        height:90px;
+    }
+}
 
 /* =========================
    HEADER
