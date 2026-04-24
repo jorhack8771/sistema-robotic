@@ -1,5 +1,13 @@
 body {
     font-family: 'Inter', sans-serif;
+
+    background-color: #ffffff;
+
+    background-image: 
+        linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+
+    background-size: 32px 32px;
 }
 
 .grid-bg {
@@ -1692,4 +1700,27 @@ input, textarea {
     flex-direction: column;
     justify-content: space-between;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+/* Esto va en tu archivo CSS o dentro de <style> */
+.robotic-bg-grid {
+    background-color: #f8fafc; /* Color de fondo base */
+    background-image: 
+        linear-gradient(to right, #e2e8f0 1px, transparent 1px),
+        linear-gradient(to bottom, #e2e8f0 1px, transparent 1px);
+    background-size: 40px 40px;
+}
+
+.team-section {
+    background-color: #f8fafc;
+    background-image: 
+        linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 32px 32px;
+}
+.team-section {
+    background-color: #f9fafb;
+    background-image: 
+        linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
+    background-size: 32px 32px;
 }
