@@ -1718,9 +1718,13 @@ input, textarea {
     background-size: 32px 32px;
 }
 .team-section {
-    background-color: #f9fafb;
-    background-image: 
-        linear-gradient(to right, rgba(0,0,0,0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0,0,0,0.03) 1px, transparent 1px);
-    background-size: 32px 32px;
+    /* Fondo base */
+    background-color: #ffffff;
+
+    /* Gradiente sutil de arriba hacia abajo para dar profundidad */
+    background: linear-gradient(180deg, rgba(240, 245, 255, 0.6) 0%, rgba(255, 255, 255, 1) 100%),
+                linear-gradient(to right, rgba(15, 23, 42, 0.05) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(15, 23, 42, 0.05) 1px, transparent 1px);
+    
+    background-size: 100% 100%, 32px 32px, 32px 32px;
 }
