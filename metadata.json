@@ -1,0 +1,6 @@
+{
+  "name": "Robotic Latam",
+  "description": "Robotic Latam: Líderes en desarrollo de Chatbots para WhatsApp, automatización con IA y soluciones robóticas a medida en Managua. ¡Digitaliza tu empresa hoy!",
+  "requestFramePermissions": ["camera", "microphone", "geolocation"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

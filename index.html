@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Robotic Latam</title>
+  <meta name="description" content="Robotic Latam: Líderes en desarrollo de Chatbots para WhatsApp, automatización con IA y soluciones robóticas a medida en Managua. ¡Digitaliza tu empresa hoy!">
+  
+  <!-- Open Graph / WhatsApp Preview Meta Tags -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://www.roboticnic.com/">
+  <meta property="og:title" content="Robotic Latam">
+  <meta property="og:description" content="Líderes en desarrollo de Chatbots para WhatsApp, automatización con IA y soluciones robóticas a medida. ¡Digitaliza tu empresa hoy!">
+  <meta property="og:image" content="https://www.roboticnic.com/robotic.jpeg">
+  <meta property="og:image:secure_url" content="https://www.roboticnic.com/robotic.jpeg">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:site_name" content="Robotic Latam">
+
+  <!-- Twitter Meta Tags (Fallback para algunas redes) -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://www.roboticnic.com/">
+  <meta name="twitter:title" content="Robotic Latam">
+  <meta name="twitter:description" content="Líderes en desarrollo de Chatbots para WhatsApp, automatización con IA y soluciones robóticas a medida. ¡Digitaliza tu empresa hoy!">
+  <meta name="twitter:image" content="https://www.roboticnic.com/robotic.jpeg">
+
+  <link rel="icon" type="image/png" href="./robotic.jpeg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,600;0,700;0,800;0,900;1,400&display=swap" rel="stylesheet">
+  
+  <!-- CSS unificado de la app -->
+  <style>
+    /* Aumento global de tamaño de letra (escala rem de Tailwind) */
+    html {
+      font-size: 16.6px !important; /* +0.6px de aumento sutil en la base global */
+    }
+    
+    /* Prevenir que SVG o iconos se rompan */
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+
+    /* Ocultar elementos de Google Translate para mantener el diseño limpio */
+    .goog-te-banner-frame.skiptranslate {
+      display: none !important;
+    }
+    body {
+      top: 0px !important;
+    }
+    #goog-gt-tt {
+      display: none !important;
+    }
+  </style>
+
+  <link rel="stylesheet" href="./styles.css?v=5">
+
+  <!-- React Vanilla CDNs -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+
+  <!-- Google reCAPTCHA v3 -->
+  <script src="https://www.google.com/recaptcha/api.js?render=6LdRSY0tAAAAAOCZl8HlmlTC9fYfi2CQtpTgd6Da"></script>
+  <script>
+    window.getRecaptchaToken = async function() {
+      const siteKey = '6LdRSY0tAAAAAOCZl8HlmlTC9fYfi2CQtpTgd6Da'; 
+      return new Promise((resolve) => {
+        // Fallback timeout in case reCAPTCHA fails to load (e.g., domain not authorized)
+        const timeout = setTimeout(() => {
+          resolve('');
+        }, 3000);
+
+        try {
+          if (typeof grecaptcha === 'undefined') {
+            clearTimeout(timeout);
+            return resolve('');
+          }
+          grecaptcha.ready(function() {
+            try {
+              grecaptcha.execute(siteKey, {action: 'submit'})
+              .then(function(token) {
+                clearTimeout(timeout);
+                resolve(token);
+              })
+              .catch(function(err) {
+                clearTimeout(timeout);
+                // Usamos warn en lugar de error para evitar falsas alarmas de crash en la consola
+                console.warn('reCAPTCHA aviso (dominio no verificado):', err);
+                resolve(''); 
+              });
+            } catch (executeErr) {
+              clearTimeout(timeout);
+              console.warn('reCAPTCHA no pudo ejecutarse (dominio no verificado):', executeErr);
+              resolve('');
+            }
+          });
+        } catch (e) {
+          clearTimeout(timeout);
+          resolve('');
+        }
+      });
+    };
+  </script>
+
+  <!-- Google Translate Script -->
+  <div id="google_translate_element" style="display: none;"></div>
+  <script type="text/javascript">
+    function googleTranslateElementInit() {
+      new google.translate.TranslateElement({pageLanguage: 'es', includedLanguages: 'es,en', autoDisplay: false}, 'google_translate_element');
+    }
+  </script>
+  <script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+  <!-- SweetAlert2 for beautiful modals -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script>
+    window.showCustomLoading = function() {
+      Swal.fire({
+        title: 'Procesando...',
+        text: 'Por favor, espera un momento.',
+        allowOutsideClick: false,
+        didOpen: () => {
+          Swal.showLoading();
+        }
+      });
+    };
+
+    window.showCustomSuccess = function() {
+      Swal.fire({
+        title: '¡Enviado exitosamente!',
+        text: 'Gracias, nos pondremos en contacto lo más pronto posible.',
+        imageUrl: './robotic.jpeg',
+        imageWidth: 100,
+        imageHeight: 100,
+        imageAlt: 'Logo Robotic',
+        confirmButtonColor: '#0A3E62',
+        timer: 4000,
+        customClass: {
+          image: 'object-contain'
+        }
+      });
+    };
+  </script>
+</head>
+<body class="bg-white text-slate-900 grid-bg overflow-x-hidden">
+  <div id="root"></div>
+
+  <!-- Script Transpilado 100% Funcional (Contiene toda la logica Vanilla JS y UI intacta) -->
+  <script src="./app.js?v=16"></script>
+
+  <!-- BuilderBot Chat Widget -->
+  <script
+    src="https://cdn.builderbot.cloud/sdk.umd.js"
+    data-builderbot-chat
+    data-id="dcc5ee3c-cd98-4474-b009-f7d1c5233236"
+    data-company="LATAM ROBI"
+    data-avatar-src="./bot-avatar-centered.png"
+    data-avatar-initials="RB"
+    data-theme-config='{"colors":{"primary":"#0A3E62","accent":"#0A3E62","sendButton":"#0A3E62","sendButtonHover":"#072c46","text":"#111827","textSecondary":"#6B7280","background":"#FFFFFF","backgroundChat":"#F9FAFB","userMessageBg":"rgba(10,62,98,0.10)","userMessageText":"#0A3E62","agentMessageBg":"#F3F4F6","agentMessageText":"#111827","border":"#E5E7EB","hover":"rgba(10,62,98,0.08)","timestamp":"#9CA3AF","icon":"#6B7280","inputBackground":"#FFFFFF","inputPlaceholder":"#9CA3AF"},"spacing":{"borderRadius":"16px","messageBorderRadius":"12px"}}'
+  ></script>
+  <style>
+    chat-widget-button .chat-widget-button {
+      padding: 0 !important;
+      overflow: hidden !important;
+      border-radius: 50% !important;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important;
+    }
+    chat-widget-button .icon-wrapper {
+      width: 100% !important;
+      height: 100% !important;
+      display: flex !important;
+      align-items: center !important;
+      justify-content: center !important;
+      border-radius: 50% !important;
+      overflow: hidden !important;
+    }
+    .custom-bot-avatar-btn {
+      width: 100% !important;
+      height: 100% !important;
+      object-fit: cover !important;
+      object-position: center !important;
+      border-radius: 50% !important;
+      display: block !important;
+      transform: scale(1.05);
+    }
+  </style>
+  <script>
+    (function() {
+      const avatarUrl = './bot-avatar-centered.png';
+      function updateAvatars() {
+        // Update header & message avatars
+        const avatars = document.querySelectorAll('chat-avatar, [data-builderbot-chat-avatar]');
+        avatars.forEach(el => {
+          if (el.shadowRoot) {
+            const img = el.shadowRoot.querySelector('.avatar-image');
+            const initials = el.shadowRoot.querySelector('.avatar-initials');
+            if (img) {
+              if (img.getAttribute('src') !== avatarUrl && !img.src.endsWith('bot-avatar-centered.png')) {
+                img.src = avatarUrl;
+              }
+              img.style.display = 'block';
+              img.style.objectFit = 'cover';
+              img.style.objectPosition = 'center';
+              img.style.width = '100%';
+              img.style.height = '100%';
+              img.style.borderRadius = '50%';
+            }
+            if (initials) {
+              initials.style.display = 'none';
+            }
+          }
+        });
+
+        // Update floating chat widget button avatar
+        const widgetBtns = document.querySelectorAll('chat-widget-button');
+        widgetBtns.forEach(btn => {
+          const isOpen = btn.hasAttribute('is-open');
+          const iconWrapper = btn.querySelector('.icon-wrapper');
+          if (iconWrapper) {
+            if (!isOpen) {
+              let customImg = iconWrapper.querySelector('.custom-bot-avatar-btn');
+              if (!customImg) {
+                iconWrapper.innerHTML = `<img src="${avatarUrl}" class="custom-bot-avatar-btn" alt="Avatar" />`;
+              }
+            }
+          }
+        });
+      }
+
+      const observer = new MutationObserver(() => updateAvatars());
+      observer.observe(document.body, { childList: true, subtree: true });
+      setInterval(updateAvatars, 400);
+      window.addEventListener('load', updateAvatars);
+    })();
+  </script>
+</body>
+</html>
