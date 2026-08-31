@@ -1,4 +1,4 @@
-// Robotic Latam - Professional Cookie Consent & Real-Time Agent Notification Engine (2026)
+// Robotic Latam - Professional Cookie Consent & Presence-Aware Notification Engine (2026)
 (function () {
   'use strict';
 
@@ -9,8 +9,10 @@
   let titleInterval = null;
   let isFlashingTitle = false;
   let audioContext = null;
+  let lastNotificationTime = 0;
+  const NOTIF_COOLDOWN_MS = 6000; // Cooldown to avoid multi-bubble spam
 
-  // --- 1. SHARED AUDIO CONTEXT UNLOCK ---
+  // --- 1. AUDIO ENGINE (UNLOCKED ON FIRST INTERACTION) ---
   function getAudioContext() {
     if (!audioContext) {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
@@ -24,7 +26,6 @@
     return audioContext;
   }
 
-  // Pre-unlock on first user interaction anywhere on the document
   function unlockAudio() {
     getAudioContext();
     document.removeEventListener('click', unlockAudio);
@@ -35,7 +36,7 @@
   document.addEventListener('touchstart', unlockAudio, { once: true });
   document.addEventListener('keydown', unlockAudio, { once: true });
 
-  // --- 2. COOKIE STATE MANAGEMENT ---
+  // --- 2. PREFERENCES & STATUS ---
   function getPreferences() {
     try {
       const raw = localStorage.getItem(COOKIE_STORAGE_KEY);
@@ -51,11 +52,11 @@
 
   function areNotificationsEnabled() {
     const prefs = getPreferences();
-    if (!prefs) return true; // Enabled by default until explicitly configured
+    if (!prefs) return true;
     return prefs.notifications !== false;
   }
 
-  // --- 3. REFINED AUDIO NOTIFICATION CHIME ---
+  // --- 3. REFINED AUDITORY CHIME ---
   function playNotificationChime() {
     if (!areNotificationsEnabled()) return;
     try {
@@ -64,35 +65,31 @@
 
       const now = ctx.currentTime;
 
-      // Note 1: High crisp bell note
       const osc1 = ctx.createOscillator();
       const gain1 = ctx.createGain();
       osc1.type = 'sine';
       osc1.frequency.setValueAtTime(783.99, now); // G5
-      gain1.gain.setValueAtTime(0.20, now);
-      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+      gain1.gain.setValueAtTime(0.18, now);
+      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.30);
       osc1.connect(gain1);
       gain1.connect(ctx.destination);
       osc1.start(now);
-      osc1.stop(now + 0.35);
+      osc1.stop(now + 0.30);
 
-      // Note 2: Harmonic resolution chime
       const osc2 = ctx.createOscillator();
       const gain2 = ctx.createGain();
       osc2.type = 'sine';
-      osc2.frequency.setValueAtTime(1046.50, now + 0.09); // C6
-      gain2.gain.setValueAtTime(0.22, now + 0.09);
-      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
+      osc2.frequency.setValueAtTime(1046.50, now + 0.08); // C6
+      gain2.gain.setValueAtTime(0.20, now + 0.08);
+      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.50);
       osc2.connect(gain2);
       gain2.connect(ctx.destination);
-      osc2.start(now + 0.09);
-      osc2.stop(now + 0.55);
-    } catch (e) {
-      console.warn('Audio chime notice:', e);
-    }
+      osc2.start(now + 0.08);
+      osc2.stop(now + 0.50);
+    } catch (e) {}
   }
 
-  // --- 4. DYNAMIC TAB TITLE FLASHER ---
+  // --- 4. BROWSER TAB FLASHING (ONLY WHEN ABSENT/IN ANOTHER TAB) ---
   function startTitleFlash(previewText) {
     if (isFlashingTitle) return;
     isFlashingTitle = true;
@@ -126,8 +123,8 @@
     }
   });
 
-  // --- 5. ULTRA-POLISHED FLOATING TOAST ALERT ---
-  function showToast(title, message, type = 'agent', onClickAction = null) {
+  // --- 5. DISCREET IN-PAGE TOAST (ONLY WHEN USER IS BROWSING WITH CHAT CLOSED) ---
+  function showToast(title, message, type, onClickAction) {
     let container = document.getElementById('robotic-toast-container');
     if (!container) {
       container = document.createElement('div');
@@ -136,7 +133,12 @@
       document.body.appendChild(container);
     }
 
+    // Remove existing toast if any to avoid stacking
+    const oldToast = container.querySelector('.robotic-toast-item');
+    if (oldToast) oldToast.remove();
+
     const toast = document.createElement('div');
+    toast.className = 'robotic-toast-item';
     toast.style.cssText = 'pointer-events:auto; background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:14px 16px; box-shadow:0 16px 36px -8px rgba(10,62,98,0.18), 0 0 1px 1px rgba(0,0,0,0.03); display:flex; align-items:flex-start; gap:12px; transform:translateY(16px); opacity:0; transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor:pointer;';
     
     let iconHtml = `
@@ -164,7 +166,7 @@
       closeBtn.onclick = (e) => {
         e.stopPropagation();
         toast.style.opacity = '0';
-        toast.style.transform = 'translateY(-10px)';
+        toast.style.transform = 'translateY(10px)';
         setTimeout(() => toast.remove(), 250);
       };
     }
@@ -185,68 +187,107 @@
     setTimeout(() => {
       if (toast.parentNode) {
         toast.style.opacity = '0';
-        toast.style.transform = 'translateY(-10px)';
+        toast.style.transform = 'translateY(10px)';
         setTimeout(() => toast.remove(), 250);
       }
-    }, 7000);
+    }, 6500);
   }
 
-  // --- 6. PUSH & NOTIFICATION DISPATCHER ---
-  async function requestBrowserPermission() {
-    if (!('Notification' in window)) return false;
+  // --- 6. PRESENCE & CHAT OPEN STATUS DETECTOR ---
+  function isChatWindowOpen() {
     try {
-      if (Notification.permission === 'granted') {
-        localStorage.setItem(NOTIF_STORAGE_KEY, 'true');
-        return true;
+      // 1. Direct tag checks
+      const chatWin = document.querySelector('chat-window, .chat-window, [data-chat-window]');
+      if (chatWin) {
+        const style = window.getComputedStyle(chatWin);
+        if (style.display !== 'none' && style.visibility !== 'hidden' && chatWin.offsetHeight > 40) {
+          return true;
+        }
       }
-      const perm = await Notification.requestPermission();
-      if (perm === 'granted') {
-        localStorage.setItem(NOTIF_STORAGE_KEY, 'true');
-        playNotificationChime();
-        try {
-          new Notification('Robotic Latam - Alertas Activas', {
-            body: '¡Listo! Te avisaremos cuando LATAM ROBI responda.',
-            icon: './bot-avatar-centered.png'
-          });
-        } catch(e){}
-        return true;
+
+      // 2. Check shadow roots in custom elements
+      const allCustomElements = document.querySelectorAll('chat-widget, chat-widget-button, chat-container');
+      for (const el of allCustomElements) {
+        if (el.shadowRoot) {
+          const win = el.shadowRoot.querySelector('chat-window, .chat-window, .window, .chat-box');
+          if (win) {
+            const style = window.getComputedStyle(win);
+            if (style.display !== 'none' && style.visibility !== 'hidden' && win.offsetHeight > 40) {
+              return true;
+            }
+          }
+        }
+      }
+
+      // 3. Check active aria-expanded on widget button
+      const btn = document.querySelector('chat-widget-button');
+      if (btn) {
+        if (btn.getAttribute('aria-expanded') === 'true') return true;
+        if (btn.shadowRoot) {
+          const innerBtn = btn.shadowRoot.querySelector('button[aria-expanded="true"]');
+          if (innerBtn) return true;
+        }
       }
     } catch (e) {}
     return false;
   }
 
+  function isUserPresentAndViewingChat() {
+    const isTabActive = !document.hidden && (document.hasFocus ? document.hasFocus() : true);
+    const chatOpen = isChatWindowOpen();
+    // User is active and looking right at the open chat window
+    return isTabActive && chatOpen;
+  }
+
+  // --- 7. SMART NOTIFICATION ROUTER (ONLY WHEN ABSENT OR CHAT CLOSED) ---
   function dispatchAgentNotification(messageText) {
     if (!areNotificationsEnabled()) return;
 
-    // 1. Play auditory alert
-    playNotificationChime();
+    // RULE 1: If user is actively present and has the chat window open, DO NOT interrupt!
+    if (isUserPresentAndViewingChat()) {
+      return;
+    }
 
-    // 2. Flash browser tab if backgrounded
-    if (document.hidden) {
+    // RULE 2: Enforce cooldown to prevent spam on multi-bubble answers
+    const now = Date.now();
+    if (now - lastNotificationTime < NOTIF_COOLDOWN_MS) {
+      return;
+    }
+    lastNotificationTime = now;
+
+    const isTabActive = !document.hidden && (document.hasFocus ? document.hasFocus() : true);
+    const chatOpen = isChatWindowOpen();
+
+    // CASE A: User is in another tab or minimized -> Flash title, Push desktop, play sound
+    if (!isTabActive) {
       startTitleFlash(messageText);
+      playNotificationChime();
+
+      if ('Notification' in window && Notification.permission === 'granted') {
+        try {
+          const notif = new Notification('LATAM ROBI (Asistente Virtual)', {
+            body: messageText || 'Tienes una nueva respuesta en el chat.',
+            icon: './bot-avatar-centered.png',
+            tag: 'latam-robi-msg',
+            requireInteraction: false
+          });
+          notif.onclick = function () {
+            window.focus();
+            openBuilderBotChat();
+            this.close();
+          };
+        } catch (e) {}
+      }
+      return;
     }
 
-    // 3. Native desktop notification
-    if ('Notification' in window && Notification.permission === 'granted') {
-      try {
-        const notif = new Notification('LATAM ROBI (Asistente Virtual)', {
-          body: messageText || 'El asistente ha respondido a tu consulta.',
-          icon: './bot-avatar-centered.png',
-          tag: 'agent-msg-' + Date.now(),
-          requireInteraction: false
-        });
-        notif.onclick = function() {
-          window.focus();
-          openBuilderBotChat();
-          this.close();
-        };
-      } catch (e) {}
+    // CASE B: User is on the page, but chat is CLOSED -> Show bottom toast + sound
+    if (!chatOpen) {
+      playNotificationChime();
+      showToast('LATAM ROBI respondió', messageText || 'Tienes una nueva respuesta en el chat.', 'agent', () => {
+        openBuilderBotChat();
+      });
     }
-
-    // 4. In-page Toast
-    showToast('LATAM ROBI respondió', messageText || 'Tienes una nueva respuesta en el chat.', 'agent', () => {
-      openBuilderBotChat();
-    });
   }
 
   function openBuilderBotChat() {
@@ -258,7 +299,7 @@
     }
   }
 
-  // --- 7. DEEP RECURSIVE DOM & WEBSOCKET/FETCH DETECTOR ---
+  // --- 8. SCAN BOT MESSAGES (SHADOW DOM + DEEP RECURSION) ---
   let seenMessageTexts = new Set();
   let isInitialScan = true;
 
@@ -318,47 +359,32 @@
         if (!seenMessageTexts.has(text)) {
           seenMessageTexts.add(text);
           let preview = text.replace(/\s+/g, ' ').trim();
-          if (preview.length > 120) {
-            preview = preview.substring(0, 117) + '...';
+          if (preview.length > 110) {
+            preview = preview.substring(0, 107) + '...';
           }
           dispatchAgentNotification(preview);
         }
       });
-    } catch (e) {
-      console.warn(e);
-    }
+    } catch (e) {}
   }
 
-  // --- 8. GLOBAL NETWORK INTERCEPTOR FOR INSTANT DETECTION ---
-  function initNetworkInterceptors() {
-    // Intercept WebSocket messages if BuilderBot uses WS
-    const OriginalWebSocket = window.WebSocket;
-    if (OriginalWebSocket) {
-      window.WebSocket = function (url, protocols) {
-        const ws = new OriginalWebSocket(url, protocols);
-        ws.addEventListener('message', function (event) {
-          try {
-            if (typeof event.data === 'string') {
-              const data = JSON.parse(event.data);
-              // Check if payload contains incoming agent text
-              if (data && (data.body || data.text || data.message || data.answer)) {
-                const text = data.body || data.text || data.message || data.answer;
-                if (typeof text === 'string' && text.length > 0 && !data.isUser && !data.fromUser) {
-                  setTimeout(() => {
-                    dispatchAgentNotification(text);
-                  }, 300);
-                }
-              }
-            }
-          } catch (e) {}
-        });
-        return ws;
-      };
-      window.WebSocket.prototype = OriginalWebSocket.prototype;
-    }
+  // --- 9. COOKIE DOCK & PRIVACY MODAL ---
+  async function requestBrowserPermission() {
+    if (!('Notification' in window)) return false;
+    try {
+      if (Notification.permission === 'granted') {
+        localStorage.setItem(NOTIF_STORAGE_KEY, 'true');
+        return true;
+      }
+      const perm = await Notification.requestPermission();
+      if (perm === 'granted') {
+        localStorage.setItem(NOTIF_STORAGE_KEY, 'true');
+        return true;
+      }
+    } catch (e) {}
+    return false;
   }
 
-  // --- 9. HIGH-END SLIM BOTTOM COOKIE DOCK (NON-INTRUSIVE, ZERO OBSTRUCTION) ---
   function saveCookiePreferences(prefs) {
     try {
       const payload = {
@@ -377,7 +403,6 @@
       if (payload.notifications) {
         requestBrowserPermission();
       }
-
       return payload;
     } catch (e) {
       console.error(e);
@@ -437,7 +462,7 @@
           <div>
             <h4 style="margin:0; font-size:13px; font-weight:700; color:#0A3E62; letter-spacing:-0.01em;">Aviso de Privacidad y Cookies</h4>
             <p style="margin:2px 0 0 0; font-size:12px; color:#475569; line-height:1.4;">
-              Usamos cookies para asegurar el funcionamiento del portal y notificarte cuando el asistente responda a tus mensajes.
+              Usamos cookies para el correcto funcionamiento del portal y avisarte si LATAM ROBI responde mientras estás en otra pestaña.
             </p>
           </div>
         </div>
@@ -490,9 +515,9 @@
 
           <div style="padding:12px 14px; border-radius:12px; background:#ffffff; border:1px solid #e2e8f0; display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
             <div>
-              <h4 style="margin:0; font-weight:700; color:#1e293b; font-size:12px;">Alertas y Notificaciones de LATAM ROBI</h4>
+              <h4 style="margin:0; font-weight:700; color:#1e293b; font-size:12px;">Alertas cuando estás ausente</h4>
               <p style="margin:3px 0 0 0; font-size:11px; color:#64748b; line-height:1.4;">
-                Permite alertas sonoras y notificaciones del navegador cuando el asistente responda a tus mensajes.
+                Permite avisos sonoros o en la pestaña cuando no estés viendo el chat y el asistente te responda.
               </p>
             </div>
             <input type="checkbox" id="cookie-chk-notifications" style="margin-top:2px; width:16px; height:16px; accent-color:#0A3E62; cursor:pointer;" />
@@ -544,25 +569,21 @@
       });
     });
 
-    // Auto-show banner if user has not yet decided
     if (!hasAccepted()) {
       setTimeout(showCookieBanner, 600);
     }
   }
 
-  // --- 10. LIFECYCLE & INITIALIZATION ---
+  // --- 10. INITIALIZATION ---
   function init() {
     injectUIElements();
-    initNetworkInterceptors();
-    setInterval(scanForBotMessages, 600);
+    setInterval(scanForBotMessages, 750);
 
-    // Mutation observer for instant DOM updates
     const observer = new MutationObserver(() => {
       scanForBotMessages();
     });
     observer.observe(document.body, { childList: true, subtree: true, characterData: true });
 
-    // Request notification permission when user clicks inside chat widget
     document.addEventListener('click', (e) => {
       const target = e.target;
       if (target && (target.closest('chat-widget-button') || target.closest('chat-window') || target.tagName?.toLowerCase().includes('chat-'))) {
