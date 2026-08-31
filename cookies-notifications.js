@@ -1,11 +1,11 @@
-// Robotic Latam - Professional Cookie Consent & Updates Notification Engine (2026)
+// Robotic Latam - Professional Cookie Consent & Service Worker Notification Engine (2026)
 (function () {
   'use strict';
 
   const COOKIE_STORAGE_KEY = 'robotic_latam_cookie_consent_v5';
   const NOTIF_STORAGE_KEY = 'robotic_latam_notif_enabled_v5';
-  const UPDATES_STORAGE_KEY = 'robotic_latam_last_seen_update_v1';
-  const ORIGINAL_TITLE = document.title || 'Robotic Latam - Soluciones con IA para WhatsApp';
+  const SEEN_UPDATES_KEY = 'robotic_latam_seen_updates_v1';
+  let swRegistration = null;
 
   // --- 1. COOKIE STATE MANAGEMENT ---
   function getPreferences() {
@@ -27,36 +27,70 @@
     return prefs.notifications === true;
   }
 
-  // --- 2. NOTIFICATIONS & UPDATES SYSTEM ---
-  // Notifications are strictly for platform updates, new AI features, and follow-ups.
-  // NO toasts or intrusive popups during live chat conversation!
+  // --- 2. SERVICE WORKER & NOTIFICATIONS ENGINE ---
+  // Registers Service Worker for reliable push delivery on platform state changes
+  async function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+      try {
+        const reg = await navigator.serviceWorker.register('./sw.js', { scope: './' });
+        swRegistration = reg;
+        console.log('[Robotic SW] Service Worker registrado exitosamente con scope:', reg.scope);
+      } catch (err) {
+        console.warn('[Robotic SW] Error registrando Service Worker:', err);
+      }
+    }
+  }
+
   async function requestBrowserPermission() {
     if (!('Notification' in window)) return false;
     try {
-      if (Notification.permission === 'granted') {
-        localStorage.setItem(NOTIF_STORAGE_KEY, 'true');
-        return true;
+      let perm = Notification.permission;
+      if (perm !== 'granted' && perm !== 'denied') {
+        perm = await Notification.requestPermission();
       }
-      const perm = await Notification.requestPermission();
       if (perm === 'granted') {
         localStorage.setItem(NOTIF_STORAGE_KEY, 'true');
+        registerServiceWorker();
         return true;
       }
     } catch (e) {}
     return false;
   }
 
-  function dispatchUpdateNotification(title, body, url) {
+  // Strictly for real platform status updates & system announcements
+  // Guaranteed never to trigger on typing, clicks or routine chat messages
+  function dispatchUpdateNotification(title, body, url, updateId) {
     if (!areNotificationsEnabled()) return;
 
-    if ('Notification' in window && Notification.permission === 'granted') {
+    const currentId = updateId || ('update_' + (title || 'general').replace(/\s+/g, '_').toLowerCase());
+
+    // Deduplication check: prevent multiple triggers of the same update
+    try {
+      const seen = JSON.parse(localStorage.getItem(SEEN_UPDATES_KEY) || '[]');
+      if (seen.includes(currentId)) {
+        return; // Already notified
+      }
+      seen.push(currentId);
+      if (seen.length > 50) seen.shift();
+      localStorage.setItem(SEEN_UPDATES_KEY, JSON.stringify(seen));
+    } catch (e) {}
+
+    const options = {
+      body: body || 'Tenemos nuevas actualizaciones y funciones disponibles.',
+      icon: './bot-avatar-centered.png',
+      badge: './favicon.PNG',
+      tag: 'robotic-state-update',
+      data: {
+        url: url || './',
+        id: currentId
+      }
+    };
+
+    if (swRegistration && swRegistration.showNotification) {
+      swRegistration.showNotification(title || 'Robotic Latam - Novedades', options);
+    } else if ('Notification' in window && Notification.permission === 'granted') {
       try {
-        const notif = new Notification(title || 'Robotic Latam - Novedades', {
-          body: body || 'Tenemos nuevas actualizaciones y funciones disponibles.',
-          icon: './bot-avatar-centered.png',
-          tag: 'robotic-latam-update',
-          requireInteraction: false
-        });
+        const notif = new Notification(title || 'Robotic Latam - Novedades', options);
         notif.onclick = function () {
           window.focus();
           if (url) window.location.href = url;
@@ -259,6 +293,9 @@
   // --- 4. INITIALIZATION ---
   function init() {
     injectUIElements();
+    if (areNotificationsEnabled()) {
+      registerServiceWorker();
+    }
   }
 
   window.RoboticCookies = {
@@ -273,6 +310,7 @@
     reset: () => {
       localStorage.removeItem(COOKIE_STORAGE_KEY);
       localStorage.removeItem(NOTIF_STORAGE_KEY);
+      localStorage.removeItem(SEEN_UPDATES_KEY);
       document.cookie = 'robotic_latam_cookie_accepted=; Max-Age=0; path=/;';
       showCookieBanner();
     }

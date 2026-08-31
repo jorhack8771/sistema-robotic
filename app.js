@@ -683,7 +683,7 @@ var MyApp = (() => {
       {
         href: "https://www.facebook.com/share/1Bku8eoxc6/?mibextid=wwXIfr",
         target: "_blank",
-        rel: "noreferrer",
+        rel: "noopener noreferrer",
         className: "w-9 h-9 rounded-full border border-blue-100 flex items-center justify-center hover:bg-white hover:text-[#1572B6] transition duration-200",
         "aria-label": "Facebook"
       },
@@ -693,7 +693,7 @@ var MyApp = (() => {
       {
         href: "https://www.facebook.com/share/1Bku8eoxc6/?mibextid=wwXIfr",
         target: "_blank",
-        rel: "noreferrer",
+        rel: "noopener noreferrer",
         className: "w-9 h-9 rounded-full border border-blue-100 flex items-center justify-center hover:bg-white hover:text-[#1572B6] transition duration-200",
         "aria-label": "Instagram"
       },
@@ -703,7 +703,7 @@ var MyApp = (() => {
       {
         href: "https://drive.google.com/file/d/1m_tVboH9VbW5UxWs8cd7LY5EAF03UbuT/view?usp=sharing",
         target: "_blank",
-        rel: "noreferrer",
+        rel: "noopener noreferrer",
         className: "hover:text-white hover:underline transition duration-200"
       },
       "Términos y Condiciones"
@@ -994,7 +994,7 @@ var MyApp = (() => {
         {
           href: plan.btnUrl,
           target: "_blank",
-          rel: "noreferrer",
+          rel: "noopener noreferrer",
           className: `px-5 py-2 rounded-md font-extrabold text-[11px] tracking-wider uppercase transition-all duration-150 active:scale-95 shadow-sm hover:shadow-md cursor-pointer inline-flex items-center justify-center gap-1.5 ${plan.primary ? "bg-gradient-to-b from-[#0A3E62] to-[#06273E] text-white border-b-[2px] border-[#041B2B] hover:from-[#0E517F] hover:to-[#0A3E62]" : "bg-gradient-to-b from-white to-slate-50 text-[#0A3E62] border border-slate-200 border-b-[2px] border-slate-300 hover:to-slate-100"}`
         },
         "CONTACTAR",
@@ -1013,7 +1013,7 @@ var MyApp = (() => {
         {
           href: service.btnUrl,
           target: "_blank",
-          rel: "noreferrer",
+          rel: "noopener noreferrer",
           className: `px-5 py-2 rounded-md font-extrabold text-[11px] tracking-wider uppercase transition-all duration-150 active:scale-95 shadow-sm hover:shadow-md cursor-pointer inline-flex items-center justify-center gap-1.5 ${service.primary ? "bg-gradient-to-b from-[#0A3E62] to-[#06273E] text-white border-b-[2px] border-[#041B2B] hover:from-[#0E517F] hover:to-[#0A3E62]" : "bg-gradient-to-b from-white to-slate-50 text-[#0A3E62] border border-slate-200 border-b-[2px] border-slate-300 hover:to-slate-100"}`
         },
         "CONTACTAR",
@@ -1027,7 +1027,7 @@ var MyApp = (() => {
             key: index,
             href: feat.link,
             target: "_blank",
-            rel: "noreferrer",
+            rel: "noopener noreferrer",
             className: "bg-white rounded-xl p-3.5 shadow-xs border border-slate-100 flex flex-col justify-between hover:shadow-md hover:scale-[1.01] transition-all duration-300 group cursor-pointer max-w-xs mx-auto w-full"
           },
           /* @__PURE__ */ import_react5.default.createElement("div", { className: "mb-2.5 w-full aspect-[16/9] bg-white rounded-lg overflow-hidden border border-slate-100 flex items-center justify-center" }, /* @__PURE__ */ import_react5.default.createElement(
@@ -1211,7 +1211,7 @@ var MyApp = (() => {
       {
         href: "https://wa.me/50589106157?text=Hola,%20tengo%20una%20pregunta%20adicional%20sobre%20sus%20servicios%20de%20chatbots",
         target: "_blank",
-        rel: "noreferrer",
+        rel: "noopener noreferrer",
         className: "bg-blue-600 hover:bg-blue-700 text-white font-bold px-6 py-2.5 rounded-xl text-xs transition duration-200 shadow-sm inline-block"
       },
       "Chatear con un Asesor"
@@ -1470,7 +1470,7 @@ var MyApp = (() => {
       if (!isCaptchaChecked) return;
       setStep("waiting");
       setTimeout(() => {
-        window.open(URL_MEET, "_blank");
+        window.open(URL_MEET, "_blank", "noopener,noreferrer");
       }, 2e3);
     };
     return /* @__PURE__ */ import_react11.default.createElement(
@@ -1593,7 +1593,7 @@ var MyApp = (() => {
           {
             href: URL_MEET,
             target: "_blank",
-            rel: "noreferrer",
+            rel: "noopener noreferrer",
             className: "inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold px-5 py-2.5 rounded-lg text-xs transition duration-200 shadow-sm cursor-pointer"
           },
           "Ingresar Manualmente",
