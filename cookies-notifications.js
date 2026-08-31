@@ -1,11 +1,42 @@
-// Robotic Latam - Cookie Management & Notification System (2026)
-// Strict Privacy: Only active when user accepts Privacy Policy & Cookie consent.
+// Robotic Latam - Professional Cookie Consent & Real-Time Agent Notification Engine (2026)
 (function () {
-  const COOKIE_STORAGE_KEY = 'robotic_cookie_consent_v2';
-  const NOTIF_STORAGE_KEY = 'robotic_notif_subscribed';
+  'use strict';
 
-  // --- 1. PRIVACY & COOKIE STATE CHECK ---
-  function getCookiePreferences() {
+  const COOKIE_STORAGE_KEY = 'robotic_latam_cookie_consent_v4';
+  const NOTIF_STORAGE_KEY = 'robotic_latam_notif_enabled_v4';
+  const ORIGINAL_TITLE = document.title || 'Robotic Latam - Soluciones con IA para WhatsApp';
+
+  let titleInterval = null;
+  let isFlashingTitle = false;
+  let audioContext = null;
+
+  // --- 1. SHARED AUDIO CONTEXT UNLOCK ---
+  function getAudioContext() {
+    if (!audioContext) {
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      if (AudioCtx) {
+        audioContext = new AudioCtx();
+      }
+    }
+    if (audioContext && audioContext.state === 'suspended') {
+      audioContext.resume().catch(() => {});
+    }
+    return audioContext;
+  }
+
+  // Pre-unlock on first user interaction anywhere on the document
+  function unlockAudio() {
+    getAudioContext();
+    document.removeEventListener('click', unlockAudio);
+    document.removeEventListener('touchstart', unlockAudio);
+    document.removeEventListener('keydown', unlockAudio);
+  }
+  document.addEventListener('click', unlockAudio, { once: true });
+  document.addEventListener('touchstart', unlockAudio, { once: true });
+  document.addEventListener('keydown', unlockAudio, { once: true });
+
+  // --- 2. COOKIE STATE MANAGEMENT ---
+  function getPreferences() {
     try {
       const raw = localStorage.getItem(COOKIE_STORAGE_KEY);
       if (raw) return JSON.parse(raw);
@@ -13,173 +44,168 @@
     return null;
   }
 
-  function hasUserAcceptedCookies() {
-    const prefs = getCookiePreferences();
-    if (prefs && prefs.accepted === true) return true;
-    if (document.cookie.indexOf('robotic_cookies_accepted=true') !== -1) return true;
-    return false;
+  function hasAccepted() {
+    const prefs = getPreferences();
+    return prefs && prefs.accepted === true;
   }
 
-  function hasUserAllowedNotifications() {
-    const prefs = getCookiePreferences();
-    return prefs && prefs.accepted === true && prefs.notifications === true;
+  function areNotificationsEnabled() {
+    const prefs = getPreferences();
+    if (!prefs) return true; // Enabled by default until explicitly configured
+    return prefs.notifications !== false;
   }
 
-  // --- 2. AUDIO CHIME ENGINE (Only when allowed) ---
-  function playNotificationSound() {
-    if (!hasUserAllowedNotifications()) return;
+  // --- 3. REFINED AUDIO NOTIFICATION CHIME ---
+  function playNotificationChime() {
+    if (!areNotificationsEnabled()) return;
     try {
-      const AudioContext = window.AudioContext || window.webkitAudioContext;
-      if (!AudioContext) return;
-      const ctx = new AudioContext();
-      if (ctx.state === 'suspended') {
-        ctx.resume();
-      }
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      
-      osc.type = 'sine';
-      osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
-      osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.12); // A5
-      
-      gain.gain.setValueAtTime(0.10, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.35);
-      
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      
-      osc.start();
-      osc.stop(ctx.currentTime + 0.35);
-    } catch (e) {}
-  }
+      const ctx = getAudioContext();
+      if (!ctx) return;
 
-  // --- 3. COOKIE ACTIONS ---
-  function saveCookiePreferences(prefs) {
-    try {
-      const payload = {
-        accepted: true,
-        necessary: true,
-        analytics: !!prefs.analytics,
-        notifications: !!prefs.notifications,
-        timestamp: Date.now()
-      };
-      localStorage.setItem(COOKIE_STORAGE_KEY, JSON.stringify(payload));
-      document.cookie = `robotic_cookies_accepted=true; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
-      
-      hideCookieBanner();
-      hideCookieModal();
+      const now = ctx.currentTime;
 
-      if (payload.notifications) {
-        requestNotificationSubscription();
-      } else {
-        localStorage.setItem(NOTIF_STORAGE_KEY, 'false');
-      }
+      // Note 1: High crisp bell note
+      const osc1 = ctx.createOscillator();
+      const gain1 = ctx.createGain();
+      osc1.type = 'sine';
+      osc1.frequency.setValueAtTime(783.99, now); // G5
+      gain1.gain.setValueAtTime(0.20, now);
+      gain1.gain.exponentialRampToValueAtTime(0.0001, now + 0.35);
+      osc1.connect(gain1);
+      gain1.connect(ctx.destination);
+      osc1.start(now);
+      osc1.stop(now + 0.35);
 
-      showToast('Preferencias guardadas', 'Tus preferencias de cookies y privacidad han sido actualizadas.', 'success');
-      return payload;
+      // Note 2: Harmonic resolution chime
+      const osc2 = ctx.createOscillator();
+      const gain2 = ctx.createGain();
+      osc2.type = 'sine';
+      osc2.frequency.setValueAtTime(1046.50, now + 0.09); // C6
+      gain2.gain.setValueAtTime(0.22, now + 0.09);
+      gain2.gain.exponentialRampToValueAtTime(0.0001, now + 0.55);
+      osc2.connect(gain2);
+      gain2.connect(ctx.destination);
+      osc2.start(now + 0.09);
+      osc2.stop(now + 0.55);
     } catch (e) {
-      console.error(e);
+      console.warn('Audio chime notice:', e);
     }
   }
 
-  function showCookieBanner() {
-    const banner = document.getElementById('robotic-cookie-banner');
-    if (banner) banner.style.display = 'block';
+  // --- 4. DYNAMIC TAB TITLE FLASHER ---
+  function startTitleFlash(previewText) {
+    if (isFlashingTitle) return;
+    isFlashingTitle = true;
+    let step = 0;
+    const alertTitle = '💬 (1) ¡LATAM ROBI te respondió!';
+
+    if (titleInterval) clearInterval(titleInterval);
+    titleInterval = setInterval(() => {
+      if (!document.hidden) {
+        stopTitleFlash();
+        return;
+      }
+      document.title = (step % 2 === 0) ? alertTitle : (ORIGINAL_TITLE || 'Robotic Latam');
+      step++;
+    }, 900);
   }
 
-  function hideCookieBanner() {
-    const banner = document.getElementById('robotic-cookie-banner');
-    if (banner) banner.style.display = 'none';
-  }
-
-  function showCookieModal() {
-    const modal = document.getElementById('robotic-cookie-modal');
-    if (modal) {
-      const current = getCookiePreferences() || { necessary: true, analytics: true, notifications: true };
-      const chkAnalytics = document.getElementById('cookie-chk-analytics');
-      const chkNotifications = document.getElementById('cookie-chk-notifications');
-      if (chkAnalytics) chkAnalytics.checked = !!current.analytics;
-      if (chkNotifications) chkNotifications.checked = !!current.notifications;
-      modal.style.display = 'flex';
+  function stopTitleFlash() {
+    if (titleInterval) {
+      clearInterval(titleInterval);
+      titleInterval = null;
     }
+    isFlashingTitle = false;
+    document.title = ORIGINAL_TITLE || 'Robotic Latam - Soluciones con IA para WhatsApp';
   }
 
-  function hideCookieModal() {
-    const modal = document.getElementById('robotic-cookie-modal');
-    if (modal) modal.style.display = 'none';
-  }
+  window.addEventListener('focus', stopTitleFlash);
+  document.addEventListener('visibilitychange', () => {
+    if (!document.hidden) {
+      stopTitleFlash();
+    }
+  });
 
-  // --- 4. TOAST NOTIFICATION (Strictly for accepted users) ---
-  function showToast(title, message, type = 'info', onClickAction = null) {
+  // --- 5. ULTRA-POLISHED FLOATING TOAST ALERT ---
+  function showToast(title, message, type = 'agent', onClickAction = null) {
     let container = document.getElementById('robotic-toast-container');
     if (!container) {
       container = document.createElement('div');
       container.id = 'robotic-toast-container';
-      container.className = 'fixed top-5 right-5 z-[99999] flex flex-col gap-3 max-w-sm w-full pointer-events-none px-4 sm:px-0';
+      container.style.cssText = 'position:fixed; bottom:96px; right:24px; z-index:9999999; display:flex; flex-direction:column; gap:10px; max-width:340px; width:calc(100% - 48px); pointer-events:none; font-family:inherit;';
       document.body.appendChild(container);
     }
 
     const toast = document.createElement('div');
-    toast.className = 'pointer-events-auto bg-white border border-slate-200/90 rounded-2xl p-4 shadow-xl shadow-slate-900/10 flex items-start gap-3.5 transform transition-all duration-300 translate-y-[-20px] opacity-0 cursor-pointer';
+    toast.style.cssText = 'pointer-events:auto; background:#ffffff; border:1px solid #e2e8f0; border-radius:16px; padding:14px 16px; box-shadow:0 16px 36px -8px rgba(10,62,98,0.18), 0 0 1px 1px rgba(0,0,0,0.03); display:flex; align-items:flex-start; gap:12px; transform:translateY(16px); opacity:0; transition:all 0.3s cubic-bezier(0.16, 1, 0.3, 1); cursor:pointer;';
     
-    let iconSvg = `
-      <div class="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+    let iconHtml = `
+      <div style="width:38px; height:38px; border-radius:50%; overflow:hidden; border:2px solid #0A3E62; flex-shrink:0; background:#0A3E62;">
+        <img src="./bot-avatar-centered.png" style="width:100%; height:100%; object-fit:cover;" alt="LATAM ROBI" />
       </div>`;
-    
-    if (type === 'agent') {
-      iconSvg = `
-        <div class="w-10 h-10 rounded-full overflow-hidden border border-blue-400/40 shadow-sm shrink-0">
-          <img src="./bot-avatar-centered.png" class="w-full h-full object-cover" alt="LATAM ROBI" />
-        </div>`;
-    } else if (type === 'success') {
-      iconSvg = `
-        <div class="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-100 flex items-center justify-center text-emerald-600 shrink-0">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
-        </div>`;
-    }
 
     toast.innerHTML = `
-      ${iconSvg}
-      <div class="flex-1 min-w-0">
-        <h4 class="text-sm font-bold text-slate-800 leading-tight">${title}</h4>
-        <p class="text-xs text-slate-600 mt-1 leading-relaxed line-clamp-2">${message}</p>
+      ${iconHtml}
+      <div style="flex:1; min-width:0;">
+        <div style="display:flex; align-items:center; gap:6px;">
+          <span style="display:inline-block; width:6px; height:6px; border-radius:50%; background:#10b981;"></span>
+          <h4 style="margin:0; font-size:13px; font-weight:700; color:#0A3E62; line-height:1.2;">${title}</h4>
+        </div>
+        <p style="margin:4px 0 0 0; font-size:12px; color:#475569; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden;">${message}</p>
+        <span style="display:inline-block; font-size:11px; font-weight:700; color:#0A3E62; margin-top:6px;">Ver mensaje en chat →</span>
       </div>
-      <button class="text-slate-400 hover:text-slate-600 p-1 -mr-1 -mt-1 rounded-lg transition" onclick="event.stopPropagation(); this.closest('.pointer-events-auto').remove();">
-        <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+      <button style="background:transparent; border:none; color:#94a3b8; padding:4px; margin:-4px -4px 0 0; cursor:pointer; border-radius:6px; display:flex; align-items:center; justify-content:center;">
+        <svg style="width:16px; height:16px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
       </button>
     `;
 
-    if (onClickAction) {
-      toast.onclick = onClickAction;
+    const closeBtn = toast.querySelector('button');
+    if (closeBtn) {
+      closeBtn.onclick = (e) => {
+        e.stopPropagation();
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 250);
+      };
     }
+
+    toast.onclick = () => {
+      if (onClickAction) onClickAction();
+      else openBuilderBotChat();
+      toast.remove();
+    };
 
     container.appendChild(toast);
 
     requestAnimationFrame(() => {
-      toast.classList.remove('translate-y-[-20px]', 'opacity-0');
-      toast.classList.add('translate-y-0', 'opacity-100');
+      toast.style.transform = 'translateY(0)';
+      toast.style.opacity = '1';
     });
 
     setTimeout(() => {
       if (toast.parentNode) {
-        toast.classList.add('opacity-0', 'translate-y-[-10px]');
-        setTimeout(() => toast.remove(), 300);
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateY(-10px)';
+        setTimeout(() => toast.remove(), 250);
       }
-    }, 5500);
+    }, 7000);
   }
 
-  // --- 5. NOTIFICATION SUBSCRIPTION ---
-  async function requestNotificationSubscription() {
+  // --- 6. PUSH & NOTIFICATION DISPATCHER ---
+  async function requestBrowserPermission() {
     if (!('Notification' in window)) return false;
     try {
+      if (Notification.permission === 'granted') {
+        localStorage.setItem(NOTIF_STORAGE_KEY, 'true');
+        return true;
+      }
       const perm = await Notification.requestPermission();
       if (perm === 'granted') {
         localStorage.setItem(NOTIF_STORAGE_KEY, 'true');
-        playNotificationSound();
+        playNotificationChime();
         try {
-          new Notification('Robotic Latam - Notificaciones Activas', {
-            body: '¡Listo! Te avisaremos cuando el agente responda o se agreguen novedades.',
+          new Notification('Robotic Latam - Alertas Activas', {
+            body: '¡Listo! Te avisaremos cuando LATAM ROBI responda.',
             icon: './bot-avatar-centered.png'
           });
         } catch(e){}
@@ -190,16 +216,24 @@
   }
 
   function dispatchAgentNotification(messageText) {
-    if (!hasUserAllowedNotifications()) return;
+    if (!areNotificationsEnabled()) return;
 
-    playNotificationSound();
+    // 1. Play auditory alert
+    playNotificationChime();
 
+    // 2. Flash browser tab if backgrounded
+    if (document.hidden) {
+      startTitleFlash(messageText);
+    }
+
+    // 3. Native desktop notification
     if ('Notification' in window && Notification.permission === 'granted') {
       try {
         const notif = new Notification('LATAM ROBI (Asistente Virtual)', {
-          body: messageText || 'El agente ha enviado un nuevo mensaje.',
+          body: messageText || 'El asistente ha respondido a tu consulta.',
           icon: './bot-avatar-centered.png',
-          tag: 'bot-response-' + Date.now()
+          tag: 'agent-msg-' + Date.now(),
+          requireInteraction: false
         });
         notif.onclick = function() {
           window.focus();
@@ -209,6 +243,7 @@
       } catch (e) {}
     }
 
+    // 4. In-page Toast
     showToast('LATAM ROBI respondió', messageText || 'Tienes una nueva respuesta en el chat.', 'agent', () => {
       openBuilderBotChat();
     });
@@ -223,139 +258,259 @@
     }
   }
 
-  // --- 6. AGENT RESPONSE DETECTOR (Only runs when notifications are accepted) ---
-  let seenMessageCount = 0;
-  let isInitialLoad = true;
+  // --- 7. DEEP RECURSIVE DOM & WEBSOCKET/FETCH DETECTOR ---
+  let seenMessageTexts = new Set();
+  let isInitialScan = true;
 
-  function initAgentListener() {
-    setInterval(() => {
-      if (!hasUserAllowedNotifications()) return;
+  function extractAllTextNodes(root) {
+    let result = [];
+    if (!root) return result;
+    result.push(root);
 
-      const messages = document.querySelectorAll('chat-message, [data-builderbot-chat-message], .message-bubble, .bot-message');
-      let botMessages = [];
+    if (root.shadowRoot) {
+      result.push(...extractAllTextNodes(root.shadowRoot));
+    }
+    if (root.children) {
+      for (let i = 0; i < root.children.length; i++) {
+        result.push(...extractAllTextNodes(root.children[i]));
+      }
+    }
+    return result;
+  }
 
-      messages.forEach(msg => {
-        const isUser = msg.hasAttribute('is-user') || msg.classList.contains('user-message');
-        if (!isUser) {
-          botMessages.push(msg);
+  function scanForBotMessages() {
+    try {
+      const allElements = extractAllTextNodes(document.body);
+      let foundMessages = [];
+
+      allElements.forEach(el => {
+        if (!el || el.nodeType !== Node.ELEMENT_NODE) return;
+        const tag = el.tagName ? el.tagName.toLowerCase() : '';
+
+        const isMessage = tag === 'chat-message' || 
+                          el.hasAttribute('data-builderbot-chat-message') ||
+                          el.classList.contains('chat-message') ||
+                          el.classList.contains('message-bubble') ||
+                          el.classList.contains('agent-message');
+
+        if (isMessage) {
+          const isUser = el.hasAttribute('is-user') ||
+                         el.getAttribute('data-is-user') === 'true' ||
+                         el.classList.contains('user-message') ||
+                         el.classList.contains('is-user');
+
+          if (!isUser) {
+            const rawText = (el.textContent || '').trim();
+            if (rawText.length > 0) {
+              foundMessages.push(rawText);
+            }
+          }
         }
       });
 
-      if (isInitialLoad) {
-        seenMessageCount = botMessages.length;
-        isInitialLoad = false;
+      if (isInitialScan) {
+        foundMessages.forEach(t => seenMessageTexts.add(t));
+        isInitialScan = false;
         return;
       }
 
-      if (botMessages.length > seenMessageCount) {
-        const newMsg = botMessages[botMessages.length - 1];
-        seenMessageCount = botMessages.length;
-        
-        let textContent = newMsg.textContent || 'Nuevo mensaje de LATAM ROBI';
-        textContent = textContent.replace(/\s+/g, ' ').trim();
-        if (textContent.length > 120) {
-          textContent = textContent.substring(0, 117) + '...';
+      foundMessages.forEach(text => {
+        if (!seenMessageTexts.has(text)) {
+          seenMessageTexts.add(text);
+          let preview = text.replace(/\s+/g, ' ').trim();
+          if (preview.length > 120) {
+            preview = preview.substring(0, 117) + '...';
+          }
+          dispatchAgentNotification(preview);
         }
-
-        const isChatOpen = document.querySelector('chat-widget-button[is-open]');
-        if (document.hidden || !isChatOpen) {
-          dispatchAgentNotification(textContent);
-        }
-      }
-    }, 1000);
+      });
+    } catch (e) {
+      console.warn(e);
+    }
   }
 
-  // --- 7. CLEAN & NON-INTRUSIVE UI ELEMENTS ---
+  // --- 8. GLOBAL NETWORK INTERCEPTOR FOR INSTANT DETECTION ---
+  function initNetworkInterceptors() {
+    // Intercept WebSocket messages if BuilderBot uses WS
+    const OriginalWebSocket = window.WebSocket;
+    if (OriginalWebSocket) {
+      window.WebSocket = function (url, protocols) {
+        const ws = new OriginalWebSocket(url, protocols);
+        ws.addEventListener('message', function (event) {
+          try {
+            if (typeof event.data === 'string') {
+              const data = JSON.parse(event.data);
+              // Check if payload contains incoming agent text
+              if (data && (data.body || data.text || data.message || data.answer)) {
+                const text = data.body || data.text || data.message || data.answer;
+                if (typeof text === 'string' && text.length > 0 && !data.isUser && !data.fromUser) {
+                  setTimeout(() => {
+                    dispatchAgentNotification(text);
+                  }, 300);
+                }
+              }
+            }
+          } catch (e) {}
+        });
+        return ws;
+      };
+      window.WebSocket.prototype = OriginalWebSocket.prototype;
+    }
+  }
+
+  // --- 9. HIGH-END SLIM BOTTOM COOKIE DOCK (NON-INTRUSIVE, ZERO OBSTRUCTION) ---
+  function saveCookiePreferences(prefs) {
+    try {
+      const payload = {
+        accepted: true,
+        necessary: true,
+        analytics: !!prefs.analytics,
+        notifications: prefs.notifications !== false,
+        timestamp: Date.now()
+      };
+      localStorage.setItem(COOKIE_STORAGE_KEY, JSON.stringify(payload));
+      document.cookie = `robotic_latam_cookie_accepted=true; path=/; max-age=${365 * 24 * 60 * 60}; SameSite=Lax`;
+
+      hideCookieBanner();
+      hideCookieModal();
+
+      if (payload.notifications) {
+        requestBrowserPermission();
+      }
+
+      return payload;
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  function showCookieBanner() {
+    const banner = document.getElementById('robotic-cookie-dock');
+    if (banner) {
+      banner.style.display = 'block';
+      requestAnimationFrame(() => {
+        banner.style.opacity = '1';
+        banner.style.transform = 'translate(-50%, 0)';
+      });
+    }
+  }
+
+  function hideCookieBanner() {
+    const banner = document.getElementById('robotic-cookie-dock');
+    if (banner) {
+      banner.style.opacity = '0';
+      banner.style.transform = 'translate(-50%, 20px)';
+      setTimeout(() => {
+        banner.style.display = 'none';
+      }, 300);
+    }
+  }
+
+  function showCookieModal() {
+    const modal = document.getElementById('robotic-cookie-modal');
+    if (modal) {
+      const current = getPreferences() || { necessary: true, analytics: true, notifications: true };
+      const chkAnalytics = document.getElementById('cookie-chk-analytics');
+      const chkNotifications = document.getElementById('cookie-chk-notifications');
+      if (chkAnalytics) chkAnalytics.checked = !!current.analytics;
+      if (chkNotifications) chkNotifications.checked = current.notifications !== false;
+      modal.style.display = 'flex';
+    }
+  }
+
+  function hideCookieModal() {
+    const modal = document.getElementById('robotic-cookie-modal');
+    if (modal) modal.style.display = 'none';
+  }
+
   function injectUIElements() {
-    // 7.1 Clean Bottom Banner (Does NOT obstruct UI or Header)
+    // 9.1 Corporate Slim Bottom Dock (Centered, clean, elegant)
     const banner = document.createElement('div');
-    banner.id = 'robotic-cookie-banner';
-    banner.className = 'fixed bottom-4 left-4 right-4 md:left-auto md:right-6 md:max-w-md z-[99990] bg-white/95 backdrop-blur-md border border-slate-200/90 rounded-2xl p-4 shadow-2xl shadow-slate-900/15 text-slate-800 transition-all duration-300';
-    banner.style.display = 'none';
+    banner.id = 'robotic-cookie-dock';
+    banner.style.cssText = 'display:none; position:fixed; bottom:20px; left:50%; transform:translate(-50%, 20px); width:calc(100% - 32px); max-width:860px; z-index:9999999; background:rgba(255, 255, 255, 0.96); backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); border:1px solid rgba(226, 232, 240, 0.95); border-radius:18px; box-shadow:0 20px 45px -10px rgba(10, 62, 98, 0.16), 0 0 0 1px rgba(0,0,0,0.03); padding:14px 20px; opacity:0; transition:all 0.35s cubic-bezier(0.16, 1, 0.3, 1); font-family:inherit;';
     banner.innerHTML = `
-      <div class="flex items-start gap-3 mb-3">
-        <div class="w-8 h-8 rounded-lg bg-blue-50 border border-blue-100 flex items-center justify-center text-blue-600 shrink-0 mt-0.5">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+      <div style="display:flex; flex-direction:row; align-items:center; justify-content:space-between; gap:16px; flex-wrap:wrap;">
+        <div style="display:flex; align-items:center; gap:12px; flex:1; min-width:280px;">
+          <div style="width:38px; height:38px; border-radius:50%; overflow:hidden; border:2px solid #0A3E62; flex-shrink:0; background:#0A3E62; box-shadow:0 2px 6px rgba(10,62,98,0.2);">
+            <img src="./bot-avatar-centered.png" style="width:100%; height:100%; object-fit:cover;" alt="LATAM ROBI" />
+          </div>
+          <div>
+            <h4 style="margin:0; font-size:13px; font-weight:700; color:#0A3E62; letter-spacing:-0.01em;">Aviso de Privacidad y Cookies</h4>
+            <p style="margin:2px 0 0 0; font-size:12px; color:#475569; line-height:1.4;">
+              Usamos cookies para asegurar el funcionamiento del portal y notificarte cuando el asistente responda a tus mensajes.
+            </p>
+          </div>
         </div>
-        <div class="flex-1">
-          <h4 class="text-xs font-extrabold text-[#0A3E62] flex items-center gap-1.5">
-            Política de Privacidad y Cookies
-          </h4>
-          <p class="text-[11px] text-slate-600 mt-0.5 leading-relaxed">
-            Utilizamos cookies para recordar tus preferencias y notificarte cuando el agente responda o se agreguen novedades al sitio.
-          </p>
+        <div style="display:flex; align-items:center; gap:8px; flex-shrink:0; margin-left:auto;">
+          <button id="btn-customize-cookies" style="background:transparent; border:none; color:#64748b; font-size:12px; font-weight:600; padding:8px 12px; cursor:pointer; border-radius:10px; transition:color 0.2s;">
+            Personalizar
+          </button>
+          <button id="btn-accept-necessary-cookies" style="background:#f1f5f9; border:1px solid #e2e8f0; color:#334155; font-size:12px; font-weight:600; padding:8px 14px; border-radius:10px; cursor:pointer; transition:all 0.2s;">
+            Solo Necesarias
+          </button>
+          <button id="btn-accept-all-cookies" style="background:#0A3E62; border:none; color:#ffffff; font-size:12px; font-weight:700; padding:9px 18px; border-radius:10px; cursor:pointer; box-shadow:0 4px 12px rgba(10,62,98,0.22); transition:all 0.2s;">
+            Aceptar Todo
+          </button>
         </div>
-      </div>
-      <div class="flex items-center gap-2 pt-2 border-t border-slate-100">
-        <button id="btn-accept-all-cookies" class="flex-1 bg-[#0A3E62] hover:bg-[#072c46] text-white text-xs font-bold py-2 px-3 rounded-xl transition duration-200 shadow-sm cursor-pointer text-center">
-          Aceptar Todo
-        </button>
-        <button id="btn-accept-necessary-cookies" class="bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-medium py-2 px-3 rounded-xl transition duration-200 cursor-pointer text-center">
-          Solo Necesarias
-        </button>
-        <button id="btn-customize-cookies" class="text-slate-500 hover:text-slate-800 text-xs font-medium py-2 px-2 transition duration-200 cursor-pointer text-center">
-          Ajustes
-        </button>
       </div>
     `;
     document.body.appendChild(banner);
 
-    // 7.2 Settings Modal
+    // 9.2 Minimalist Modal for Advanced Settings
     const modal = document.createElement('div');
     modal.id = 'robotic-cookie-modal';
-    modal.className = 'fixed inset-0 z-[99995] flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm';
-    modal.style.display = 'none';
+    modal.style.cssText = 'display:none; position:fixed; inset:0; z-index:99999999; align-items:center; justify-content:center; padding:16px; background:rgba(15,23,42,0.55); backdrop-filter:blur(6px); font-family:inherit;';
     modal.innerHTML = `
-      <div class="relative bg-white rounded-3xl shadow-2xl max-w-lg w-full max-h-[90vh] flex flex-col overflow-hidden" onclick="event.stopPropagation()">
-        <div class="flex items-center justify-between p-5 border-b border-slate-100">
-          <div class="flex items-center gap-2.5">
-            <div class="w-9 h-9 rounded-xl bg-blue-50 flex items-center justify-center text-blue-600">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+      <div style="background:#ffffff; border-radius:20px; box-shadow:0 25px 50px -12px rgba(0,0,0,0.25); max-width:480px; width:100%; max-height:90vh; display:flex; flex-direction:column; overflow:hidden;" onclick="event.stopPropagation()">
+        <div style="display:flex; align-items:center; justify-content:space-between; padding:18px 22px; border-bottom:1px solid #f1f5f9;">
+          <div style="display:flex; align-items:center; gap:10px;">
+            <div style="width:34px; height:34px; border-radius:50%; overflow:hidden; border:2px solid #0A3E62; flex-shrink:0; background:#0A3E62;">
+              <img src="./bot-avatar-centered.png" style="width:100%; height:100%; object-fit:cover;" alt="LATAM ROBI" />
             </div>
             <div>
-              <h2 class="text-base font-bold text-slate-800">Privacidad y Cookies</h2>
-              <p class="text-xs text-slate-500">Configuración de almacenamiento y alertas</p>
+              <h3 style="margin:0; font-size:15px; font-weight:700; color:#0A3E62;">Configuración de Privacidad</h3>
+              <p style="margin:1px 0 0 0; font-size:11px; color:#64748b;">Administra tus preferencias de privacidad</p>
             </div>
           </div>
-          <button id="btn-close-cookie-modal" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-full hover:bg-slate-50 transition cursor-pointer">
-            <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+          <button id="btn-close-cookie-modal" style="background:transparent; border:none; color:#94a3b8; cursor:pointer; padding:6px; border-radius:6px;">
+            <svg style="width:18px; height:18px;" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
           </button>
         </div>
 
-        <div class="flex-1 overflow-y-auto p-5 space-y-3.5 text-sm text-slate-600">
-          <div class="p-3.5 rounded-xl bg-slate-50 border border-slate-200/70 flex items-start justify-between gap-3">
+        <div style="flex:1; overflow-y:auto; padding:18px 22px; display:flex; flex-direction:column; gap:12px; font-size:12px; color:#475569;">
+          <div style="padding:12px 14px; border-radius:12px; background:#f8fafc; border:1px solid #e2e8f0; display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
             <div>
-              <h4 class="font-bold text-slate-800 text-xs">Cookies Técnicas Esenciales</h4>
-              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
-                Necesarias para la navegación y seguridad básica del sitio.
+              <h4 style="margin:0; font-weight:700; color:#1e293b; font-size:12px;">Cookies Técnicas Necesarias</h4>
+              <p style="margin:3px 0 0 0; font-size:11px; color:#64748b; line-height:1.4;">
+                Garantizan la seguridad del sitio y almacenamiento de sesión.
               </p>
             </div>
-            <input type="checkbox" checked disabled class="mt-1 w-4 h-4 text-blue-600 accent-[#0A3E62]" />
+            <input type="checkbox" checked disabled style="margin-top:2px; width:16px; height:16px; accent-color:#0A3E62;" />
           </div>
 
-          <div class="p-3.5 rounded-xl bg-white border border-slate-200/70 flex items-start justify-between gap-3">
+          <div style="padding:12px 14px; border-radius:12px; background:#ffffff; border:1px solid #e2e8f0; display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
             <div>
-              <h4 class="font-bold text-slate-800 text-xs">Notificaciones y Alertas del Agente</h4>
-              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
-                Permite avisos sonoros y notificaciones push cuando el asistente LATAM ROBI responde o se agregan servicios.
+              <h4 style="margin:0; font-weight:700; color:#1e293b; font-size:12px;">Alertas y Notificaciones de LATAM ROBI</h4>
+              <p style="margin:3px 0 0 0; font-size:11px; color:#64748b; line-height:1.4;">
+                Permite alertas sonoras y notificaciones del navegador cuando el asistente responda a tus mensajes.
               </p>
             </div>
-            <input type="checkbox" id="cookie-chk-notifications" class="mt-1 w-4 h-4 text-blue-600 accent-[#0A3E62] cursor-pointer" />
+            <input type="checkbox" id="cookie-chk-notifications" style="margin-top:2px; width:16px; height:16px; accent-color:#0A3E62; cursor:pointer;" />
           </div>
 
-          <div class="p-3.5 rounded-xl bg-white border border-slate-200/70 flex items-start justify-between gap-3">
+          <div style="padding:12px 14px; border-radius:12px; background:#ffffff; border:1px solid #e2e8f0; display:flex; align-items:flex-start; justify-content:space-between; gap:10px;">
             <div>
-              <h4 class="font-bold text-slate-800 text-xs">Rendimiento y Métricas</h4>
-              <p class="text-[11px] text-slate-500 mt-0.5 leading-relaxed">
-                Ayuda a mejorar la fluidez y velocidad de la plataforma.
+              <h4 style="margin:0; font-weight:700; color:#1e293b; font-size:12px;">Métricas y Rendimiento</h4>
+              <p style="margin:3px 0 0 0; font-size:11px; color:#64748b; line-height:1.4;">
+                Ayuda a mejorar la velocidad y fluidez de la plataforma de forma anónima.
               </p>
             </div>
-            <input type="checkbox" id="cookie-chk-analytics" class="mt-1 w-4 h-4 text-blue-600 accent-[#0A3E62] cursor-pointer" />
+            <input type="checkbox" id="cookie-chk-analytics" style="margin-top:2px; width:16px; height:16px; accent-color:#0A3E62; cursor:pointer;" />
           </div>
         </div>
 
-        <div class="p-4 border-t border-slate-100 flex items-center justify-end gap-2 bg-slate-50/50">
-          <button id="btn-save-cookie-prefs" class="bg-[#0A3E62] hover:bg-[#072c46] text-white font-bold text-xs px-4 py-2 rounded-xl transition cursor-pointer">
+        <div style="padding:14px 22px; border-top:1px solid #f1f5f9; display:flex; align-items:center; justify-content:flex-end; gap:8px; background:#f8fafc;">
+          <button id="btn-save-cookie-prefs" style="background:#0A3E62; color:#ffffff; font-weight:700; font-size:12px; padding:8px 16px; border-radius:10px; border:none; cursor:pointer;">
             Guardar Preferencias
           </button>
         </div>
@@ -364,7 +519,7 @@
     modal.onclick = hideCookieModal;
     document.body.appendChild(modal);
 
-    // Event listeners
+    // Event handlers
     document.getElementById('btn-accept-all-cookies')?.addEventListener('click', () => {
       saveCookiePreferences({ analytics: true, notifications: true });
     });
@@ -389,30 +544,64 @@
       });
     });
 
-    // Check if initial banner should show (only if user hasn't made a choice yet)
-    if (!hasUserAcceptedCookies()) {
-      setTimeout(showCookieBanner, 800);
+    // Auto-show banner if user has not yet decided
+    if (!hasAccepted()) {
+      setTimeout(showCookieBanner, 600);
     }
   }
 
-  // --- 8. GLOBAL EXPORTS ---
+  // --- 10. LIFECYCLE & INITIALIZATION ---
+  function init() {
+    injectUIElements();
+    initNetworkInterceptors();
+    setInterval(scanForBotMessages, 600);
+
+    // Mutation observer for instant DOM updates
+    const observer = new MutationObserver(() => {
+      scanForBotMessages();
+    });
+    observer.observe(document.body, { childList: true, subtree: true, characterData: true });
+
+    // Request notification permission when user clicks inside chat widget
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      if (target && (target.closest('chat-widget-button') || target.closest('chat-window') || target.tagName?.toLowerCase().includes('chat-'))) {
+        getAudioContext();
+        if ('Notification' in window && Notification.permission === 'default') {
+          Notification.requestPermission().then(perm => {
+            if (perm === 'granted') {
+              localStorage.setItem(NOTIF_STORAGE_KEY, 'true');
+            }
+          });
+        }
+      }
+    }, true);
+  }
+
   window.RoboticCookies = {
-    getPreferences: getCookiePreferences,
+    getPreferences,
     savePreferences: saveCookiePreferences,
     openModal: showCookieModal,
     closeModal: hideCookieModal,
-    isAccepted: hasUserAcceptedCookies
+    showBanner: showCookieBanner,
+    hideBanner: hideCookieBanner,
+    isAccepted: hasAccepted,
+    triggerTest: () => {
+      dispatchAgentNotification('¡Hola! Soy LATAM ROBI. ¿En qué puedo ayudarte hoy?');
+    },
+    reset: () => {
+      localStorage.removeItem(COOKIE_STORAGE_KEY);
+      localStorage.removeItem(NOTIF_STORAGE_KEY);
+      document.cookie = 'robotic_latam_cookie_accepted=; Max-Age=0; path=/;';
+      showCookieBanner();
+    }
   };
 
   window.openCookieModal = showCookieModal;
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', () => {
-      injectUIElements();
-      initAgentListener();
-    });
+    document.addEventListener('DOMContentLoaded', init);
   } else {
-    injectUIElements();
-    initAgentListener();
+    init();
   }
 })();
